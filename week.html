@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Week of Jun 15</title>
+<style>
+  :root{
+    --bg:#0e1116; --card:#1a1f27; --card2:#222834; --line:#2c3442;
+    --text:#e8ecf1; --dim:#8b95a5; --accent:#4f9cf9; --green:#3ecf8e; --amber:#f5b14d;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); padding-bottom:90px}
+  header{padding:16px 16px 8px}
+  header h1{font-size:18px; margin:0}
+  header .sub{color:var(--dim); font-size:13px; margin-top:2px}
+  .tabs{display:flex; gap:6px; overflow-x:auto; padding:10px 16px; position:sticky; top:0; background:var(--bg); z-index:5}
+  .tab{flex:0 0 auto; padding:8px 12px; border-radius:10px; background:var(--card); color:var(--dim); font-size:13px; border:1px solid var(--line); text-align:center; min-width:52px}
+  .tab .dn{font-weight:600; display:block; font-size:13px}
+  .tab .dt{font-size:11px}
+  .tab.active{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .tab.done{border-color:var(--green)}
+  .tab.done .dn::after{content:" ✓"; color:var(--green)}
+  .tab.active.done .dn::after{color:#fff}
+  .wrap{padding:0 16px}
+  .session{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:12px}
+  .session h2{margin:0; font-size:17px}
+  .block{color:var(--amber); font-size:13px; margin-top:3px}
+  .desc{color:var(--dim); font-size:14px; line-height:1.45; margin-top:8px}
+  .ex{background:var(--card2); border-radius:12px; padding:12px; margin-top:10px}
+  .ex .name{font-weight:600; font-size:15px}
+  .ex .note{color:var(--dim); font-size:12px; margin-top:2px}
+  .setrow{display:flex; align-items:center; gap:10px; margin-top:8px}
+  .chk{width:30px; height:30px; border-radius:9px; border:2px solid var(--line); background:transparent; flex:0 0 30px; display:flex; align-items:center; justify-content:center; font-size:16px; color:transparent}
+  .chk.on{background:var(--green); border-color:var(--green); color:#0e1116}
+  .setrow .lbl{font-size:13px; color:var(--dim); width:74px}
+  input[type=text],input[type=number],textarea{background:var(--bg); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:8px 10px; font-size:16px; width:100%}
+  .setrow input{width:86px}
+  .unit{font-size:12px; color:var(--dim)}
+  .fieldrow{display:flex; align-items:center; gap:10px; margin-top:8px}
+  .fieldrow .lbl{font-size:13px; color:var(--dim); width:74px; flex:0 0 74px}
+  .feel{display:flex; gap:8px; margin-top:8px}
+  .feel button{flex:1; padding:9px 0; border-radius:9px; border:1px solid var(--line); background:var(--card2); color:var(--dim); font-size:13px}
+  .feel button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+  textarea{margin-top:8px; min-height:72px; resize:vertical}
+  .jr h3{font-size:13px; color:var(--dim); margin:14px 0 0; text-transform:uppercase; letter-spacing:.05em}
+  .bigdone{width:100%; margin-top:12px; padding:13px; border-radius:11px; border:none; background:var(--card2); color:var(--dim); font-size:15px; font-weight:600}
+  .bigdone.on{background:var(--green); color:#0e1116}
+  footer{position:fixed; bottom:0; left:0; right:0; background:var(--bg); border-top:1px solid var(--line); padding:10px 16px calc(10px + env(safe-area-inset-bottom)); display:flex; gap:10px}
+  footer button{flex:1; padding:12px; border-radius:11px; border:none; font-size:15px; font-weight:600}
+  #exportBtn{background:var(--accent); color:#fff}
+  #copyBtn{background:var(--card2); color:var(--text); border:1px solid var(--line)}
+  .toast{position:fixed; bottom:80px; left:50%; transform:translateX(-50%); background:var(--green); color:#0e1116; padding:9px 16px; border-radius:10px; font-size:14px; font-weight:600; opacity:0; transition:opacity .25s; pointer-events:none; z-index:10}
+  .toast.show{opacity:1}
+  .restcard{text-align:center; padding:30px 14px; color:var(--dim)}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="hTitle"></h1>
+  <div class="sub" id="hSub"></div>
+</header>
+<div class="tabs" id="tabs"></div>
+<div class="wrap" id="content"></div>
+<footer>
+  <button id="copyBtn">Copy log</button>
+  <button id="exportBtn">Export log</button>
+</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+// ======================= WEEK PLAN (regenerated each Sunday) =======================
+const PLAN = {
+  weekId: "2026-06-15",
+  start: "2026-06-15",
+  title: "Week of June 15–21",
+  subtitle: "Calibration Week — log weights at RPE 7 to set baselines",
+  days: [
+    {d:"Mon", date:"6/15", name:"Lower — Squat Focus", block:"5:30–7:30 PM (1 hr work)", type:"lift", items:[
+      {n:"Back Squat", s:4, r:"5", note:"RPE 7 — work up, log top weight"},
+      {n:"Romanian Deadlift", s:3, r:"8", note:"RPE 7"},
+      {n:"Walking Lunges", s:3, r:"10/leg"},
+      {n:"Leg Curl", s:3, r:"12"},
+      {n:"Standing Calf Raise", s:3, r:"15"}
+    ]},
+    {d:"Tue", date:"6/16", name:"Easy Run", block:"5:30–7:30 PM (35–40 min run)", type:"cardio",
+      desc:"35–40 min conversational pace — you should be able to talk the whole time. Coming off a lighter period, keep it genuinely easy.",
+      fields:["Distance (mi)","Time","Avg HR"]},
+    {d:"Wed", date:"6/17", name:"Upper — Press Focus", block:"5:30–7:30 PM (1 hr work)", type:"lift", items:[
+      {n:"Bench Press", s:4, r:"5", note:"RPE 7 — log top weight"},
+      {n:"Overhead Press", s:3, r:"8", note:"RPE 7"},
+      {n:"Barbell Row", s:4, r:"8"},
+      {n:"Lat Pulldown", s:3, r:"10"},
+      {n:"Pushdown + Curl superset", s:3, r:"12 each"}
+    ]},
+    {d:"Thu", date:"6/18", name:"Easy Run", block:"5:30–7:30 PM (30–35 min run)", type:"cardio",
+      desc:"30–35 min easy — same feel as Tuesday. No intensity this week, just legs moving. Tempo comes back in a couple weeks.",
+      fields:["Distance (mi)","Time","Avg HR"]},
+    {d:"Fri", date:"6/19", name:"Full Body — Deadlift Focus", block:"5:30–7:30 PM (1 hr work)", type:"lift", items:[
+      {n:"Deadlift", s:4, r:"4", note:"RPE 7 — log top weight"},
+      {n:"Front/Goblet Squat", s:3, r:"8"},
+      {n:"Incline DB Press", s:3, r:"10"},
+      {n:"Pull-ups", s:3, r:"max", repsIn:true, note:"log reps each set"},
+      {n:"Plank", s:3, r:"45s"}
+    ]},
+    {d:"Sat", date:"6/20", name:"Long Run", block:"8:00–10:00 AM (45–55 min run)", type:"cardio",
+      desc:"45–55 min easy. No pace target — building back, not proving anything. Slower is better. Log how legs felt.",
+      fields:["Distance (mi)","Time","Avg HR"]},
+    {d:"Sun", date:"6/21", name:"Rest + Plan Next Week", block:"Evening, ~15 min", type:"rest",
+      desc:"Full rest. Tonight: tap Export log, then open the project on your laptop and say “plan next week.”"}
+  ]
+};
+// ===================================================================================
+
+const KEY = "wlog-" + PLAN.weekId;
+let mem = {days:{}};
+function loadState(){ try{ const s = localStorage.getItem(KEY); if(s) mem = JSON.parse(s);}catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
+function dayState(i){ if(!mem.days[i]) mem.days[i] = {sets:{}, fields:{}, journal:"", feel:"", done:false}; return mem.days[i]; }
+
+function todayIdx(){
+  const start = new Date(PLAN.start + "T00:00:00");
+  const diff = Math.floor((new Date() - start) / 86400000);
+  return Math.min(6, Math.max(0, diff));
+}
+let cur = todayIdx();
+
+function dayComplete(i){
+  const day = PLAN.days[i], st = dayState(i);
+  if(day.type === "lift"){
+    let total=0, done=0;
+    day.items.forEach((it,ii)=>{ for(let s=0;s<it.s;s++){ total++; if((st.sets[ii+"-"+s]||{}).done) done++; }});
+    return total>0 && done===total;
+  }
+  return !!st.done;
+}
+
+function renderTabs(){
+  const t = document.getElementById("tabs");
+  t.innerHTML = "";
+  PLAN.days.forEach((day,i)=>{
+    const b = document.createElement("button");
+    b.className = "tab" + (i===cur?" active":"") + (dayComplete(i)?" done":"");
+    b.innerHTML = `<span class="dn">${day.d}</span><span class="dt">${day.date}</span>`;
+    b.onclick = ()=>{ cur=i; render(); };
+    t.appendChild(b);
+  });
+}
+
+function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+function render(){
+  renderTabs();
+  const day = PLAN.days[cur], st = dayState(cur);
+  document.getElementById("hTitle").textContent = PLAN.title;
+  document.getElementById("hSub").textContent = PLAN.subtitle;
+  const c = document.getElementById("content");
+  let h = `<div class="session"><h2>${esc(day.name)}</h2><div class="block">${esc(day.block||"")}</div>`;
+  if(day.desc) h += `<div class="desc">${esc(day.desc)}</div>`;
+  h += `</div>`;
+
+  if(day.type === "lift"){
+    day.items.forEach((it,ii)=>{
+      h += `<div class="ex"><div class="name">${esc(it.n)} <span class="unit">${it.s}×${esc(it.r)}</span></div>`;
+      if(it.note) h += `<div class="note">${esc(it.note)}</div>`;
+      for(let s=0;s<it.s;s++){
+        const k = ii+"-"+s, v = st.sets[k]||{};
+        h += `<div class="setrow">
+          <button class="chk${v.done?" on":""}" data-k="${k}">✓</button>
+          <span class="lbl">Set ${s+1}</span>
+          <input type="number" inputmode="decimal" placeholder="wt" value="${v.w||""}" data-w="${k}"><span class="unit">lb</span>`;
+        if(it.repsIn) h += `<input type="number" inputmode="numeric" placeholder="reps" value="${v.r||""}" data-r="${k}"><span class="unit">reps</span>`;
+        h += `</div>`;
+      }
+      h += `</div>`;
+    });
+  } else if(day.type === "cardio"){
+    h += `<div class="ex">`;
+    (day.fields||[]).forEach(f=>{
+      h += `<div class="fieldrow"><span class="lbl">${esc(f)}</span><input type="text" value="${esc(st.fields[f]||"")}" data-f="${esc(f)}"></div>`;
+    });
+    h += `<button class="bigdone${st.done?" on":""}" id="doneBtn">${st.done?"Completed ✓":"Mark workout complete"}</button></div>`;
+  } else {
+    h += `<div class="session restcard">Rest day 😴<br><br><button class="bigdone${st.done?" on":""}" id="doneBtn">${st.done?"Rested ✓":"Mark rest taken"}</button></div>`;
+  }
+
+  h += `<div class="jr"><h3>How did it feel?</h3><div class="feel">`;
+  ["Great","Good","OK","Rough"].forEach(f=>{ h += `<button data-feel="${f}" class="${st.feel===f?"on":""}">${f}</button>`; });
+  h += `</div><textarea placeholder="Journal — what happened, what hurt, what felt strong…" data-j="1">${esc(st.journal)}</textarea></div>`;
+
+  c.innerHTML = h;
+
+  c.querySelectorAll(".chk").forEach(b=> b.onclick = ()=>{
+    const k = b.dataset.k, v = dayState(cur).sets[k] || (dayState(cur).sets[k]={});
+    v.done = !v.done; save(); render();
+  });
+  c.querySelectorAll("[data-w]").forEach(inp=> inp.oninput = ()=>{
+    const k = inp.dataset.w, v = dayState(cur).sets[k] || (dayState(cur).sets[k]={});
+    v.w = inp.value; save();
+  });
+  c.querySelectorAll("[data-r]").forEach(inp=> inp.oninput = ()=>{
+    const k = inp.dataset.r, v = dayState(cur).sets[k] || (dayState(cur).sets[k]={});
+    v.r = inp.value; save();
+  });
+  c.querySelectorAll("[data-f]").forEach(inp=> inp.oninput = ()=>{ dayState(cur).fields[inp.dataset.f] = inp.value; save(); });
+  c.querySelectorAll("[data-feel]").forEach(b=> b.onclick = ()=>{ dayState(cur).feel = b.dataset.feel; save(); render(); });
+  const j = c.querySelector("[data-j]"); if(j) j.oninput = ()=>{ dayState(cur).journal = j.value; save(); };
+  const db = document.getElementById("doneBtn"); if(db) db.onclick = ()=>{ dayState(cur).done = !dayState(cur).done; save(); render(); };
+}
+
+function buildLog(){
+  let md = `# Log — ${PLAN.title} (${PLAN.weekId})\n\n`;
+  PLAN.days.forEach((day,i)=>{
+    const st = dayState(i);
+    md += `## ${day.d} ${day.date} — ${day.name}\n`;
+    if(day.type === "lift"){
+      day.items.forEach((it,ii)=>{
+        const sets = [];
+        for(let s=0;s<it.s;s++){
+          const v = st.sets[ii+"-"+s]||{};
+          if(v.done || v.w || v.r) sets.push(`${v.w||"?"}${it.repsIn&&v.r?"×"+v.r:""}${v.done?" ✓":" (not done)"}`);
+        }
+        md += sets.length ? `- ${it.n} (${it.s}×${it.r}): ${sets.join(", ")}\n` : `- ${it.n} (${it.s}×${it.r}): skipped\n`;
+      });
+    } else if(day.type === "cardio"){
+      md += st.done ? `- Completed ✓\n` : `- Not marked complete\n`;
+      (day.fields||[]).forEach(f=>{ if(st.fields[f]) md += `- ${f}: ${st.fields[f]}\n`; });
+    } else {
+      md += st.done ? `- Rest taken ✓\n` : `- (rest day)\n`;
+    }
+    if(st.feel) md += `- Feel: ${st.feel}\n`;
+    if(st.journal) md += `- Journal: ${st.journal}\n`;
+    md += `\n`;
+  });
+  return md;
+}
+
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1800);
+}
+
+document.getElementById("copyBtn").onclick = async ()=>{
+  const md = buildLog();
+  try{ await navigator.clipboard.writeText(md); toast("Log copied — paste to Claude"); }
+  catch(e){
+    const ta = document.createElement("textarea"); ta.value = md; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); ta.remove(); toast("Log copied");
+  }
+};
+
+document.getElementById("exportBtn").onclick = ()=>{
+  const md = buildLog();
+  const fname = `log-${PLAN.weekId}.md`;
+  const blob = new Blob([md], {type:"text/markdown"});
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob], fname)]})){
+    navigator.share({files:[new File([blob], fname, {type:"text/markdown"})], title:fname}).catch(()=>{});
+  } else {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+    toast("Downloaded — move to logs/");
+  }
+};
+
+loadState();
+render();
+</script>
+</body>
+</html>
