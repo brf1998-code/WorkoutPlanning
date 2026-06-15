@@ -60,9 +60,13 @@ app.put('/api/:weekId', async (req, res) => {
   }
 });
 
-// Serve the app
+// Serve the apps (HTML lives in app/)
+const APP_DIR = path.join(__dirname, 'app');
+app.get('/weight', (req, res) => {
+  res.sendFile(path.join(APP_DIR, 'weight.html'));
+});
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'week.html'));
+  res.sendFile(path.join(APP_DIR, 'week.html'));
 });
 
 initDb().catch(console.error);
