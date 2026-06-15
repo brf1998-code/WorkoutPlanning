@@ -1,9 +1,16 @@
 const express = require('express');
 const { Pool } = require('pg');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
+
+// Find where the HTML lives — supports both a flat repo (files at root)
+// and an app/ subfolder layout, so it works regardless of how the repo is structured.
+const APP_DIR = [path.join(__dirname, 'app'), __dirname]
+  .find(d => fs.existsSync(path.join(d, 'week.html'))) || __dirname;
+console.log('Serving app from:', APP_DIR);
 
 // Postgres (Railway provides DATABASE_URL automatically when you add a Postgres plugin)
 const pool = process.env.DATABASE_URL
@@ -60,8 +67,7 @@ app.put('/api/:weekId', async (req, res) => {
   }
 });
 
-// Serve the apps (HTML lives in app/)
-const APP_DIR = path.join(__dirname, 'app');
+// Serve the apps
 app.get('/weight', (req, res) => {
   res.sendFile(path.join(APP_DIR, 'weight.html'));
 });
