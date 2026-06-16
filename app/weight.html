@@ -93,6 +93,11 @@
   .entry-row input:focus{border-color:var(--orange)}
   .entry-row button{padding:11px 18px; border-radius:10px; border:none; background:var(--orange); color:#fff;
     font-size:15px; font-weight:800; white-space:nowrap}
+  .noteIn{width:100%; margin-top:8px; background:var(--card2); border:1px solid var(--line); border-radius:10px;
+    color:var(--text); padding:11px 12px; font-size:15px; outline:none; resize:vertical; min-height:44px; font-family:inherit; line-height:1.45}
+  .noteIn:focus{border-color:var(--orange)}
+  .editflag{font-size:11px; font-weight:800; color:var(--orange); margin-top:8px; display:none}
+  .editflag.on{display:block}
 
   .history{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; margin-bottom:12px}
   .history h3{margin:0; padding:14px; font-size:13px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
@@ -143,12 +148,14 @@
   </div>
 
   <div class="card">
-    <h3>Log weight</h3>
+    <h3>Log weight &amp; journal</h3>
     <div class="entry-row">
       <input type="date" id="dateIn">
       <input type="number" step="0.1" placeholder="lbs" id="wtIn" inputmode="decimal">
       <button onclick="addEntry()">Log</button>
     </div>
+    <textarea class="noteIn" id="noteIn" placeholder="Journal — food, drinks, sleep, how you felt… (optional)"></textarea>
+    <div class="editflag" id="editFlag">Editing existing entry — tap Log to save</div>
   </div>
 
   <div class="history">
@@ -192,11 +199,24 @@ function addDaysStr(t, n){ return new Date(t + n*DAY); }
 function addEntry(){
   const d=document.getElementById('dateIn').value;
   const w=parseFloat(document.getElementById('wtIn').value);
+  const note=document.getElementById('noteIn').value.trim();
   if(!d || isNaN(w) || w<=0) return toast('Enter a date and weight');
   entries=entries.filter(e=>e.date!==d);
-  entries.push({date:d, weight:w});
+  const ent={date:d, weight:w}; if(note) ent.note=note;
+  entries.push(ent);
   entries.sort((a,b)=>a.date.localeCompare(b.date));
-  save(); document.getElementById('wtIn').value=''; toast('Logged ✓'); refresh();
+  save();
+  document.getElementById('wtIn').value=''; document.getElementById('noteIn').value='';
+  document.getElementById('editFlag').classList.remove('on');
+  toast('Logged ✓'); refresh();
+}
+function editEntry(date){
+  const e=entries.find(x=>x.date===date); if(!e) return;
+  document.getElementById('dateIn').value=e.date;
+  document.getElementById('wtIn').value=e.weight;
+  document.getElementById('noteIn').value=e.note||'';
+  document.getElementById('editFlag').classList.add('on');
+  document.getElementById('wtIn').scrollIntoView({behavior:'smooth', block:'center'});
 }
 function deleteEntry(date){ entries=entries.filter(e=>e.date!==date); save(); refresh(); }
 
@@ -408,14 +428,20 @@ function updateChart(){
   });
 }
 
+function esc(s){ return (s==null?'':(''+s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 function updateHistory(){
   const list=document.getElementById('historyList'), empty=document.getElementById('emptyMsg');
-  const sorted=sortedDesc().slice(0,20);
+  const sorted=sortedDesc().slice(0,30);
   empty.style.display=sorted.length?'none':'block';
   list.innerHTML=sorted.map((e,i)=>{
     const prev=sorted[i+1]; const diff=prev?(e.weight-prev.weight):null;
     const diffStr=diff!==null?` <span style="color:${diff<0?'var(--green)':diff>0?'var(--amber)':'var(--dim)'}; font-size:12px; font-weight:700">${diff>0?'+':''}${diff.toFixed(1)}</span>`:'';
-    return `<div class="entry-item"><span class="date">${fmtDate(e.date)}</span><span class="wt">${e.weight.toFixed(1)} lb${diffStr}</span><button class="del" onclick="deleteEntry('${e.date}')">×</button></div>`;
+    const noteRow = e.note? `<div style="font-size:13px;color:var(--dim);line-height:1.45;padding:0 14px 12px;margin-top:-4px">📝 ${esc(e.note)}</div>` : '';
+    return `<div class="entry-item" onclick="editEntry('${e.date}')" style="cursor:pointer">
+        <span class="date">${fmtDate(e.date)}${e.note?' <span style=\"color:var(--orange)\">•</span>':''}</span>
+        <span class="wt">${e.weight.toFixed(1)} lb${diffStr}</span>
+        <button class="del" onclick="event.stopPropagation();deleteEntry('${e.date}')">×</button>
+      </div>${noteRow}`;
   }).join('');
 }
 
