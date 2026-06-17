@@ -227,6 +227,34 @@
   .toast{position:fixed; bottom:84px; left:50%; transform:translateX(-50%); background:var(--text); color:var(--card); padding:10px 16px; border-radius:11px; font-size:14px; font-weight:700; opacity:0; transition:opacity .25s; pointer-events:none; z-index:40; box-shadow:var(--shadow-lg)}
   .toast.show{opacity:1}
   #shareStage{position:fixed; left:-99999px; top:0}
+
+  /* Intake overlay */
+  .overlay{position:fixed; inset:0; background:rgba(10,12,16,.5); z-index:60; display:none; overflow-y:auto}
+  .overlay.open{display:block}
+  .sheet{background:var(--bg); min-height:100%; max-width:560px; margin:0 auto; padding:0 14px calc(40px + env(safe-area-inset-bottom))}
+  .sheethead{display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--bg); padding:14px 0 12px; z-index:2}
+  .sheethead h2{margin:0; font-size:20px; font-weight:800; letter-spacing:-.01em}
+  .sheethead .x{background:var(--card2); border:1px solid var(--line); border-radius:10px; width:38px; height:38px; font-size:16px; font-weight:800; color:var(--dim)}
+  .intro{font-size:13.5px; color:var(--dim); line-height:1.5; margin-bottom:14px}
+  .pend{background:var(--card); border:1px solid var(--line); border-radius:13px; box-shadow:var(--shadow); padding:6px 6px; margin-bottom:14px}
+  .pend .ph{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--dim); padding:8px 10px 6px}
+  .pend .pi{display:flex; align-items:center; justify-content:space-between; padding:9px 10px; border-top:1px solid var(--line)}
+  .pend .pi .nm{font-size:14px; font-weight:700}
+  .pend .pi .dt{font-size:11px; color:var(--faint); font-weight:600}
+  .pend .pi .del{background:none; border:none; color:var(--faint); font-size:18px; padding:4px 8px}
+  .fld{margin-bottom:14px}
+  .fld label{display:block; font-size:13px; font-weight:700; color:var(--text); margin-bottom:7px; line-height:1.4}
+  .fld .req{color:var(--orange)}
+  .fld input[type=text], .fld select, .fld textarea{width:100%; background:var(--card); border:1px solid var(--line); border-radius:11px; color:var(--text); padding:12px; font-size:16px; outline:none; box-shadow:var(--shadow); font-family:inherit}
+  .fld textarea{min-height:74px; resize:vertical; line-height:1.5; font-size:15px}
+  .fld select:focus, .fld input:focus, .fld textarea:focus{border-color:var(--orange)}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chips .chip{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:9px 14px; font-size:13.5px; font-weight:700; color:var(--dim); box-shadow:var(--shadow)}
+  .chips .chip.on{background:var(--orange); color:#fff; border-color:var(--orange)}
+  .submitg{width:100%; padding:14px; border-radius:13px; border:none; background:var(--orange); color:#fff; font-size:16px; font-weight:800; margin-top:4px}
+  .savednote{font-size:12.5px; color:var(--green); font-weight:700; text-align:center; margin-top:12px}
+  .fld-sec{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin:24px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line)}
+  .chips .rankno{display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px; background:rgba(255,255,255,.28); border-radius:50%; font-size:11px; font-weight:800; margin-right:6px}
 </style>
 </head>
 <body>
@@ -245,7 +273,8 @@
     <button id="shareBtn">📷 Share to Strava</button>
     <button id="copyBtn">📋 Copy log</button>
     <button id="exportBtn">⬆ Export week log</button>
-    <div class="mhint">Share an image of today · export is for Sunday planning</div>
+    <button id="intakeBtn">➕ New profile intake</button>
+    <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
   </div>
 </div>
 
@@ -260,6 +289,15 @@
 </div>
 <div class="toast" id="toast"></div>
 <div id="shareStage"></div>
+
+<div class="overlay" id="intakeOverlay">
+  <div class="sheet">
+    <div class="sheethead"><h2>New profile intake</h2><button class="x" id="intakeClose">✕</button></div>
+    <div class="intro">Answer what you can — it's fine to skip questions. When Brendan runs the Sunday export, this gets sent over and a personal plan gets built for you. Anyone in the family can fill this out.</div>
+    <div id="intakeList"></div>
+    <div id="intakeForm"></div>
+  </div>
+</div>
 
 <script>
 // ======================= WEEK PLAN (regenerated each Sunday) =======================
@@ -796,6 +834,10 @@ function buildLog(){
     sessions.forEach((s,si)=>{ if(si>0) md+=`\n**+ ${s.def.name}**\n`; md+=logSession(s.def, s.st); });
     if(st._sessionStart && st._lastSet && st._lastSet>st._sessionStart) md+=`- Session time: ${fmtDur((st._ended||st._lastSet) - st._sessionStart)}\n`;
     if(st.feel) md+=`- Feel: ${st.feel}\n`; if(st.journal) md+=`- Journal: ${st.journal}\n`; md+=`\n`; });
+  if(intakes && intakes.length){
+    md+=`\n---\n\n# New profile intake submissions\n_Build a personal plan + profile for each of these._\n\n`;
+    intakes.forEach(it=>{ md+=`## ${it.name}\n`; (it.fields||[]).forEach(f=>{ md+=`- ${f[0]} — ${f[1]}\n`; }); md+=`\n`; });
+  }
   return md;
 }
 function logSets(it, st, ii){ const sets=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; if(it.superset){ const ws=v.ws||{}; const any=Object.values(ws).some(x=>x)||v.done; if(any) sets.push(`${(it.superset.map((_,li)=>ws[li]||"?")).join("/")}${v.done?" ✓":""}`); } else if(v.done||v.w||v.r) sets.push(`${it.noWeight?"":(v.w||"?")}${it.repsIn&&v.r?"×"+v.r:""}${v.done?" ✓":" (—)"}`); } return sets; }
@@ -887,7 +929,138 @@ document.getElementById("exportBtn").onclick=()=>{ const md=buildLog(), fname=`l
   else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); toast("Downloaded — move to logs/"); } };
 document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; save(); tickTimer(); };
 
-loadState(); render(); syncDown(); loadWeight(); setInterval(tickTimer,1000);
+// ---- Profile intake (generic, reusable for anyone) ----
+const INTAKE_Q = [
+  {type:"section", label:"About you"},
+  {id:"name",   label:"Name — what should the app call you?", type:"text", req:true},
+  {id:"age",    label:"Age", type:"select", opts:["Under 18","18–24","25–34","35–44","45–54","55–64","65+"]},
+  {id:"sex",    label:"Sex (for programming & nutrition norms — optional)", type:"select", opts:["Female","Male","Prefer not to say"]},
+  {id:"height", label:"Height (optional)", type:"text"},
+  {id:"weight", label:"Current weight (optional)", type:"text"},
+  {id:"build",  label:"Rough body-fat % or build (optional)", type:"text"},
+
+  {type:"section", label:"Your goals — tap in priority order"},
+  {id:"goals",  label:"Rank your goals (tap #1 first, then #2…)", type:"rank", opts:["Lose fat / lean out","Build muscle / tone","Get stronger","Improve endurance / cardio","Athletic performance","Mobility / flexibility","General health / longevity","Stress relief / mental health","Train for an event / race"]},
+  {id:"why",    label:"Why now? What's driving this?", type:"area"},
+  {id:"event",  label:"Any event or deadline? (race, wedding, trip — what & when)", type:"text"},
+  {id:"targetwt",label:"Target weight or body-comp goal (optional)", type:"text"},
+  {id:"timeline",label:"How long should this first plan run?", type:"select", opts:["4 weeks","6 weeks","8 weeks","12 weeks","Ongoing / not sure"]},
+  {id:"successdef",label:"What would a great 8–12 weeks look like for you?", type:"area"},
+
+  {type:"section", label:"Schedule"},
+  {id:"days",   label:"Days per week you want to train", type:"select", opts:["2","3","4","5","6","7"]},
+  {id:"whichdays",label:"Which days work best? (tap any)", type:"chips", opts:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]},
+  {id:"when",   label:"Preferred time of day", type:"select", opts:["Early AM (5–7)","Morning","Midday","Afternoon","Evening","Late night","It varies"]},
+  {id:"sesslen",label:"Time available per session", type:"select", opts:["~30 min","~45 min","~60 min","75+ min"]},
+  {id:"consistency",label:"How consistent is your schedule?", type:"select", opts:["Pretty fixed","Varies week to week","Shift work / unpredictable"]},
+
+  {type:"section", label:"Experience & current training"},
+  {id:"exp",    label:"Overall training experience", type:"select", opts:["New to training","Some experience (<1 yr)","Intermediate (1–3 yrs)","Experienced (3+ yrs)"]},
+  {id:"current",label:"What does your training look like right now?", type:"area"},
+  {id:"acts",   label:"What do you want in your plan? (pick any)", type:"chips", opts:["Lifting","Running","Cycling","Yoga / CorePower / classes","Swimming","Sports","Bodyweight / home","Hiking / outdoors"]},
+  {id:"enjoy",  label:"What kinds of training do you actually enjoy?", type:"area"},
+
+  {type:"section", label:"Strength"},
+  {id:"liftstyle",label:"Preferred lifting style (pick any)", type:"chips", opts:["Barbell","Dumbbells","Machines","Kettlebell","Cables","Bodyweight","Not sure yet"]},
+  {id:"comfort",label:"Comfort with big compound lifts (squat/deadlift/press)", type:"select", opts:["Confident with form","Know them, a bit rusty","Beginner — want coaching","Prefer to avoid for now"]},
+  {id:"liftnums",label:"Lifts & weights you know (e.g. squat 135×5, bench 95×8)", type:"area"},
+
+  {type:"section", label:"Cardio & running"},
+  {id:"runvol", label:"Running now — weekly miles, typical & long run", type:"area"},
+  {id:"pace",   label:"Easy / conversational pace (optional)", type:"text"},
+  {id:"races",  label:"Recent races or PRs (optional)", type:"text"},
+  {id:"cardio2",label:"Other cardio you like (bike, row, swim, etc.)", type:"text"},
+
+  {type:"section", label:"Classes"},
+  {id:"classes",label:"Classes you take — type, how many/week, when", type:"area"},
+
+  {type:"section", label:"Equipment & access"},
+  {id:"where",  label:"Where will you train / what's available?", type:"select", opts:["Full commercial gym","Home gym","Home dumbbells only","Bodyweight only","Studio / classes","A mix"]},
+  {id:"equip",  label:"Specific equipment or studio memberships?", type:"area"},
+
+  {type:"section", label:"Recovery & lifestyle"},
+  {id:"sleep",  label:"Typical sleep per night", type:"select", opts:["<5 hrs","5–6 hrs","6–7 hrs","7–8 hrs","8+ hrs","Very irregular"]},
+  {id:"sleepq", label:"Sleep quality", type:"select", opts:["Great","Okay","Poor","Varies a lot"]},
+  {id:"stress", label:"Current stress level", type:"select", opts:["Low","Moderate","High","Very high"]},
+  {id:"activity",label:"Day-to-day activity (job / lifestyle)", type:"select", opts:["Mostly sedentary / desk","On my feet some","Very active / physical job"]},
+  {id:"steps",  label:"Daily steps if you track them (optional)", type:"text"},
+
+  {type:"section", label:"Nutrition"},
+  {id:"nutrition",label:"Want nutrition guidance with your plan?", type:"select", opts:["Yes, detailed","Light tips","No thanks"]},
+  {id:"diet",   label:"Diet style / restrictions (vegan, GF, allergies…)", type:"text"},
+  {id:"nutnotes",label:"How you eat — meals/day, snacking, alcohol, hydration", type:"area"},
+
+  {type:"section", label:"Health & limitations"},
+  {id:"injuries",label:"Injuries, pain, or movements to avoid (current & past)", type:"area"},
+  {id:"medical",label:"Health conditions or anything medical to consider (optional)", type:"area"},
+
+  {type:"section", label:"Preferences & motivation"},
+  {id:"setting",label:"How do you like to train? (pick any)", type:"chips", opts:["Solo","With a friend/partner","Group classes","Coached","Outdoors","At home"]},
+  {id:"lovehate",label:"Exercises or workouts you love — or hate?", type:"area"},
+  {id:"history",label:"What's worked or failed for you before?", type:"area"},
+  {id:"accountability",label:"What keeps you consistent? (reminders, data, variety…)", type:"area"}
+];
+let intakes = [];
+let intakeDraft = {};
+function loadIntakes(){ try{ const s=localStorage.getItem('intakes'); if(s) intakes=JSON.parse(s); }catch(e){} }
+function saveIntakesLocal(){ try{ localStorage.setItem('intakes', JSON.stringify(intakes)); }catch(e){} }
+async function syncIntakesDown(){ try{ const r=await fetch('/api/intakes'); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.entries)) { intakes=d.entries; saveIntakesLocal(); } } }catch(e){} }
+async function syncIntakesUp(){ saveIntakesLocal(); try{ await fetch('/api/intakes',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({entries:intakes})}); }catch(e){} }
+
+function openIntake(){ intakeDraft={}; document.getElementById('intakeOverlay').classList.add('open'); renderIntake(); }
+function closeIntake(){ document.getElementById('intakeOverlay').classList.remove('open'); }
+
+function renderIntake(){
+  // pending list
+  const list=document.getElementById('intakeList');
+  if(intakes.length){
+    let lh=`<div class="pend"><div class="ph">Saved — will be built on the next Sunday export</div>`;
+    intakes.forEach((it,idx)=>{ const d=new Date(it.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+      lh+=`<div class="pi"><span class="nm">${esc(it.name)}</span><span class="dt">${d}</span><button class="del" data-intdel="${idx}">×</button></div>`; });
+    lh+=`</div>`; list.innerHTML=lh;
+    list.querySelectorAll('[data-intdel]').forEach(b=> b.onclick=()=>{ intakes.splice(+b.dataset.intdel,1); syncIntakesUp(); renderIntake(); });
+  } else list.innerHTML="";
+
+  // form
+  let h="";
+  INTAKE_Q.forEach(q=>{
+    if(q.type==="section"){ h+=`<div class="fld-sec">${esc(q.label)}</div>`; return; }
+    h+=`<div class="fld"><label>${esc(q.label)}${q.req?' <span class="req">*</span>':''}</label>`;
+    if(q.type==="text") h+=`<input type="text" data-iq="${q.id}" value="${esc(intakeDraft[q.id]||"")}">`;
+    else if(q.type==="area") h+=`<textarea data-iq="${q.id}">${esc(intakeDraft[q.id]||"")}</textarea>`;
+    else if(q.type==="select"){ h+=`<select data-iq="${q.id}"><option value="">—</option>`; q.opts.forEach(o=>{ h+=`<option ${intakeDraft[q.id]===o?"selected":""}>${esc(o)}</option>`; }); h+=`</select>`; }
+    else if(q.type==="chips"){ const sel=intakeDraft[q.id]||[]; h+=`<div class="chips">`; q.opts.forEach(o=>{ h+=`<button type="button" class="chip${sel.includes(o)?" on":""}" data-ichip="${q.id}" data-val="${esc(o)}">${esc(o)}</button>`; }); h+=`</div>`; }
+    else if(q.type==="rank"){ const sel=intakeDraft[q.id]||[]; h+=`<div class="chips">`; q.opts.forEach(o=>{ const idx=sel.indexOf(o); h+=`<button type="button" class="chip${idx>=0?" on":""}" data-irank="${q.id}" data-val="${esc(o)}">${idx>=0?`<span class="rankno">${idx+1}</span>`:""}${esc(o)}</button>`; }); h+=`</div>`; }
+    h+=`</div>`;
+  });
+  h+=`<button class="submitg" id="intakeSubmit">Save profile intake</button><div class="savednote" id="savedNote" style="display:none">Saved ✓ — included in the next export</div>`;
+  const form=document.getElementById('intakeForm'); form.innerHTML=h;
+
+  form.querySelectorAll('[data-iq]').forEach(el=>{ const upd=()=>{ intakeDraft[el.dataset.iq]=el.value; }; el.oninput=upd; el.onchange=upd; });
+  form.querySelectorAll('[data-ichip]').forEach(b=> b.onclick=()=>{ const id=b.dataset.ichip, v=b.dataset.val; intakeDraft[id]=intakeDraft[id]||[]; const i=intakeDraft[id].indexOf(v); if(i>=0) intakeDraft[id].splice(i,1); else intakeDraft[id].push(v); b.classList.toggle('on'); });
+  form.querySelectorAll('[data-irank]').forEach(b=> b.onclick=()=>{ const id=b.dataset.irank, v=b.dataset.val; intakeDraft[id]=intakeDraft[id]||[]; const i=intakeDraft[id].indexOf(v); if(i>=0) intakeDraft[id].splice(i,1); else intakeDraft[id].push(v); renderIntake(); });
+  document.getElementById('intakeSubmit').onclick=submitIntake;
+}
+function submitIntake(){
+  const name=(intakeDraft.name||"").trim();
+  if(!name){ toast("Please add a name"); return; }
+  const fields=[];
+  INTAKE_Q.forEach(q=>{ if(q.type==="section" || q.id==="name") return; let v=intakeDraft[q.id];
+    if(q.type==="rank" && Array.isArray(v)) v=v.map((o,i)=>`${i+1}) ${o}`).join(", ");
+    else if(Array.isArray(v)) v=v.join(", ");
+    if(v && (""+v).trim()) fields.push([q.label, (""+v).trim()]); });
+  intakes.push({name, ts:Date.now(), fields});
+  syncIntakesUp();
+  intakeDraft={};
+  renderIntake();
+  const note=document.getElementById('savedNote'); if(note){ note.style.display='block'; }
+  toast("Profile intake saved ✓");
+  document.querySelector('#intakeOverlay .sheet').scrollTo({top:0, behavior:'smooth'});
+}
+document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
+document.getElementById("intakeClose").onclick=closeIntake;
+
+loadState(); render(); syncDown(); loadWeight(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
 </script>
 </body>
 </html>
