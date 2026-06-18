@@ -118,7 +118,18 @@
 <div class="topbar">
   <a href="/">← This Week</a>
   <h1>Weight</h1>
+  <button id="lockBtnW" onclick="lockWeight()" style="display:none; background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:7px 11px; font-size:13px; font-weight:700; color:var(--dim)">🔒 Hide</button>
 </div>
+
+<div id="lockGate" style="display:none; min-height:60vh; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px 24px">
+  <div style="font-size:40px">🔒</div>
+  <div style="font-size:19px; font-weight:800; margin-top:10px">Weight is private</div>
+  <div style="font-size:14px; color:var(--dim); margin-top:6px; line-height:1.5; max-width:300px">Enter the PIN to view and log weight. This device will remember you.</div>
+  <input id="pinIn" type="password" inputmode="numeric" placeholder="PIN" style="margin-top:18px; width:160px; text-align:center; letter-spacing:6px; font-size:20px; background:var(--card2); border:1px solid var(--line); border-radius:11px; color:var(--text); padding:12px; outline:none">
+  <button onclick="tryUnlock()" style="margin-top:12px; width:160px; padding:12px; border-radius:11px; border:none; background:var(--orange); color:#fff; font-size:15px; font-weight:800">Unlock</button>
+  <div id="pinErr" style="display:none; color:var(--red); font-size:13px; font-weight:700; margin-top:10px">Wrong PIN — try again</div>
+</div>
+
 <div class="wrap">
 
   <div class="latest" id="latestCard">
@@ -448,7 +459,25 @@ function updateHistory(){
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
 
 document.getElementById('dateIn').value=today();
-loadLocal(); refresh(); syncDown();
+// ---- PIN lock (soft, per-device; shared with workout page) ----
+const WPIN="2020";
+function wUnlocked(){ try{ return localStorage.getItem('weight-unlocked')==='1'; }catch(e){ return false; } }
+function applyLock(){
+  const locked=!wUnlocked();
+  document.getElementById('lockGate').style.display = locked?'flex':'none';
+  document.querySelector('.wrap').style.display = locked?'none':'';
+  document.getElementById('lockBtnW').style.display = locked?'none':'block';
+  if(!locked){ loadLocal(); refresh(); syncDown(); }
+}
+function tryUnlock(){
+  const v=document.getElementById('pinIn').value.trim();
+  if(v===WPIN){ try{ localStorage.setItem('weight-unlocked','1'); }catch(e){} document.getElementById('pinErr').style.display='none'; applyLock(); }
+  else { document.getElementById('pinErr').style.display='block'; document.getElementById('pinIn').value=''; }
+}
+function lockWeight(){ try{ localStorage.removeItem('weight-unlocked'); }catch(e){} applyLock(); }
+document.getElementById('pinIn').addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
+
+applyLock();
 </script>
 </body>
 </html>
