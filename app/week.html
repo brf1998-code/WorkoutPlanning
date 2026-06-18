@@ -264,16 +264,18 @@
     <button data-mode="progress" id="segProg">Progress</button>
   </div>
   <div class="spacer"></div>
-  <a class="wchip" id="wchip" href="/weight">
+  <a class="wchip" id="wchip" href="/weight" style="display:none">
     <div class="wmeta"><div><span class="wval" id="wval">—</span> <span class="wunit">lb</span></div><div class="wtrend flat" id="wtrend">Weight</div></div>
     <span id="wspark"></span>
   </a>
+  <button class="menubtn" id="lockBtn" title="Show weight (PIN)">🔒</button>
   <button class="menubtn" id="menuBtn">⋯</button>
   <div class="menu" id="menu">
     <button id="shareBtn">📷 Share to Strava</button>
     <button id="copyBtn">📋 Copy log</button>
     <button id="exportBtn">⬆ Export week log</button>
     <button id="intakeBtn">➕ New profile intake</button>
+    <button id="lockWeightBtn" style="display:none">🔒 Hide weight</button>
     <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
   </div>
 </div>
@@ -436,7 +438,7 @@ function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catc
 async function syncDown(){ try{ const r=await fetch('/api/'+PLAN.weekId); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } }catch(e){} }
 async function syncUp(){ try{ await fetch('/api/'+PLAN.weekId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
-document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); loadWeight(); } });
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
 
 function todayIdx(){ const start=new Date(PLAN.start+"T00:00:00"); const diff=Math.floor((new Date()-start)/86400000); return Math.min(6,Math.max(0,diff)); }
 let cur = todayIdx();
@@ -929,6 +931,20 @@ document.getElementById("exportBtn").onclick=()=>{ const md=buildLog(), fname=`l
   else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); toast("Downloaded — move to logs/"); } };
 document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; save(); tickTimer(); };
 
+// ---- Weight PIN lock (soft, per-device) ----
+const WPIN="2020";
+function weightUnlocked(){ try{ return localStorage.getItem('weight-unlocked')==='1'; }catch(e){ return false; } }
+function setWeightUnlocked(v){ try{ if(v) localStorage.setItem('weight-unlocked','1'); else localStorage.removeItem('weight-unlocked'); }catch(e){} updateWeightLockUI(); }
+function updateWeightLockUI(){
+  const u=weightUnlocked();
+  document.getElementById('wchip').style.display = u?'flex':'none';
+  document.getElementById('lockBtn').style.display = u?'none':'flex';
+  const lw=document.getElementById('lockWeightBtn'); if(lw) lw.style.display = u?'flex':'none';
+  if(u) loadWeight();
+}
+document.getElementById('lockBtn').onclick=()=>{ const p=prompt('Enter PIN to show weight'); if(p===null) return; if(p===WPIN){ setWeightUnlocked(true); toast('Weight unlocked'); } else toast('Wrong PIN'); };
+document.getElementById('lockWeightBtn').onclick=()=>{ closeMenu(); setWeightUnlocked(false); toast('Weight hidden'); };
+
 // ---- Profile intake (generic, reusable for anyone) ----
 const INTAKE_Q = [
   {type:"section", label:"About you"},
@@ -1060,7 +1076,7 @@ function submitIntake(){
 document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
-loadState(); render(); syncDown(); loadWeight(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
+loadState(); render(); syncDown(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
 </script>
 </body>
 </html>
