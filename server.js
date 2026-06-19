@@ -19,6 +19,10 @@ const pool = process.env.DATABASE_URL
 
 // In-memory fallback (resets on redeploy — add Postgres plugin on Railway for persistence)
 const mem = {};
+console.log('STORAGE MODE:', pool ? 'Postgres (persistent)' : 'IN-MEMORY (NON-PERSISTENT — data is lost on every restart!)');
+
+// Health/status — lets us confirm whether persistence is actually on
+app.get('/api/_status', (req, res) => res.json({ persistent: !!pool, mode: pool ? 'postgres' : 'in-memory', ts: Date.now() }));
 
 async function initDb() {
   if (!pool) return;
