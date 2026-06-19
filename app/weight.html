@@ -55,6 +55,8 @@
   .calbar{height:9px; background:var(--card2); border-radius:99px; overflow:hidden}
   .calbar > span{display:block; height:100%; background:linear-gradient(90deg,var(--orange),#ff7a3c); border-radius:99px; transition:width .3s}
   .calbar.over > span{background:var(--red)}
+  .calbar.pro > span{background:linear-gradient(90deg,var(--green),#46d99b)}
+  .calrem.done{color:var(--green)}
   .calitem{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px}
   .calitem:last-child{border-bottom:none}
   .calitem .cl{color:var(--text); font-weight:600} .calitem .ck{color:var(--dim); font-weight:800; margin-left:auto; padding:0 10px}
@@ -160,17 +162,23 @@
   <!-- Daily calories -->
   <div class="card" id="calCard">
     <div class="cardhead">
-      <h3>Daily Calories</h3>
-      <button class="linkbtn" onclick="editCalGoal()" id="calGoalBtn">Goal 2200</button>
+      <h3>Daily Calories &amp; Protein</h3>
+      <button class="linkbtn" onclick="editGoals()" id="calGoalBtn">2200 cal · 180g</button>
     </div>
     <div class="calhead">
       <div class="calbig"><span id="calTotal">0</span><span class="calunit"> / <span id="calGoalShow">2200</span> kcal</span></div>
       <div class="calrem" id="calRem"></div>
     </div>
     <div class="calbar"><span id="calBarFill"></span></div>
-    <div class="entry-row" style="margin-top:13px">
-      <input type="number" id="calIn" inputmode="numeric" placeholder="kcal" style="flex:0 0 90px">
-      <input type="text" id="calLabel" placeholder="what (optional)">
+    <div class="calhead" style="margin-top:13px">
+      <div class="calbig" style="font-size:22px"><span id="proTotal">0</span><span class="calunit">g / <span id="proGoalShow">180</span>g protein</span></div>
+      <div class="calrem" id="proRem"></div>
+    </div>
+    <div class="calbar pro"><span id="proBarFill"></span></div>
+    <input type="text" id="calLabel" placeholder="what (optional)" style="width:100%; margin-top:13px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
+    <div class="entry-row" style="margin-top:8px">
+      <input type="number" id="calIn" inputmode="numeric" placeholder="kcal">
+      <input type="number" id="proIn" inputmode="numeric" placeholder="protein g">
       <button onclick="addCal()">Add</button>
     </div>
     <div id="calList"></div>
@@ -219,18 +227,18 @@
 const KEY = 'weight-log';
 let entries = [];          // [{date, weight}]
 let goal = null;           // {weight, date, startDate, startWeight}
-let cal = { goal: 2200, days: {} };   // calories: days[YYYY-MM-DD] = [{kcal,label}]
+let cal = { goal: 2200, pgoal: 180, days: {} };   // days[YYYY-MM-DD] = [{kcal,protein,label}]
 let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; }
+function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal, cal})); }catch(e){} }
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
     const remoteHas = (remote && Array.isArray(remote.entries) && remote.entries.length>0) || (remote && remote.cal && remote.cal.days && Object.keys(remote.cal.days).length>0);
-    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; saveLocal(); refresh(); }
+    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; saveLocal(); refresh(); }
     else if(entries.length>0 || Object.keys(cal.days).length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
   }catch(e){}
 }
@@ -278,24 +286,38 @@ function refresh(){ updateLatest(); renderCal(); updateChart(); updateHistory();
 // ---- daily calories ----
 function calToday(){ return cal.days[today()] || []; }
 function renderCal(){
-  const list=calToday(); const total=list.reduce((a,b)=>a+(+b.kcal||0),0); const g=cal.goal||2200; const rem=g-total;
+  const list=calToday();
+  const total=list.reduce((a,b)=>a+(+b.kcal||0),0);
+  const ptotal=list.reduce((a,b)=>a+(+b.protein||0),0);
+  const g=cal.goal||2200, pg=cal.pgoal||180;
+  const rem=g-total, prem=pg-ptotal;
   document.getElementById('calTotal').textContent=total.toLocaleString();
   document.getElementById('calGoalShow').textContent=g;
-  document.getElementById('calGoalBtn').textContent='Goal '+g;
+  document.getElementById('proTotal').textContent=ptotal;
+  document.getElementById('proGoalShow').textContent=pg;
+  document.getElementById('calGoalBtn').textContent=g+' cal · '+pg+'g';
   const remEl=document.getElementById('calRem'); remEl.textContent = rem>=0 ? rem.toLocaleString()+' left' : Math.abs(rem).toLocaleString()+' over'; remEl.className='calrem'+(rem<0?' over':'');
-  const pct=g>0?Math.min(100, Math.round(total/g*100)):0; const bar=document.getElementById('calBarFill'); bar.style.width=pct+'%'; bar.parentElement.className='calbar'+(total>g?' over':'');
-  document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
-  const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const t=(cal.days[ds]||[]).reduce((a,b)=>a+(+b.kcal||0),0); if(t>0) days.push({ds,t}); }
-  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div></div>`).join('')+`</div>` : '';
+  const premEl=document.getElementById('proRem'); premEl.textContent = prem>0 ? prem+'g to go' : 'goal hit ✓'; premEl.className='calrem'+(prem>0?'':' done');
+  const cbar=document.getElementById('calBarFill'); cbar.style.width=(g>0?Math.min(100,Math.round(total/g*100)):0)+'%'; cbar.parentElement.className='calbar'+(total>g?' over':'');
+  const pbar=document.getElementById('proBarFill'); pbar.style.width=(pg>0?Math.min(100,Math.round(ptotal/pg*100)):0)+'%';
+  document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()} kcal${e.protein?` · ${+e.protein}g`:''}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
+  const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const arr=cal.days[ds]||[]; const t=arr.reduce((a,b)=>a+(+b.kcal||0),0); const pt=arr.reduce((a,b)=>a+(+b.protein||0),0); if(t>0||pt>0) days.push({ds,t,pt}); }
+  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div><div class="dd" style="margin-top:2px">${x.pt}g</div></div>`).join('')+`</div>` : '';
 }
 function addCal(){
-  const k=parseInt(document.getElementById('calIn').value); const label=document.getElementById('calLabel').value.trim();
-  if(!k||k<=0) return toast('Enter calories');
-  const t=today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, label});
-  save(); document.getElementById('calIn').value=''; document.getElementById('calLabel').value=''; toast('Added ✓'); renderCal();
+  const k=parseInt(document.getElementById('calIn').value)||0;
+  const pr=parseInt(document.getElementById('proIn').value)||0;
+  const label=document.getElementById('calLabel').value.trim();
+  if(k<=0 && pr<=0) return toast('Enter calories or protein');
+  const t=today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, protein:pr, label});
+  save(); document.getElementById('calIn').value=''; document.getElementById('proIn').value=''; document.getElementById('calLabel').value=''; toast('Added ✓'); renderCal();
 }
 function deleteCal(i){ const t=today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
-function editCalGoal(){ const v=prompt('Daily calorie goal', cal.goal||2200); if(v===null) return; const n=parseInt(v); if(n>0){ cal.goal=n; save(); renderCal(); } }
+function editGoals(){
+  const c=prompt('Daily calorie goal', cal.goal||2200); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; }
+  const p=prompt('Daily protein goal (grams)', cal.pgoal||180); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }
+  save(); renderCal();
+}
 
 function sortedDesc(){ return [...entries].sort((a,b)=>b.date.localeCompare(a.date)); }
 function sortedAsc(){ return [...entries].sort((a,b)=>a.date.localeCompare(b.date)); }
