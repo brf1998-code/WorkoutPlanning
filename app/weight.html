@@ -192,6 +192,7 @@ function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, go
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
     if(remote && Array.isArray(remote.entries) && remote.entries.length>0){ entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; saveLocal(); refresh(); }
+    else if(entries.length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
   }catch(e){}
 }
 async function syncUp(){ try{ await fetch('/api/'+KEY,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({entries, goal})}); }catch(e){} }

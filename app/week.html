@@ -303,7 +303,7 @@
 
 <script>
 // ======================= WEEK PLAN (regenerated each Sunday) =======================
-const PLAN = {
+const DEFAULT_PLAN = {
   weekId: "2026-06-15", start: "2026-06-15",
   title: "Week of June 15–21", subtitle: "Calibration Week — log weights at RPE 7 to set baselines",
   goals: [
@@ -427,7 +427,9 @@ const TEMPLATES = {
     desc:"Easy run — log distance, time, and how it felt.", fields:["Distance (mi)","Time","Avg HR"], st:{ fields:{}, done:false } })
 };
 
-const KEY = "wlog-" + PLAN.weekId;
+const PROFILE = "brendan";        // active profile (multi-profile-ready)
+let PLAN = DEFAULT_PLAN;           // overridden by the server plan file if present
+let KEY = "wlog-" + PLAN.weekId;
 let mem = {days:{}};
 let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
 let expanded = {}, progCharts = [];
@@ -435,7 +437,8 @@ const STALE_MS = 3*60*60*1000;
 
 function loadState(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s); }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
-async function syncDown(){ try{ const r=await fetch('/api/'+PLAN.weekId); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } }catch(e){} }
+function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length))); }
+async function syncDown(){ try{ const r=await fetch('/api/'+PLAN.weekId); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
 async function syncUp(){ try{ await fetch('/api/'+PLAN.weekId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
@@ -1020,7 +1023,7 @@ let intakes = [];
 let intakeDraft = {};
 function loadIntakes(){ try{ const s=localStorage.getItem('intakes'); if(s) intakes=JSON.parse(s); }catch(e){} }
 function saveIntakesLocal(){ try{ localStorage.setItem('intakes', JSON.stringify(intakes)); }catch(e){} }
-async function syncIntakesDown(){ try{ const r=await fetch('/api/intakes'); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.entries)) { intakes=d.entries; saveIntakesLocal(); } } }catch(e){} }
+async function syncIntakesDown(){ try{ const r=await fetch('/api/intakes'); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.entries)&&d.entries.length){ intakes=d.entries; saveIntakesLocal(); } else if(intakes.length){ syncIntakesUp(); /* safeguard: reseed server */ } } }catch(e){} }
 async function syncIntakesUp(){ saveIntakesLocal(); try{ await fetch('/api/intakes',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({entries:intakes})}); }catch(e){} }
 
 function openIntake(){ intakeDraft={}; document.getElementById('intakeOverlay').classList.add('open'); renderIntake(); }
@@ -1076,7 +1079,20 @@ function submitIntake(){
 document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
-loadState(); render(); syncDown(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
+// Load the active profile's plan from the server (falls back to the built-in DEFAULT_PLAN if none).
+function applyPlan(p){ PLAN=p; KEY="wlog-"+PLAN.weekId; cur=todayIdx(); mem={days:{}}; loadState(); render(); }
+async function loadPlan(){
+  try{
+    const r=await fetch('/api/plan/'+PROFILE); if(!r.ok) return;
+    const p=await r.json();
+    if(p && Array.isArray(p.days) && p.weekId){
+      if(p.weekId!==PLAN.weekId){ applyPlan(p); syncDown(); }   // new week → switch + load its state
+      else { PLAN=p; render(); }                                 // same week, refreshed content
+    }
+  }catch(e){}
+}
+
+loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
 </script>
 </body>
 </html>

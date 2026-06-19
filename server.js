@@ -24,6 +24,14 @@ console.log('STORAGE MODE:', pool ? 'Postgres (persistent)' : 'IN-MEMORY (NON-PE
 // Health/status — lets us confirm whether persistence is actually on
 app.get('/api/_status', (req, res) => res.json({ persistent: !!pool, mode: pool ? 'postgres' : 'in-memory', ts: Date.now() }));
 
+// Serve data-driven plan files (app/plans/<profile>.json). 404 -> app uses its built-in fallback.
+app.get('/api/plan/:profile', (req, res) => {
+  const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');
+  const f = path.join(APP_DIR, 'plans', safe + '.json');
+  if (safe && fs.existsSync(f)) return res.sendFile(f);
+  res.status(404).json({ error: 'no plan' });
+});
+
 async function initDb() {
   if (!pool) return;
   await pool.query(`
