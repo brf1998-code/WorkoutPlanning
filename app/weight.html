@@ -57,6 +57,12 @@
   .calbar.over > span{background:var(--red)}
   .calbar.pro > span{background:linear-gradient(90deg,var(--green),#46d99b)}
   .calrem.done{color:var(--green)}
+  .foodsug{display:flex; flex-direction:column; gap:6px; margin-top:8px}
+  .foodsug:empty{margin-top:0}
+  .foodsug .fsg{display:flex; justify-content:space-between; align-items:center; gap:10px; width:100%; text-align:left; background:var(--card2); border:1px solid var(--line); border-radius:10px; padding:10px 12px}
+  .foodsug .fsg .fl{font-weight:700; color:var(--text); font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .foodsug .fsg .fk{font-size:12px; color:var(--dim); font-weight:800; white-space:nowrap}
+  .foodsug .fsg .fdel{color:var(--faint); background:none; border:none; font-size:16px; padding:0 2px; flex:0 0 auto}
   .calitem{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px}
   .calitem:last-child{border-bottom:none}
   .calitem .cl{color:var(--text); font-weight:600} .calitem .ck{color:var(--dim); font-weight:800; margin-left:auto; padding:0 10px}
@@ -175,7 +181,8 @@
       <div class="calrem" id="proRem"></div>
     </div>
     <div class="calbar pro"><span id="proBarFill"></span></div>
-    <input type="text" id="calLabel" placeholder="what (optional)" style="width:100%; margin-top:13px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
+    <input type="text" id="calLabel" placeholder="what — type to search your foods" autocomplete="off" style="width:100%; margin-top:13px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
+    <div id="foodSuggest" class="foodsug"></div>
     <div class="entry-row" style="margin-top:8px">
       <input type="number" id="calIn" inputmode="numeric" placeholder="kcal">
       <input type="number" id="proIn" inputmode="numeric" placeholder="protein g">
@@ -227,18 +234,18 @@
 const KEY = 'weight-log';
 let entries = [];          // [{date, weight}]
 let goal = null;           // {weight, date, startDate, startWeight}
-let cal = { goal: 2200, pgoal: 180, days: {} };   // days[YYYY-MM-DD] = [{kcal,protein,label}]
+let cal = { goal: 2200, pgoal: 180, days: {}, foods: {} };   // days[date]=[{kcal,protein,label}]; foods[key]={label,kcal,protein,uses,ts}
 let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; }
+function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal, cal})); }catch(e){} }
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
     const remoteHas = (remote && Array.isArray(remote.entries) && remote.entries.length>0) || (remote && remote.cal && remote.cal.days && Object.keys(remote.cal.days).length>0);
-    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; saveLocal(); refresh(); }
+    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; saveLocal(); refresh(); }
     else if(entries.length>0 || Object.keys(cal.days).length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
   }catch(e){}
 }
@@ -303,14 +310,37 @@ function renderCal(){
   document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()} kcal${e.protein?` · ${+e.protein}g`:''}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
   const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const arr=cal.days[ds]||[]; const t=arr.reduce((a,b)=>a+(+b.kcal||0),0); const pt=arr.reduce((a,b)=>a+(+b.protein||0),0); if(t>0||pt>0) days.push({ds,t,pt}); }
   document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div><div class="dd" style="margin-top:2px">${x.pt}g</div></div>`).join('')+`</div>` : '';
+  const lbl=document.getElementById('calLabel'); if(lbl){ lbl.oninput=renderFoodSuggest; lbl.onfocus=renderFoodSuggest; }
 }
+// food memory: searchable list of previously-logged foods (autofills kcal + protein)
+function renderFoodSuggest(){
+  const el=document.getElementById('foodSuggest'); if(!el) return;
+  const q=(document.getElementById('calLabel').value||'').trim().toLowerCase();
+  let m=Object.entries(cal.foods||{}).filter(([k,f])=> !q || k.includes(q) || (f.label||'').toLowerCase().includes(q));
+  m.sort((a,b)=> (b[1].uses||0)-(a[1].uses||0) || (b[1].ts||0)-(a[1].ts||0));
+  m=m.slice(0,6);
+  el.innerHTML = m.map(([k,f])=>`<div class="fsg"><span class="fl" data-food="${esc(k)}">${esc(f.label)}</span><span class="fk" data-food="${esc(k)}">${(+f.kcal||0)} kcal · ${(+f.protein||0)}g</span><button class="fdel" data-forget="${esc(k)}" title="Remove">×</button></div>`).join('');
+  el.querySelectorAll('[data-food]').forEach(b=> b.onclick=()=> selectFood(b.dataset.food));
+  el.querySelectorAll('[data-forget]').forEach(b=> b.onclick=(e)=>{ e.stopPropagation(); forgetFood(b.dataset.forget); });
+}
+function selectFood(key){
+  const f=(cal.foods||{})[key]; if(!f) return;
+  document.getElementById('calLabel').value=f.label||'';
+  document.getElementById('calIn').value=f.kcal||'';
+  document.getElementById('proIn').value=f.protein||'';
+  document.getElementById('foodSuggest').innerHTML='';
+}
+function forgetFood(key){ if(cal.foods&&cal.foods[key]){ delete cal.foods[key]; save(); renderFoodSuggest(); } }
 function addCal(){
   const k=parseInt(document.getElementById('calIn').value)||0;
   const pr=parseInt(document.getElementById('proIn').value)||0;
   const label=document.getElementById('calLabel').value.trim();
   if(k<=0 && pr<=0) return toast('Enter calories or protein');
   const t=today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, protein:pr, label});
-  save(); document.getElementById('calIn').value=''; document.getElementById('proIn').value=''; document.getElementById('calLabel').value=''; toast('Added ✓'); renderCal();
+  if(label){ const key=label.toLowerCase(); cal.foods=cal.foods||{}; cal.foods[key]={label, kcal:k, protein:pr, uses:((cal.foods[key]||{}).uses||0)+1, ts:Date.now()}; }
+  save();
+  document.getElementById('calIn').value=''; document.getElementById('proIn').value=''; document.getElementById('calLabel').value=''; document.getElementById('foodSuggest').innerHTML='';
+  toast('Added ✓'); renderCal();
 }
 function deleteCal(i){ const t=today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
 function editGoals(){
