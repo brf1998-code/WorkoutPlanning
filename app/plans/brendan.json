@@ -373,27 +373,103 @@
     {
       "d": "Sat",
       "date": "6/20",
-      "name": "Yoga",
+      "name": "Calisthenics + Finishing Jog",
       "block": "Morning",
-      "dur": "45–60 min",
-      "type": "cardio",
-      "desc": "Focused yoga — hip openers, hamstrings, thoracic spine, shoulders. Restorative or flow both work. Active recovery, not a workout.",
-      "fields": [
-        "Duration",
-        "Style (flow / restorative / hatha)"
+      "dur": "~40–50 min",
+      "type": "lift",
+      "warmup": [
+        "3–5 min easy cardio or brisk walk",
+        "Arm circles + leg swings — 10 each",
+        "Band pull-aparts / scapular pulls — 1×15",
+        "World's greatest stretch — 5/side"
+      ],
+      "items": [
+        {
+          "n": "Pull-ups (or Inverted Rows)",
+          "s": 3,
+          "r": "max",
+          "repsIn": true,
+          "noWeight": true,
+          "rest": "90s",
+          "focus": "Full hang to chin over the bar; swap to inverted rows if needed."
+        },
+        {
+          "n": "Push-ups",
+          "s": 3,
+          "r": "12–15",
+          "noWeight": true,
+          "rest": "60–90s",
+          "focus": "Body in a straight line, full range, control the descent."
+        },
+        {
+          "n": "Bench / Parallel-bar Dips",
+          "s": 3,
+          "r": "10",
+          "noWeight": true,
+          "rest": "60–90s",
+          "focus": "Slight forward lean, lower under control, full lockout."
+        },
+        {
+          "n": "Pike Push-ups",
+          "s": 3,
+          "r": "8–10",
+          "noWeight": true,
+          "rest": "60–90s",
+          "focus": "Hips high, head between hands, press straight overhead."
+        },
+        {
+          "n": "Bulgarian Split Squat",
+          "s": 3,
+          "r": "10/leg",
+          "noWeight": true,
+          "rest": "60–90s",
+          "focus": "Tall torso, controlled — keep it lighter on the legs after Friday's deadlifts."
+        },
+        {
+          "n": "Hanging Leg Raise",
+          "s": 3,
+          "r": "10",
+          "noWeight": true,
+          "rest": "45s",
+          "focus": "Control the lower, no swinging."
+        },
+        {
+          "n": "Plank",
+          "s": 3,
+          "r": "45s",
+          "noWeight": true,
+          "rest": "45s",
+          "focus": "Straight line, squeeze glutes, no sag."
+        },
+        {
+          "n": "Easy Finishing Jog",
+          "s": 1,
+          "r": "~1–1.5 mi easy",
+          "noWeight": true,
+          "focus": "Relaxed, conversational — just flush the legs to finish."
+        }
+      ],
+      "stretches": [
+        "Chest / shoulder doorway stretch — 30s each side",
+        "Hip flexor stretch — 30s each side",
+        "Hamstring stretch — 30s each side",
+        "Calf stretch — 30s each side"
       ]
     },
     {
       "d": "Sun",
       "date": "6/21",
-      "name": "Active Recovery + Plan",
+      "name": "Yoga + Light Jog",
       "block": "Morning",
-      "dur": "20–25 min jog",
+      "dur": "~60–75 min",
       "type": "cardio",
-      "desc": "Easy 20–25 min jog, no structure. Tonight: open the ⋯ menu, tap Export week log, open the project on your laptop and say \"plan next week.\"",
+      "desc": "Recovery day — a yoga session (hip openers, hamstrings, thoracic spine, shoulders; restorative or flow) plus a light, easy 2-mile jog at a relaxed pace. Keep both gentle. Your next week's plan builds automatically tonight.",
       "fields": [
-        "Distance (mi)",
-        "Time"
+        "Jog distance (mi)",
+        "Jog time",
+        "Avg HR",
+        "Yoga duration",
+        "Yoga style"
       ]
     }
   ]
