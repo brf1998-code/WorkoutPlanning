@@ -29,14 +29,16 @@
           "s": 4,
           "r": "5",
           "note": "RPE 7 — work up, log top weight",
-          "focus": "Brace your core, sit back, drive knees out, hit depth."
+          "focus": "Brace your core, sit back, drive knees out, hit depth.",
+          "warmupSet": true
         },
         {
           "n": "Romanian Deadlift",
           "s": 3,
           "r": "8",
           "note": "RPE 7",
-          "focus": "Hinge at the hips, soft knees, feel the hamstring stretch."
+          "focus": "Hinge at the hips, soft knees, feel the hamstring stretch.",
+          "warmupSet": true
         },
         {
           "n": "Walking Lunges",
@@ -164,26 +166,30 @@
           "s": 4,
           "r": "5",
           "note": "RPE 7 — log top weight",
-          "focus": "Shoulder blades pinched, controlled descent to the chest."
+          "focus": "Shoulder blades pinched, controlled descent to the chest.",
+          "warmupSet": true
         },
         {
           "n": "Overhead Press",
           "s": 3,
           "r": "8",
           "note": "RPE 7",
-          "focus": "Brace glutes and core, press straight up, don't lean back."
+          "focus": "Brace glutes and core, press straight up, don't lean back.",
+          "warmupSet": true
         },
         {
           "n": "Barbell Row",
           "s": 4,
           "r": "8",
-          "focus": "Flat back, pull to the lower ribs, squeeze the blades."
+          "focus": "Flat back, pull to the lower ribs, squeeze the blades.",
+          "warmupSet": true
         },
         {
           "n": "Lat Pulldown",
           "s": 3,
           "r": "10",
-          "focus": "Lead with the elbows, full stretch at the top. Start heavier — reach a working weight by set 1."
+          "focus": "Lead with the elbows, full stretch at the top. Start heavier — reach a working weight by set 1.",
+          "warmupSet": true
         },
         {
           "n": "Pushdown + Curl superset",
@@ -310,19 +316,22 @@
           "s": 4,
           "r": "4",
           "note": "RPE 7 — log top weight",
-          "focus": "Bar over midfoot, flat back, push the floor away."
+          "focus": "Bar over midfoot, flat back, push the floor away.",
+          "warmupSet": true
         },
         {
           "n": "Front/Goblet Squat",
           "s": 3,
           "r": "8",
-          "focus": "Elbows up, upright torso, hit depth."
+          "focus": "Elbows up, upright torso, hit depth.",
+          "warmupSet": true
         },
         {
           "n": "Incline DB Press",
           "s": 3,
           "r": "10",
-          "focus": "Control the descent, press up and slightly together."
+          "focus": "Control the descent, press up and slightly together.",
+          "warmupSet": true
         },
         {
           "n": "Pull-ups",

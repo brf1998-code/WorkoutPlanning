@@ -160,6 +160,10 @@
     color:var(--text); padding:8px 10px; font-size:16px; width:100%; outline:none}
   input:focus{border-color:var(--orange)}
   .setrow .ni{width:74px; flex:0 0 74px} .unit{font-size:11px; color:var(--dim); font-weight:700}
+  .restlbl{margin-left:auto; font-size:11px; font-weight:800; color:var(--dim); white-space:nowrap}
+  .restlbl.long{color:var(--amber)}
+  .scheme .rst{color:var(--dim); font-weight:700}
+  .slbl.wu{color:var(--amber)}
   /* superset sub-rows */
   .ssrow{display:flex; align-items:center; gap:10px; margin-top:7px; margin-left:40px}
   .ssrow .sslbl{font-size:12.5px; color:var(--text); flex:1; font-weight:600}
@@ -637,6 +641,9 @@ function renderSessionBody(def, st, sx){
   h+=renderStretches(def,st,sx); return h;
 }
 
+function recRest(it){ if(it.rest) return it.rest; if(it.noWeight) return "30–45s"; if(it.warmupSet) return "2–3 min"; return "60–90s"; }
+function recRestSec(it){ const r=recRest(it); const rng=r.match(/(\d+)\s*[–-]\s*(\d+)/); if(rng) return parseInt(rng[2])*(r.includes("min")?60:1); const m=r.match(/(\d+)\s*min/); if(m) return parseInt(m[1])*60; const s=r.match(/(\d+)\s*s/); if(s) return parseInt(s[1]); return 120; }
+
 function renderExercise(def, st, sx, ii){
   const it = effItem(def, st, ii);
   const cid = sx+":i:"+ii, key=sx+":"+ii;
@@ -649,7 +656,7 @@ function renderExercise(def, st, sx, ii){
   else h+=`<span class="name">${esc(it.n)}</span>`;
   h+=`<div class="topright">`;
   if(complete) h+=`<button class="collapsechip" data-collapse="${cid}">✓ Hide</button>`;
-  else if(!it.editable) h+=`<span class="scheme">${it.s}×${esc(it.r)}</span>`;
+  else if(!it.editable) h+=`<span class="scheme">${it.s}×${esc(it.r)} <span class="rst">· rest ${recRest(it)}</span></span>`;
   if(!it.editable) h+=`<button class="subbtn" data-subopen="${key}" title="Substitute">⇄</button>`;
   h+=`</div></div>`;
 
@@ -667,17 +674,23 @@ function renderExercise(def, st, sx, ii){
     h+=`<button data-subcancel="1">Cancel</button></div></div>`;
   }
 
-  const ssugg = it.noWeight ? "" : null;
+  // Optional unloaded warm-up set for main compound lifts
+  if(it.warmupSet && !it.noWeight && !it.superset){
+    const wk=ii+"-w", wv=st.sets[wk]||{};
+    h+=`<div class="setrow"><button class="chk${wv.done?" on":""}" data-sx="${sx}" data-k="${wk}">✓</button><span class="slbl wu">Warm-up</span><input class="ni" type="number" inputmode="decimal" placeholder="light" value="${esc(wv.w||"")}" data-sx="${sx}" data-w="${wk}"><span class="unit">lb</span></div>`;
+  }
+  const recSec=recRestSec(it);
   for(let s=0;s<it.s;s++){
     const k=ii+"-"+s, v=st.sets[k]||{};
+    const rl = (v.done && v.rest) ? `<span class="restlbl${v.rest>recSec*1.5?" long":""}">⏱ ${fmtDur(v.rest*1000)}</span>` : "";
     h+=`<div class="setrow"><button class="chk${v.done?" on":""}" data-sx="${sx}" data-k="${k}">✓</button><span class="slbl">Set ${s+1}</span>`;
-    if(it.superset){ h+=`</div>`;
+    if(it.superset){ h+= rl + `</div>`;
       it.superset.forEach((sl,li)=>{ const sg=itemSuggest(it,st,ii,li); const cw=((v.ws||{})[li])||"";
         h+=`<div class="ssrow"><span class="sslbl">${esc(sl)}</span><input class="ni" type="number" inputmode="decimal" placeholder="${sg?esc(sg):"wt"}" value="${esc(cw)}" data-sx="${sx}" data-ssw="${k}.${li}"><span class="unit">lb</span></div>`; });
     } else {
       if(!it.noWeight){ const sg=itemSuggest(it,st,ii); h+=`<input class="ni" type="number" inputmode="decimal" placeholder="${sg?esc(sg):"wt"}" value="${esc(v.w||"")}" data-sx="${sx}" data-w="${k}"><span class="unit">lb</span>`; }
       if(it.repsIn) h+=`<input class="ni" type="number" inputmode="numeric" placeholder="reps" value="${esc(v.r||"")}" data-sx="${sx}" data-r="${k}"><span class="unit">reps</span>`;
-      h+=`</div>`;
+      h+= rl + `</div>`;
     }
   }
   return h+`</div>`;
@@ -715,7 +728,7 @@ function tickTimer(){
 function stForSx(sx){ return sessionsFor(cur)[sx].st; }
 function attachHandlers(){
   const c=document.getElementById("content"), q=sel=>c.querySelectorAll(sel);
-  q("[data-k]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done) markSetTime(); save(); render(); });
+  q("[data-k]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) v.rest=Math.round((now-st._lastSet)/1000); markSetTime(); } save(); render(); });
   q("[data-w]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.w]||(st.sets[inp.dataset.w]={}); v.w=inp.value; save(); });
   q("[data-r]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.r]||(st.sets[inp.dataset.r]={}); v.r=inp.value; save(); });
   q("[data-ssw]").forEach(inp=> inp.oninput=()=>{ const [k,li]=inp.dataset.ssw.split("."); const st=stForSx(+inp.dataset.sx); const v=st.sets[k]||(st.sets[k]={}); v.ws=v.ws||{}; v.ws[li]=inp.value; save(); });
@@ -723,7 +736,7 @@ function attachHandlers(){
   q("[data-sk]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); st.stretches[b.dataset.sk]=!st.stretches[b.dataset.sk]; save(); render(); });
   q("[data-iname]").forEach(inp=> inp.oninput=()=>{ const s=sessionsFor(cur)[+inp.dataset.sx]; (s.def.items||s.def.strength)[+inp.dataset.iname].n=inp.value; save(); });
   q("[data-cn]").forEach(inp=> inp.oninput=()=>{ stForSx(+inp.dataset.sx).custom[+inp.dataset.cn].n=inp.value; save(); });
-  q("[data-cchk]").forEach(b=> b.onclick=()=>{ const [ci,si]=b.dataset.cchk.split("."); const se=stForSx(+b.dataset.sx).custom[+ci].sets[+si]; se.done=!se.done; if(se.done) markSetTime(); save(); render(); });
+  q("[data-cchk]").forEach(b=> b.onclick=()=>{ const [ci,si]=b.dataset.cchk.split("."); const st=stForSx(+b.dataset.sx); const se=st.custom[+ci].sets[+si]; se.done=!se.done; if(se.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) se.rest=Math.round((now-st._lastSet)/1000); markSetTime(); } save(); render(); });
   q("[data-cw]").forEach(inp=> inp.oninput=()=>{ const [ci,si]=inp.dataset.cw.split("."); stForSx(+inp.dataset.sx).custom[+ci].sets[+si].w=inp.value; save(); });
   q("[data-cr]").forEach(inp=> inp.oninput=()=>{ const [ci,si]=inp.dataset.cr.split("."); stForSx(+inp.dataset.sx).custom[+ci].sets[+si].r=inp.value; save(); });
   q("[data-caddset]").forEach(b=> b.onclick=()=>{ stForSx(+b.dataset.sx).custom[+b.dataset.caddset].sets.push({}); save(); render(); });
@@ -845,7 +858,7 @@ function buildLog(){
   }
   return md;
 }
-function logSets(it, st, ii){ const sets=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; if(it.superset){ const ws=v.ws||{}; const any=Object.values(ws).some(x=>x)||v.done; if(any) sets.push(`${(it.superset.map((_,li)=>ws[li]||"?")).join("/")}${v.done?" ✓":""}`); } else if(v.done||v.w||v.r) sets.push(`${it.noWeight?"":(v.w||"?")}${it.repsIn&&v.r?"×"+v.r:""}${v.done?" ✓":" (—)"}`); } return sets; }
+function logSets(it, st, ii){ const sets=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; const rest=v.done&&v.rest?` rest ${fmtDur(v.rest*1000)}`:""; if(it.superset){ const ws=v.ws||{}; const any=Object.values(ws).some(x=>x)||v.done; if(any) sets.push(`${(it.superset.map((_,li)=>ws[li]||"?")).join("/")}${v.done?" ✓":""}${rest}`); } else if(v.done||v.w||v.r) sets.push(`${it.noWeight?"":(v.w||"?")}${it.repsIn&&v.r?"×"+v.r:""}${v.done?" ✓":" (—)"}${rest}`); } return sets; }
 function logSession(def, st){
   let md="";
   if(def.type==="lift"){ if((def.warmup||[]).length){ const d=def.warmup.filter((_,wi)=>st.warmup[wi]).length; md+=`- Warmup: ${d}/${def.warmup.length} done\n`; }

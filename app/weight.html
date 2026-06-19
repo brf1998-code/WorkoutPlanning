@@ -47,6 +47,23 @@
   .cardhead{display:flex; align-items:center; justify-content:space-between; margin-bottom:12px}
   .cardhead h3{margin:0}
   .linkbtn{font-size:12px; font-weight:800; color:var(--orange); background:none; border:none; padding:4px 6px}
+  .calhead{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px}
+  .calbig{font-size:30px; font-weight:800; letter-spacing:-.02em}
+  .calbig .calunit{font-size:14px; color:var(--dim); font-weight:700}
+  .calrem{font-size:13px; font-weight:800; color:var(--green)}
+  .calrem.over{color:var(--red)}
+  .calbar{height:9px; background:var(--card2); border-radius:99px; overflow:hidden}
+  .calbar > span{display:block; height:100%; background:linear-gradient(90deg,var(--orange),#ff7a3c); border-radius:99px; transition:width .3s}
+  .calbar.over > span{background:var(--red)}
+  .calitem{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px}
+  .calitem:last-child{border-bottom:none}
+  .calitem .cl{color:var(--text); font-weight:600} .calitem .ck{color:var(--dim); font-weight:800; margin-left:auto; padding:0 10px}
+  .calitem .cx{color:var(--faint); background:none; border:none; font-size:18px; padding:2px 6px}
+  .calrecent{display:flex; gap:6px; margin-top:12px; border-top:1px solid var(--line); padding-top:10px}
+  .calrecent .cd{flex:1; text-align:center}
+  .calrecent .cd .dd{font-size:10px; color:var(--dim); font-weight:700; text-transform:uppercase}
+  .calrecent .cd .dv{font-size:13px; font-weight:800; margin-top:2px}
+  .calrecent .cd .dv.under{color:var(--green)} .calrecent .cd .dv.over{color:var(--amber)}
 
   /* Goal / glideslope */
   .goalset .grow{display:flex; gap:8px; align-items:center; margin-bottom:9px}
@@ -140,6 +157,26 @@
     <div class="date" id="latestDate"></div>
   </div>
 
+  <!-- Daily calories -->
+  <div class="card" id="calCard">
+    <div class="cardhead">
+      <h3>Daily Calories</h3>
+      <button class="linkbtn" onclick="editCalGoal()" id="calGoalBtn">Goal 2200</button>
+    </div>
+    <div class="calhead">
+      <div class="calbig"><span id="calTotal">0</span><span class="calunit"> / <span id="calGoalShow">2200</span> kcal</span></div>
+      <div class="calrem" id="calRem"></div>
+    </div>
+    <div class="calbar"><span id="calBarFill"></span></div>
+    <div class="entry-row" style="margin-top:13px">
+      <input type="number" id="calIn" inputmode="numeric" placeholder="kcal" style="flex:0 0 90px">
+      <input type="text" id="calLabel" placeholder="what (optional)">
+      <button onclick="addCal()">Add</button>
+    </div>
+    <div id="calList"></div>
+    <div id="calRecent"></div>
+  </div>
+
   <!-- Goal / Glideslope -->
   <div class="card" id="goalCard">
     <div class="cardhead">
@@ -182,20 +219,22 @@
 const KEY = 'weight-log';
 let entries = [];          // [{date, weight}]
 let goal = null;           // {weight, date, startDate, startWeight}
+let cal = { goal: 2200, days: {} };   // calories: days[YYYY-MM-DD] = [{kcal,label}]
 let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; } } }catch(e){} }
-function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal})); }catch(e){} }
+function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; }
+function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal, cal})); }catch(e){} }
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
-    if(remote && Array.isArray(remote.entries) && remote.entries.length>0){ entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; saveLocal(); refresh(); }
-    else if(entries.length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
+    const remoteHas = (remote && Array.isArray(remote.entries) && remote.entries.length>0) || (remote && remote.cal && remote.cal.days && Object.keys(remote.cal.days).length>0);
+    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; if(cal.goal==null) cal.goal=2200; saveLocal(); refresh(); }
+    else if(entries.length>0 || Object.keys(cal.days).length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
   }catch(e){}
 }
-async function syncUp(){ try{ await fetch('/api/'+KEY,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({entries, goal})}); }catch(e){} }
+async function syncUp(){ try{ await fetch('/api/'+KEY,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({entries, goal, cal})}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) syncDown(); });
 
@@ -234,7 +273,29 @@ function deleteEntry(date){ entries=entries.filter(e=>e.date!==date); save(); re
 
 function setRange(days){ activeRange=days; ['7','30','180'].forEach(d=>document.getElementById('btn'+d).classList.toggle('active',parseInt(d)===days)); updateChart(); }
 
-function refresh(){ updateLatest(); updateChart(); updateHistory(); renderGoal(); }
+function refresh(){ updateLatest(); renderCal(); updateChart(); updateHistory(); renderGoal(); }
+
+// ---- daily calories ----
+function calToday(){ return cal.days[today()] || []; }
+function renderCal(){
+  const list=calToday(); const total=list.reduce((a,b)=>a+(+b.kcal||0),0); const g=cal.goal||2200; const rem=g-total;
+  document.getElementById('calTotal').textContent=total.toLocaleString();
+  document.getElementById('calGoalShow').textContent=g;
+  document.getElementById('calGoalBtn').textContent='Goal '+g;
+  const remEl=document.getElementById('calRem'); remEl.textContent = rem>=0 ? rem.toLocaleString()+' left' : Math.abs(rem).toLocaleString()+' over'; remEl.className='calrem'+(rem<0?' over':'');
+  const pct=g>0?Math.min(100, Math.round(total/g*100)):0; const bar=document.getElementById('calBarFill'); bar.style.width=pct+'%'; bar.parentElement.className='calbar'+(total>g?' over':'');
+  document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
+  const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const t=(cal.days[ds]||[]).reduce((a,b)=>a+(+b.kcal||0),0); if(t>0) days.push({ds,t}); }
+  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div></div>`).join('')+`</div>` : '';
+}
+function addCal(){
+  const k=parseInt(document.getElementById('calIn').value); const label=document.getElementById('calLabel').value.trim();
+  if(!k||k<=0) return toast('Enter calories');
+  const t=today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, label});
+  save(); document.getElementById('calIn').value=''; document.getElementById('calLabel').value=''; toast('Added ✓'); renderCal();
+}
+function deleteCal(i){ const t=today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
+function editCalGoal(){ const v=prompt('Daily calorie goal', cal.goal||2200); if(v===null) return; const n=parseInt(v); if(n>0){ cal.goal=n; save(); renderCal(); } }
 
 function sortedDesc(){ return [...entries].sort((a,b)=>b.date.localeCompare(a.date)); }
 function sortedAsc(){ return [...entries].sort((a,b)=>a.date.localeCompare(b.date)); }
