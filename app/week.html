@@ -441,7 +441,7 @@ const STALE_MS = 3*60*60*1000;
 
 function loadState(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s); }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
-function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length))); }
+function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length)||(d.mods&&Object.keys(d.mods).length))); }
 async function syncDown(){ try{ const r=await fetch('/api/'+PLAN.weekId); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
 async function syncUp(){ try{ await fetch('/api/'+PLAN.weekId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
@@ -460,6 +460,7 @@ function dayState(i){
 function sessionsFor(i){
   const st=dayState(i);
   const list=[{def:PLAN.days[i], st, kind:"primary"}];
+  (PLAN.days[i].addons||[]).forEach((ad,ai)=>{ st.mods=st.mods||{}; const ms=st.mods[ai]=st.mods[ai]||{}; ms.sets=ms.sets||{}; ms.warmup=ms.warmup||{}; ms.stretches=ms.stretches||{}; ms.custom=ms.custom||[]; ms.fields=ms.fields||{}; ms.subs=ms.subs||{}; list.push({def:ad, st:ms, kind:"planmod"}); });
   (st.extra||[]).forEach(ex=>{ ex.st=ex.st||{}; ex.st.sets=ex.st.sets||{}; ex.st.warmup=ex.st.warmup||{}; ex.st.stretches=ex.st.stretches||{}; ex.st.custom=ex.st.custom||[]; ex.st.fields=ex.st.fields||{}; ex.st.subs=ex.st.subs||{}; list.push({def:ex, st:ex.st, kind:"extra", id:ex.id}); });
   return list;
 }
@@ -565,8 +566,8 @@ function renderWeek(){
   h += renderSessionBody(day, st, 0);
 
   sessions.slice(1).forEach((s,idx)=>{ const sx=idx+1, skm=kindMeta(s.def.type);
-    h += `<div class="extra-head"><span class="et">${skm.ico} ${esc(s.def.name)}</span><button class="rm" data-rmextra="${s.id}">Remove ✕</button></div>`;
-    if(s.def.type==="lift"||s.def.type==="run") h += renderFlow(s.def, s.st);
+    h += `<div class="extra-head"><span class="et">${skm.ico} ${esc(s.def.name)}</span>${s.kind==="extra"?`<button class="rm" data-rmextra="${s.id}">Remove ✕</button>`:""}</div>`;
+    if(s.kind==="extra" && (s.def.type==="lift"||s.def.type==="run")) h += renderFlow(s.def, s.st);
     if(s.def.desc) h += `<div class="card" style="color:var(--dim);font-size:14px;line-height:1.5">${esc(s.def.desc)}</div>`;
     h += renderSessionBody(s.def, s.st, sx); });
 
@@ -626,10 +627,12 @@ function renderSessionBody(def, st, sx){
       if(def.run.detail) h+=`<div class="runbreak">${esc(def.run.detail)}</div>`;
       (def.run.fields||[]).forEach(fl=>{ h+=`<div class="fieldrow"><span class="flbl">${esc(fl)}</span><input type="text" value="${esc(f[fl]||"")}" data-sx="${sx}" data-f="${esc(fl)}"></div>`; });
       h+=`<button class="bigdone${st.runDone?" on":""}" data-sx="${sx}" data-rundone="1">${st.runDone?"Run complete ✓":"Mark run complete"}</button></div>`; }
-    h+=secLabel("core","Strength + Core","");
-    (def.strength||[]).forEach((it,ii)=> h+=renderExercise(def,st,sx,ii,"strength"));
-    (st.custom||[]).forEach((ci,ci_i)=> h+=renderCustom(ci,sx,ci_i));
-    h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
+    if(def.strength){
+      h+=secLabel("core","Strength + Core","");
+      def.strength.forEach((it,ii)=> h+=renderExercise(def,st,sx,ii,"strength"));
+      (st.custom||[]).forEach((ci,ci_i)=> h+=renderCustom(ci,sx,ci_i));
+      h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
+    }
     h+=renderStretches(def,st,sx); return h;
   }
 
@@ -869,8 +872,8 @@ function logSession(def, st){
     logCustom(st,x=>md+=x); if((def.stretches||[]).length){ const d=def.stretches.filter((_,si)=>st.stretches[si]).length; md+=`- Stretches: ${d}/${def.stretches.length} done\n`; }
   } else if(def.type==="run"){ if((def.warmup||[]).length){ const d=def.warmup.filter((_,wi)=>st.warmup[wi]).length; md+=`- Warmup: ${d}/${def.warmup.length} done\n`; }
     md+=`**Run** — ${st.runDone?"done ✓":"not marked"}\n`; (def.run.fields||[]).forEach(f=>{ if((st.fields||{})[f]) md+=`- ${f}: ${st.fields[f]}\n`; });
-    md+=`**Strength + Core**\n`; (def.strength||[]).forEach((it0,ii)=>{ const it=effItem(def,st,ii); let dn=0; for(let s=0;s<it.s;s++){ if((st.sets[ii+"-"+s]||{}).done) dn++; } const nm=it.n+(it._subFrom?` (sub for ${it._subFrom})`:""); md+=`- ${nm} (${it.s}×${it.r}): ${dn?dn+"/"+it.s+" sets ✓":"skipped"}\n`; });
-    logCustom(st,x=>md+=x); if((def.stretches||[]).length){ const d=def.stretches.filter((_,si)=>st.stretches[si]).length; md+=`- Stretches: ${d}/${def.stretches.length} done\n`; }
+    if(def.strength){ md+=`**Strength + Core**\n`; def.strength.forEach((it0,ii)=>{ const it=effItem(def,st,ii); let dn=0; for(let s=0;s<it.s;s++){ if((st.sets[ii+"-"+s]||{}).done) dn++; } const nm=it.n+(it._subFrom?` (sub for ${it._subFrom})`:""); md+=`- ${nm} (${it.s}×${it.r}): ${dn?dn+"/"+it.s+" sets ✓":"skipped"}\n`; }); logCustom(st,x=>md+=x); }
+    if((def.stretches||[]).length){ const d=def.stretches.filter((_,si)=>st.stretches[si]).length; md+=`- Stretches: ${d}/${def.stretches.length} done\n`; }
   } else { md+= st.done?`- Completed ✓\n`:`- Not marked complete\n`; (def.fields||[]).forEach(f=>{ if((st.fields||{})[f]) md+=`- ${f}: ${st.fields[f]}\n`; }); }
   return md;
 }

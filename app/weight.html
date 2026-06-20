@@ -63,6 +63,9 @@
   .foodsug .fsg .fl{font-weight:700; color:var(--text); font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
   .foodsug .fsg .fk{font-size:12px; color:var(--dim); font-weight:800; white-space:nowrap}
   .foodsug .fsg .fdel{color:var(--faint); background:none; border:none; font-size:16px; padding:0 2px; flex:0 0 auto}
+  .caldate{display:flex; align-items:center; gap:10px; margin-top:14px}
+  .caldate .cdl{font-size:13px; color:var(--dim); font-weight:600}
+  .caldate input[type=date]{background:var(--card2); border:1px solid var(--line); border-radius:9px; color:var(--text); padding:8px 10px; font-size:15px; outline:none}
   .calitem{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px}
   .calitem:last-child{border-bottom:none}
   .calitem .cl{color:var(--text); font-weight:600} .calitem .ck{color:var(--dim); font-weight:800; margin-left:auto; padding:0 10px}
@@ -181,7 +184,8 @@
       <div class="calrem" id="proRem"></div>
     </div>
     <div class="calbar pro"><span id="proBarFill"></span></div>
-    <input type="text" id="calLabel" placeholder="what — type to search your foods" autocomplete="off" style="width:100%; margin-top:13px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
+    <div class="caldate"><span class="cdl">Logging for</span><input type="date" id="calDateIn" onchange="setCalDate(this.value)"><button class="linkbtn" id="calTodayBtn" onclick="setCalDate('')" style="display:none">↺ Today</button></div>
+    <input type="text" id="calLabel" placeholder="what — type to search your foods" autocomplete="off" style="width:100%; margin-top:10px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
     <div id="foodSuggest" class="foodsug"></div>
     <div class="entry-row" style="margin-top:8px">
       <input type="number" id="calIn" inputmode="numeric" placeholder="kcal">
@@ -255,7 +259,8 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) syncDow
 
 // ---- date utils ----
 const DAY = 86400000;
-function today(){ return new Date().toISOString().slice(0,10); }
+function today(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; } // LOCAL date — rolls at local midnight
+let calDate = null;  // which day the calorie card is logging/viewing
 function ms(d){ const [y,m,day]=d.split('-'); return new Date(y,m-1,day).getTime(); }
 function fmtDate(d){ const [y,m,day]=d.split('-'); return new Date(y,m-1,day).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
 function fmtMs(t){ return new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
@@ -291,7 +296,8 @@ function setRange(days){ activeRange=days; ['7','30','180'].forEach(d=>document.
 function refresh(){ updateLatest(); renderCal(); updateChart(); updateHistory(); renderGoal(); }
 
 // ---- daily calories ----
-function calToday(){ return cal.days[today()] || []; }
+function calToday(){ if(!calDate) calDate=today(); return cal.days[calDate] || []; }
+function setCalDate(v){ calDate = v || today(); renderCal(); }
 function renderCal(){
   const list=calToday();
   const total=list.reduce((a,b)=>a+(+b.kcal||0),0);
@@ -309,7 +315,9 @@ function renderCal(){
   const pbar=document.getElementById('proBarFill'); pbar.style.width=(pg>0?Math.min(100,Math.round(ptotal/pg*100)):0)+'%';
   document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()} kcal${e.protein?` · ${+e.protein}g`:''}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
   const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const arr=cal.days[ds]||[]; const t=arr.reduce((a,b)=>a+(+b.kcal||0),0); const pt=arr.reduce((a,b)=>a+(+b.protein||0),0); if(t>0||pt>0) days.push({ds,t,pt}); }
-  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div><div class="dd" style="margin-top:2px">${x.pt}g</div></div>`).join('')+`</div>` : '';
+  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=g?'under':'over'}">${x.t.toLocaleString()}</div><div class="dd" style="margin-top:2px">${x.pt}g</div></div>`).join('')+`</div>` : '';
+  const di=document.getElementById('calDateIn'); if(di) di.value=calDate;
+  const tb=document.getElementById('calTodayBtn'); if(tb) tb.style.display = (calDate===today())?'none':'inline-block';
   const lbl=document.getElementById('calLabel'); if(lbl){ lbl.oninput=renderFoodSuggest; lbl.onfocus=renderFoodSuggest; }
 }
 // food memory: searchable list of previously-logged foods (autofills kcal + protein)
@@ -336,13 +344,13 @@ function addCal(){
   const pr=parseInt(document.getElementById('proIn').value)||0;
   const label=document.getElementById('calLabel').value.trim();
   if(k<=0 && pr<=0) return toast('Enter calories or protein');
-  const t=today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, protein:pr, label});
+  const t=calDate||today(); cal.days[t]=cal.days[t]||[]; cal.days[t].push({kcal:k, protein:pr, label});
   if(label){ const key=label.toLowerCase(); cal.foods=cal.foods||{}; cal.foods[key]={label, kcal:k, protein:pr, uses:((cal.foods[key]||{}).uses||0)+1, ts:Date.now()}; }
   save();
   document.getElementById('calIn').value=''; document.getElementById('proIn').value=''; document.getElementById('calLabel').value=''; document.getElementById('foodSuggest').innerHTML='';
   toast('Added ✓'); renderCal();
 }
-function deleteCal(i){ const t=today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
+function deleteCal(i){ const t=calDate||today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
 function editGoals(){
   const c=prompt('Daily calorie goal', cal.goal||2200); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; }
   const p=prompt('Daily protein goal (grams)', cal.pgoal||180); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }

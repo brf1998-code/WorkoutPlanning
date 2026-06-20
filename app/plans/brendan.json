@@ -459,17 +459,30 @@
     {
       "d": "Sun",
       "date": "6/21",
-      "name": "Yoga + Light Jog",
+      "name": "Yoga",
       "block": "Morning",
       "dur": "~60–75 min",
       "type": "cardio",
-      "desc": "Recovery day — a yoga session (hip openers, hamstrings, thoracic spine, shoulders; restorative or flow) plus a light, easy 2-mile jog at a relaxed pace. Keep both gentle. Your next week's plan builds automatically tonight.",
+      "desc": "Yoga — hip openers, hamstrings, thoracic spine, shoulders. Restorative or flow, keep it gentle.",
       "fields": [
-        "Jog distance (mi)",
-        "Jog time",
-        "Avg HR",
-        "Yoga duration",
-        "Yoga style"
+        "Duration",
+        "Style (flow / restorative / hatha)"
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Light Jog",
+          "run": {
+            "title": "Light 2-mile Jog",
+            "dist": "2 mi",
+            "detail": "Very easy recovery jog at a relaxed, conversational pace.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ]
+          }
+        }
       ]
     }
   ]
