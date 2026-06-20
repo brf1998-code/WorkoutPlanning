@@ -102,9 +102,8 @@ async function stravaAccess(profile){
 
 function latestRestingHR(health){ let rh=52, best=''; Object.entries((health&&health.days)||{}).forEach(([d,v])=>{ if(v.restingHR && d>best){ best=d; rh=v.restingHR; } }); return rh; }
 // Karvonen HR zones (maxHR 190). Returns seconds in each zone.
-function computeZones(hr, time, restingHR){
-  const max=190, rest=restingHR||52, hrr=max-rest;
-  const b=[0.6,0.7,0.8,0.9].map(p=>rest+p*hrr);
+function computeZones(hr, time){
+  const b=[126,157,172,187]; // Strava HR zone lower bounds (Z2/Z3/Z4/Z5); Z1<=125
   const z=[0,0,0,0,0];
   for(let i=1;i<hr.length;i++){ let dt=(time[i]-time[i-1]); if(!(dt>0)||dt>30) dt=1; const v=hr[i]; let k=0; if(v>=b[3])k=4; else if(v>=b[2])k=3; else if(v>=b[1])k=2; else if(v>=b[0])k=1; z[k]+=dt; }
   return { Z1:Math.round(z[0]), Z2:Math.round(z[1]), Z3:Math.round(z[2]), Z4:Math.round(z[3]), Z5:Math.round(z[4]) };
@@ -118,14 +117,14 @@ app.get('/api/strava/sync/:profile', async (req,res)=>{
     const health=(await kvRead('health-'+profile))||{days:{}}; health.days=health.days||{};
     const known=new Set(); Object.values(health.days).forEach(d=> (d.workouts||[]).forEach(w=> known.add(w.id)));
     const restingHR=latestRestingHR(health);
-    const listR=await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=20',{headers:{Authorization:'Bearer '+access}});
+    const listR=await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=50',{headers:{Authorization:'Bearer '+access}});
     const list=await listR.json();
     if(!Array.isArray(list)) return res.status(500).json({error:'activity list failed', detail:list});
     let added=0;
     for(const a of list){
       if(known.has(a.id)) continue;
       let calories=null; try{ const dR=await fetch('https://www.strava.com/api/v3/activities/'+a.id,{headers:{Authorization:'Bearer '+access}}); const det=await dR.json(); calories=det.calories; }catch(e){}
-      let zones=null; if(a.has_heartrate){ try{ const sR=await fetch('https://www.strava.com/api/v3/activities/'+a.id+'/streams?keys=heartrate,time&key_by_type=true',{headers:{Authorization:'Bearer '+access}}); const st=await sR.json(); if(st&&st.heartrate&&st.time) zones=computeZones(st.heartrate.data, st.time.data, restingHR); }catch(e){} }
+      let zones=null; if(a.has_heartrate){ try{ const sR=await fetch('https://www.strava.com/api/v3/activities/'+a.id+'/streams?keys=heartrate,time&key_by_type=true',{headers:{Authorization:'Bearer '+access}}); const st=await sR.json(); if(st&&st.heartrate&&st.time) zones=computeZones(st.heartrate.data, st.time.data); }catch(e){} }
       const date=(a.start_date_local||a.start_date||'').slice(0,10);
       const w={ id:a.id, source:'strava', type:a.sport_type||a.type, name:a.name, start:a.start_date_local,
         durationSec:a.moving_time, distanceMi:a.distance? +(a.distance/1609.34).toFixed(2):null,
