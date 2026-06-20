@@ -109,7 +109,14 @@
           "Distance (mi)",
           "Time",
           "Avg HR"
-        ]
+        ],
+        "hr": {
+          "zone": "Zone 2 · easy aerobic base",
+          "warmup": "ease in, < 140 bpm",
+          "main": "140–150 bpm",
+          "cool": "< 130 bpm",
+          "note": "Conversational — you should be able to talk in full sentences. If HR climbs above ~150, slow down or take walk breaks. Recent runs in the 160s were too hard for an easy day."
+        }
       },
       "strength": [
         {
@@ -252,7 +259,14 @@
           "Distance (mi)",
           "Time",
           "Avg HR"
-        ]
+        ],
+        "hr": {
+          "zone": "Zone 2 · easy aerobic base",
+          "warmup": "ease in, < 140 bpm",
+          "main": "140–150 bpm",
+          "cool": "< 130 bpm",
+          "note": "Conversational — you should be able to talk in full sentences. If HR climbs above ~150, slow down or take walk breaks. Recent runs in the 160s were too hard for an easy day."
+        }
       },
       "strength": [
         {
@@ -480,7 +494,14 @@
               "Distance (mi)",
               "Time",
               "Avg HR"
-            ]
+            ],
+            "hr": {
+              "zone": "Zone 1–2 · very easy recovery",
+              "warmup": "easy start",
+              "main": "130–145 bpm",
+              "cool": "< 125 bpm",
+              "note": "Recovery pace — keep it gentle, this is not a workout."
+            }
           }
         }
       ]
