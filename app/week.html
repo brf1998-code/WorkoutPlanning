@@ -135,6 +135,17 @@
   .hrguide .hrrow{display:flex; justify-content:space-between; font-size:13px; padding:3px 0}
   .hrguide .hrrow span{color:var(--dim); font-weight:600} .hrguide .hrrow b{font-weight:800}
   .hrguide .hrnote{font-size:11.5px; color:var(--dim); line-height:1.4; margin-top:6px; border-top:1px solid var(--line); padding-top:6px}
+  .actcard{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); padding:13px; margin-bottom:10px}
+  .actcard .ah{display:flex; justify-content:space-between; align-items:baseline; gap:8px}
+  .actcard .an{font-weight:800; font-size:15px; letter-spacing:-.01em}
+  .actcard .at{font-size:10px; color:var(--teal); font-weight:800; text-transform:uppercase; letter-spacing:.05em; white-space:nowrap}
+  .astats{display:flex; flex-wrap:wrap; gap:16px; margin-top:9px}
+  .astat .v{font-size:17px; font-weight:800; letter-spacing:-.01em} .astat .k{font-size:10px; color:var(--dim); font-weight:700; text-transform:uppercase; margin-top:1px}
+  .hrchip{display:inline-block; margin-top:9px; padding:5px 11px; border-radius:999px; font-size:12px; font-weight:800}
+  .hrchip.ok{background:var(--green-soft); color:var(--green)} .hrchip.warn{background:rgba(224,138,0,.15); color:var(--amber)} .hrchip.hot{background:rgba(224,57,47,.14); color:var(--red)}
+  .zbar{display:flex; height:9px; border-radius:99px; overflow:hidden; margin-top:10px; background:var(--card2)}
+  .zbar span{display:block; height:100%}
+  .zlegend{display:flex; flex-wrap:wrap; gap:9px; margin-top:6px; font-size:11px; color:var(--dim); font-weight:700}
   .nameinput{font-weight:800; font-size:16px; border:none; background:transparent; color:var(--text); width:100%; padding:0; outline:none; border-bottom:1px dashed var(--line)}
   .nameinput::placeholder{color:var(--faint)}
   .collapsechip{font-size:11px; font-weight:800; color:var(--green); background:var(--green-soft); border:none; border-radius:8px; padding:5px 9px; white-space:nowrap}
@@ -520,6 +531,48 @@ function esc(s){ return (s==null?"":(""+s)).replace(/&/g,"&amp;").replace(/</g,"
 function fmtDur(ms){ const s=Math.max(0,Math.floor(ms/1000)); const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60; return h?`${h}:${String(m).padStart(2,"0")}:${String(ss).padStart(2,"0")}`:`${m}:${String(ss).padStart(2,"0")}`; }
 function parseTimeSec(str){ if(!str) return 0; const p=(""+str).split(":").map(Number); if(p.some(isNaN)) return 0; return p.length===3?p[0]*3600+p[1]*60+p[2]:p.length===2?p[0]*60+p[1]:p[0]; }
 
+// ---- Strava actuals ----
+let stravaByDate = {};
+async function loadStrava(){ try{ const r=await fetch('/api/health-'+PROFILE); if(r.ok){ const d=await r.json(); stravaByDate={}; Object.entries((d&&d.days)||{}).forEach(([dt,v])=>{ if(v.workouts&&v.workouts.length) stravaByDate[dt]=v.workouts; }); } }catch(e){} }
+async function syncStrava(){ try{ await fetch('/api/strava/sync/'+PROFILE); }catch(e){} }
+function dayISO(i){ const d=new Date(PLAN.start+"T00:00:00"); d.setDate(d.getDate()+i); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function fmtShortDate(iso){ try{ return new Date(iso+"T00:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){ return iso; } }
+function paceFromWorkout(w){ if(!w.distanceMi||!w.durationSec) return ""; const per=w.durationSec/w.distanceMi; return `${Math.floor(per/60)}:${String(Math.round(per%60)).padStart(2,"0")}/mi`; }
+function hrZoneOf(hr){ if(hr>=176) return {z:5,label:"Zone 5 · max",cls:"hot"}; if(hr>=162) return {z:4,label:"Zone 4 · threshold",cls:"hot"}; if(hr>=149) return {z:3,label:"Zone 3 · moderate",cls:"warn"}; if(hr>=135) return {z:2,label:"Zone 2 · easy",cls:"ok"}; return {z:1,label:"Zone 1 · recovery",cls:"ok"}; }
+function zoneSecs(z){ return z?((z.Z1||0)+(z.Z2||0)+(z.Z3||0)+(z.Z4||0)+(z.Z5||0)):0; }
+function zoneBar(z){ const tot=zoneSecs(z)||1; const c=['var(--faint)','var(--green)','var(--teal)','var(--orange)','var(--red)']; const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div class="zbar">`+ks.map((k,i)=> (z[k]>0)?`<span style="width:${(z[k]/tot*100).toFixed(1)}%;background:${c[i]}"></span>`:"").join("")+`</div>`; }
+function zoneLegend(z){ const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div class="zlegend">`+ks.filter(k=>z[k]>0).map(k=>`${k} ${Math.round(z[k]/60)}m`).join(" · ")+`</div>`; }
+function renderActualCard(w){
+  const isRun=(w.type||'').toLowerCase().includes('run');
+  const stats=[];
+  if(w.distanceMi) stats.push([w.distanceMi+' mi','Dist']);
+  if(w.durationSec) stats.push([fmtDur(w.durationSec*1000),'Time']);
+  if(isRun && w.distanceMi && w.durationSec) stats.push([paceFromWorkout(w),'Pace']);
+  if(w.avgHR) stats.push([w.avgHR,'Avg HR']);
+  if(w.maxHR) stats.push([w.maxHR,'Max HR']);
+  if(w.calories) stats.push([w.calories,'Cal']);
+  if(w.elevationFt) stats.push([w.elevationFt+'ft','Elev']);
+  let h=`<div class="actcard"><div class="ah"><span class="an">${esc(w.name||w.type)}</span><span class="at">${esc(w.type)}</span></div>`;
+  h+=`<div class="astats">`+stats.map(s=>`<div class="astat"><div class="v">${esc(s[0])}</div><div class="k">${esc(s[1])}</div></div>`).join("")+`</div>`;
+  if(isRun && w.avgHR){ const zn=hrZoneOf(w.avgHR); h+=`<div class="hrchip ${zn.cls}">Avg ${w.avgHR} bpm · ${zn.label}${zn.z>=3?' — eased target is Zone 2':''}</div>`; }
+  if(w.zones && zoneSecs(w.zones)>0){ h+=zoneBar(w.zones)+zoneLegend(w.zones); }
+  return h+`</div>`;
+}
+function renderActuals(i){ const ws=stravaByDate[dayISO(i)]||[]; if(!ws.length) return ""; let h=secLabel("run","Actual · from Strava",""); ws.forEach(w=> h+=renderActualCard(w)); return h; }
+function renderStravaProgress(){
+  const all=[]; Object.entries(stravaByDate).forEach(([dt,ws])=> ws.forEach(w=> all.push(Object.assign({date:dt},w))));
+  if(!all.length) return "";
+  all.sort((a,b)=> (b.start||b.date).localeCompare(a.start||a.date));
+  const weekDates=new Set(PLAN.days.map((_,i)=>dayISO(i)));
+  const wz={Z1:0,Z2:0,Z3:0,Z4:0,Z5:0}; all.forEach(w=>{ if(weekDates.has(w.date)&&w.zones) ['Z1','Z2','Z3','Z4','Z5'].forEach(k=> wz[k]+=w.zones[k]||0); });
+  let h=`<div class="pgcard"><h3>HR zones · this week</h3>`;
+  h+= zoneSecs(wz)>0 ? zoneBar(wz)+zoneLegend(wz) : `<div class="pgnote" style="color:var(--dim)">No HR data yet this week.</div>`;
+  h+=`</div><div class="pgcard"><h3>Recent workouts</h3>`;
+  all.slice(0,10).forEach(w=>{ const sub=[w.distanceMi?w.distanceMi+' mi':'', w.durationSec?fmtDur(w.durationSec*1000):'', w.avgHR?w.avgHR+' bpm':'', w.calories?w.calories+' cal':''].filter(Boolean).join(' · ');
+    h+=`<div class="dayprog"><span class="dd">${fmtShortDate(w.date)}</span><span class="nm">${esc(w.name||w.type)}</span></div><div style="margin:-2px 2px 9px; font-size:12px; color:var(--dim); font-weight:600">${esc(sub)}${w.zones&&zoneSecs(w.zones)>0?zoneBar(w.zones):''}</div>`; });
+  return h+`</div>`;
+}
+
 // ---- render dispatch ----
 function render(){
   document.getElementById("segWeek").classList.toggle("on", mode==="week");
@@ -575,6 +628,8 @@ function renderWeek(){
     if(s.kind==="extra" && (s.def.type==="lift"||s.def.type==="run")) h += renderFlow(s.def, s.st);
     if(s.def.desc) h += `<div class="card" style="color:var(--dim);font-size:14px;line-height:1.5">${esc(s.def.desc)}</div>`;
     h += renderSessionBody(s.def, s.st, sx); });
+
+  h += renderActuals(cur);
 
   h += `<div class="addworkout-wrap">`;
   if(!picking) h += `<button class="addworkout" data-addworkout>＋ Add another workout</button>`;
@@ -808,6 +863,7 @@ function renderProgress(){
 
   h += `<div class="pgcard"><h3>Lifting volume · by day</h3><div class="ch"><canvas id="volCh"></canvas></div></div>`;
   h += `<div class="pgcard"><h3>Running mileage · by day</h3><div class="ch"><canvas id="mileCh"></canvas></div></div>`;
+  h += renderStravaProgress();
 
   // This week's plan progress
   h += `<div class="pgcard"><h3>This week's plan</h3>`;
@@ -1119,6 +1175,7 @@ async function loadPlan(){
 }
 
 loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
+loadStrava().then(()=>render()); syncStrava().then(loadStrava).then(()=>render());
 </script>
 </body>
 </html>
