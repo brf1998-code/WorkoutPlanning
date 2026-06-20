@@ -24,6 +24,16 @@ console.log('STORAGE MODE:', pool ? 'Postgres (persistent)' : 'IN-MEMORY (NON-PE
 // Health/status — lets us confirm whether persistence is actually on
 app.get('/api/_status', (req, res) => res.json({ persistent: !!pool, mode: pool ? 'postgres' : 'in-memory', ts: Date.now() }));
 
+// Full data export for backups (excludes secret token keys). GET /api/_export
+app.get('/api/_export', async (req, res) => {
+  try {
+    const out = { exported_at: new Date().toISOString(), data: {} };
+    if (pool) { const r = await pool.query('SELECT week_id, data FROM workout_state'); r.rows.forEach(row => { if (!String(row.week_id).startsWith('strava-')) out.data[row.week_id] = row.data; }); }
+    else { Object.keys(mem).forEach(k => { if (!k.startsWith('strava-')) out.data[k] = mem[k]; }); }
+    res.json(out);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'export error' }); }
+});
+
 // Serve data-driven plan files (app/plans/<profile>.json). 404 -> app uses its built-in fallback.
 app.get('/api/plan/:profile', (req, res) => {
   const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');

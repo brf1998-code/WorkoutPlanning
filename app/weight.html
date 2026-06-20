@@ -179,6 +179,7 @@
       <div class="calrem" id="calRem"></div>
     </div>
     <div class="calbar"><span id="calBarFill"></span></div>
+    <div id="calSmartNote" style="display:none; font-size:11.5px; color:var(--dim); font-weight:600; margin-top:7px; line-height:1.4"></div>
     <div class="calhead" style="margin-top:13px">
       <div class="calbig" style="font-size:22px"><span id="proTotal">0</span><span class="calunit">g / <span id="proGoalShow">180</span>g protein</span></div>
       <div class="calrem" id="proRem"></div>
@@ -238,13 +239,27 @@
 const KEY = 'weight-log';
 let entries = [];          // [{date, weight}]
 let goal = null;           // {weight, date, startDate, startWeight}
-let cal = { goal: 2200, pgoal: 180, days: {}, foods: {} };   // days[date]=[{kcal,protein,label}]; foods[key]={label,kcal,protein,uses,ts}
+let cal = { goal: 2200, pgoal: 180, days: {}, foods: {}, smart: true, deficit: 700, bmr: 1895, neat: 450 };  // smart goal = BMR + active burn − deficit
+let healthDays = {};  // from /api/health-brendan (activeCalories + Strava workouts per day)
 let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; }
+function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; if(cal.smart==null) cal.smart=true; if(cal.deficit==null) cal.deficit=700; if(cal.bmr==null) cal.bmr=1895; if(cal.neat==null) cal.neat=450; }
+async function loadHealth(){ try{ const r=await fetch('/api/health-brendan'); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
+function dateMinus(dateStr,n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function tdeeForDate(date){ const hd=healthDays[date];
+  if(hd && hd.activeCalories!=null) return { tdee: cal.bmr + (+hd.activeCalories||0), src:'Health' };
+  const wc = hd ? (hd.workouts||[]).reduce((a,w)=>a+(+w.calories||0),0) : 0;
+  if(wc>0) return { tdee: cal.bmr + cal.neat + wc, src:'Strava' };
+  // fallback: average of recent days' workout calories so a typical day projects sensibly
+  const vals=[]; for(let i=1;i<=7;i++){ const h=healthDays[dateMinus(date,i)]; if(h){ const w=(h.workouts||[]).reduce((a,x)=>a+(+x.calories||0),0); if(w>0) vals.push(w); } }
+  const avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
+  return { tdee: cal.bmr + cal.neat + avg, src:'est' };
+}
+function smartGoalFor(date){ return Math.round(tdeeForDate(date).tdee - (cal.deficit||700)); }
+function effGoal(date){ return cal.smart ? smartGoalFor(date) : (cal.goal||2200); }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal, cal})); }catch(e){} }
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
@@ -302,13 +317,15 @@ function renderCal(){
   const list=calToday();
   const total=list.reduce((a,b)=>a+(+b.kcal||0),0);
   const ptotal=list.reduce((a,b)=>a+(+b.protein||0),0);
-  const g=cal.goal||2200, pg=cal.pgoal||180;
+  const g=effGoal(calDate||today()), pg=cal.pgoal||180;
   const rem=g-total, prem=pg-ptotal;
   document.getElementById('calTotal').textContent=total.toLocaleString();
   document.getElementById('calGoalShow').textContent=g;
   document.getElementById('proTotal').textContent=ptotal;
   document.getElementById('proGoalShow').textContent=pg;
-  document.getElementById('calGoalBtn').textContent=g+' cal · '+pg+'g';
+  document.getElementById('calGoalBtn').textContent=(cal.smart?'Smart':'Goal')+' · '+g+' · '+pg+'g';
+  const sn=document.getElementById('calSmartNote');
+  if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burned − ${cal.deficit} deficit <span style="color:var(--faint)">(${t.src==='Health'?'Apple Health':t.src==='Strava'?'Strava':'estimated'})</span>`; } else sn.style.display='none'; }
   const remEl=document.getElementById('calRem'); remEl.textContent = rem>=0 ? rem.toLocaleString()+' left' : Math.abs(rem).toLocaleString()+' over'; remEl.className='calrem'+(rem<0?' over':'');
   const premEl=document.getElementById('proRem'); premEl.textContent = prem>0 ? prem+'g to go' : 'goal hit ✓'; premEl.className='calrem'+(prem>0?'':' done');
   const cbar=document.getElementById('calBarFill'); cbar.style.width=(g>0?Math.min(100,Math.round(total/g*100)):0)+'%'; cbar.parentElement.className='calbar'+(total>g?' over':'');
@@ -352,7 +369,9 @@ function addCal(){
 }
 function deleteCal(i){ const t=calDate||today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
 function editGoals(){
-  const c=prompt('Daily calorie goal', cal.goal||2200); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; }
+  cal.smart = confirm('Use SMART adaptive calorie goal?\n\nOK = Smart (targets a deficit off what you actually burn each day)\nCancel = Fixed daily number');
+  if(cal.smart){ const d=prompt('Daily deficit target (calories below what you burn)', cal.deficit||700); if(d!==null){ const dn=parseInt(d); if(dn>0) cal.deficit=dn; } }
+  else { const c=prompt('Fixed daily calorie goal', cal.goal||2200); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; } }
   const p=prompt('Daily protein goal (grams)', cal.pgoal||180); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }
   save(); renderCal();
 }
@@ -589,7 +608,7 @@ function applyLock(){
   document.getElementById('lockGate').style.display = locked?'flex':'none';
   document.querySelector('.wrap').style.display = locked?'none':'';
   document.getElementById('lockBtnW').style.display = locked?'none':'block';
-  if(!locked){ loadLocal(); refresh(); syncDown(); }
+  if(!locked){ loadLocal(); refresh(); syncDown(); loadHealth(); }
 }
 function tryUnlock(){
   const v=document.getElementById('pinIn').value.trim();
