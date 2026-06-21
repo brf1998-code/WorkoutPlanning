@@ -993,7 +993,12 @@ function shareCard(i){
     bigStats=[["Volume",`${vol.toLocaleString()} lb`],["Sets",`${u.done}/${u.total}`]];
     if(st._sessionStart && (st._ended||st._lastSet)>st._sessionStart) bigStats.push(["Time", fmtDur((st._ended||st._lastSet)-st._sessionStart)]);
     const lw=acts.find(w=>(w.type||'').toLowerCase().includes('weight')); if(lw&&lw.calories) bigStats.push(["Burn", lw.calories+" cal"]);
-    (day.items||[]).forEach((it0,ii)=>{ const it=effItem(day,st,ii); if(it.noWeight) return; if(it.superset){ const ss=supersetSummary(it,st,ii); if(/\d/.test(ss)) rows.push([it.n, ss]); return; } const top=itemTopWeight(it,st,ii); if(top) rows.push([it.n, top+" lb"]); });
+    (day.items||[]).forEach((it0,ii)=>{ const it=effItem(day,st,ii); let val="";
+      if(it.superset){ const parts=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; const ws=v.ws||{}; if(v.done||Object.values(ws).some(x=>x)) parts.push(it.superset.map((_,li)=>ws[li]||'–').join('/')); } val=parts.join('  '); }
+      else if(it.repsIn){ const parts=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; if(v.r) parts.push(v.r); else if(v.done) parts.push('✓'); } if(parts.length) val=parts.join(' · ')+' reps'; }
+      else if(!it.noWeight){ const parts=[]; for(let s=0;s<it.s;s++){ const v=st.sets[ii+"-"+s]||{}; if(v.w) parts.push(v.w); } if(parts.length) val=parts.join(' · ')+' lb'; }
+      else { let done=0; for(let s=0;s<it.s;s++) if((st.sets[ii+"-"+s]||{}).done) done++; if(done) val=it.s+'×'+it.r; }
+      if(val) rows.push([it.n, val]); });
     if(lw&&lw.avgHR) rows.push(["Avg HR", lw.avgHR+" bpm"]);
   } else {
     const w=acts.find(x=>(x.type||'').toLowerCase().includes('run'))||acts[0]||null;
@@ -1016,7 +1021,7 @@ function shareCard(i){
   const feel=st.feel;
 
   const statCells = bigStats.slice(0,4).map(r=>`<div style="flex:1 0 auto;min-width:135px"><div style="font-size:46px;font-weight:800;letter-spacing:-1px;color:#fff">${esc(r[1])}</div><div style="font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:4px">${esc(r[0])}</div></div>`).join("");
-  const detailRows = rows.slice(0,6).map(r=>`<div style="display:flex;justify-content:space-between;font-size:24px;font-weight:700;color:#fff;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="color:rgba(255,255,255,.8)">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join("");
+  const detailRows = rows.slice(0,7).map(r=>`<div style="display:flex;justify-content:space-between;gap:24px;font-size:23px;font-weight:700;color:#fff;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="color:rgba(255,255,255,.8)">${esc(r[0])}</span><span style="text-align:right">${esc(r[1])}</span></div>`).join("");
   const hrChipHtml = hrChip? `<div style="display:inline-block;background:rgba(255,255,255,.1);color:#fff;font-size:18px;font-weight:800;padding:7px 16px;border-radius:999px;margin-top:18px">❤️ ${esc(hrChip)}</div>`:"";
   const zoneBarHtml = zones? darkZoneBar(zones)+`<div style="font-size:15px;color:rgba(255,255,255,.55);margin-top:8px;font-weight:700">${zoneLegendDark(zones)}</div>` : "";
   const weekStripHtml = `<div style="display:flex;gap:26px;margin-top:34px;border-top:1px solid rgba(255,255,255,.12);padding-top:22px">`+weekStrip.map(s=>`<div><div style="font-size:26px;font-weight:800;color:#fff">${esc(s[1])}</div><div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px">${esc(s[0])} · wk</div></div>`).join("")+`</div>`;
@@ -1034,7 +1039,7 @@ function shareCard(i){
     ${weekStripHtml}
     <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px">
       ${feelTag}
-      <div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#fc4c02">⚡ Auto-coached</div><div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.4)">by my own training app</div></div>
+      <div style="text-align:right;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)">${esc(day.block||'')}</div>
     </div>
   </div>`;
   const stage=document.getElementById("shareStage"); stage.innerHTML=html;
