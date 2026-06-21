@@ -176,7 +176,7 @@
   <div class="card" id="calCard">
     <div class="cardhead">
       <h3>Daily Calories &amp; Protein</h3>
-      <button class="linkbtn" onclick="editGoals()" id="calGoalBtn">2200 cal · 180g</button>
+      <span style="display:inline-flex;gap:6px;align-items:center"><button class="linkbtn" onclick="refreshBurn()" id="refreshBtn" title="Pull latest burn from Strava">↻ Refresh</button><button class="linkbtn" onclick="editGoals()" id="calGoalBtn">2200 cal · 180g</button></span>
     </div>
     <div class="calhead">
       <div class="calbig"><span id="calTotal">0</span><span class="calunit"> / <span id="calGoalShow">2200</span> kcal</span></div>
@@ -253,6 +253,7 @@ function cssVar(n){ return getComputedStyle(document.documentElement).getPropert
 function normalizeCal(){ if(!cal||typeof cal!=='object') cal={}; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; if(cal.smart==null) cal.smart=true; if(!(cal.deficit>0)) cal.deficit=700; if(!(cal.bmr>0)) cal.bmr=1895; if(!(cal.neat>=0)) cal.neat=450; }
 function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} normalizeCal(); }
 async function loadHealth(){ try{ const r=await fetch('/api/health-brendan'); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
+async function refreshBurn(){ const b=document.getElementById('refreshBtn'); if(b) b.textContent='↻ …'; toast('Syncing burn…'); try{ await fetch('/api/strava/sync/brendan?cb='+Date.now()); }catch(e){} await loadHealth(); if(b) b.textContent='↻ Refresh'; toast('Burn updated ✓'); }
 function dateMinus(dateStr,n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function tdeeForDate(date){ const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:450); const hd=healthDays[date];
   if(hd && hd.activeCalories!=null) return { tdee: BMR + (+hd.activeCalories||0), src:'Health' };
@@ -330,7 +331,7 @@ function renderCal(){
   document.getElementById('proGoalShow').textContent=pg;
   document.getElementById('calGoalBtn').textContent=(cal.smart?'Smart':'Goal')+' · '+g+' · '+pg+'g';
   const sn=document.getElementById('calSmartNote');
-  if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burned − ${cal.deficit} deficit <span style="color:var(--faint)">(${t.src==='Health'?'Apple Health':t.src==='Strava'?'Strava':'estimated'})</span>`; } else sn.style.display='none'; }
+  if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); const srcLabel=t.src==='Health'?'measured · Apple Health':t.src==='Strava'?'measured · Strava':'predicted from recent days'; sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burn − ${cal.deficit} deficit <span style="color:var(--faint)">(${srcLabel})</span>`; } else sn.style.display='none'; }
   const remEl=document.getElementById('calRem'); remEl.textContent = rem>=0 ? rem.toLocaleString()+' left' : Math.abs(rem).toLocaleString()+' over'; remEl.className='calrem'+(rem<0?' over':'');
   const premEl=document.getElementById('proRem'); premEl.textContent = prem>0 ? prem+'g to go' : 'goal hit ✓'; premEl.className='calrem'+(prem>0?'':' done');
   const cbar=document.getElementById('calBarFill'); cbar.style.width=(g>0?Math.min(100,Math.round(total/g*100)):0)+'%'; cbar.parentElement.className='calbar'+(total>g?' over':'');
