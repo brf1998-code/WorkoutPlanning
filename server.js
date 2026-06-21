@@ -4,7 +4,8 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 
 // Find where the HTML lives — supports both a flat repo (files at root)
 // and an app/ subfolder layout, so it works regardless of how the repo is structured.
@@ -49,13 +50,27 @@ app.post('/api/health/:profile', async (req, res) => {
     const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');
     if (!safe) return res.status(400).json({ error: 'bad profile' });
     const key = 'health-' + safe;
-    const body = req.body || {};
-    const date = body.date || new Date().toISOString().slice(0, 10);
+    let body = req.body;
+    if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) {} }
+    // tolerate the Shortcut sending the whole JSON as a single key (malformed POST)
+    if (body && typeof body === 'object' && !body.date) {
+      const ks = Object.keys(body);
+      if (ks.length === 1 && ks[0].trim().startsWith('{')) { try { body = JSON.parse(ks[0]); } catch (e) {} }
+    }
+    if (!body || typeof body !== 'object' || Array.isArray(body)) body = {};
+    // coerce numeric metrics
+    ['restingHR','hrv','activeCalories','steps','sleepHours','avgHR','maxHR','vo2max','respiratoryRate'].forEach(k => {
+      if (body[k] != null && body[k] !== '') { const n = Number(body[k]); if (!isNaN(n)) body[k] = Math.round(n * 10) / 10; else delete body[k]; }
+    });
+    const date = (typeof body.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.date)) ? body.date : new Date().toISOString().slice(0, 10);
+    delete body.date;
     let data = { days: {} };
     if (pool) { const r = await pool.query('SELECT data FROM workout_state WHERE week_id = $1', [key]); if (r.rows[0]) data = r.rows[0].data; }
     else { data = mem[key] || { days: {} }; }
     data.days = data.days || {};
-    data.days[date] = Object.assign({}, data.days[date] || {}, body);  // merge metrics for that day
+    // sanitize any prior junk keys (from earlier malformed pushes)
+    Object.keys(data.days).forEach(d => { const day = data.days[d] || {}; Object.keys(day).forEach(p => { if (p.trim().startsWith('{')) delete day[p]; }); if (Object.keys(day).length === 0) delete data.days[d]; });
+    data.days[date] = Object.assign({}, data.days[date] || {}, body);  // merge metrics into that day (keeps workouts)
     if (pool) { await pool.query('INSERT INTO workout_state (week_id, data) VALUES ($1, $2) ON CONFLICT (week_id) DO UPDATE SET data = $2, updated_at = NOW()', [key, JSON.stringify(data)]); }
     else { mem[key] = data; }
     res.json({ ok: true, date, stored: Object.keys(body) });
