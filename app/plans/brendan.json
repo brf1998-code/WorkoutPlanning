@@ -1,19 +1,19 @@
 {
-  "weekId": "2026-06-15",
-  "start": "2026-06-15",
-  "title": "Week of June 15–21",
-  "subtitle": "Calibration Week — log weights at RPE 7 to set baselines",
+  "weekId": "2026-06-22",
+  "start": "2026-06-22",
+  "title": "Week of June 22–28",
+  "subtitle": "Week 2 · Progression — targets are set. Chase RPE 8 on the lifts; keep every run genuinely easy.",
   "goals": [
-    "Lock in working weights at RPE 7 across all main lifts",
-    "Rebuild easy run volume — keep every run conversational",
-    "Hit 5–6 sessions; consistency beats intensity this week",
-    "Log every set + how it felt so Week 2 gets real targets"
+    "Hit the suggested weights at RPE 8 on the main lifts — small jumps, clean reps, stop ~1 rep shy",
+    "Run EASY: HR ≤150 on Tue/Thu, walk breaks are fine — no Zone 3 grinding",
+    "Skip the hard 1-mile add-ons after lifts; only Thursday's strides are fast",
+    "Stay consistent — 3 lifts + 2 easy runs + calisthenics — and keep protein ≥180g"
   ],
-  "review": "Calibration week — no last-week numbers yet, so the focus is honest logging. Early read from your sessions: bench likely started too light, lat pulldown should open heavier, barbell row is progressing (keep form tight), OHP dialed in. Those notes are saved and will set Week 2 targets.",
+  "review": "Calibration done, and it was a strong, consistent week — 6 sessions and every baseline logged. Weight is already moving: 202.9 → 199 lb, on pace for 189.9 by Aug 14. Lifts looked good: Squat 185×5, Bench 175×5, OHP 105×8, Deadlift 245×4 (felt Great), Row to 135, Pulldown to 130 — so Week 2 now carries suggested weights on every main lift; aim for the targets at RPE 8. The one thing to fix: every run last week landed in Zone 3–5 (Tue avg 157, Thu 163, and the Saturday 'recovery jog' hit 173). That's the opposite of base-building, especially in a deficit. This week the job is to run truly EASY — cap HR around 150, walk when it climbs, and drop the hard 1-mile add-ons after lifts. Thursday's strides are the only fast running. Easy days easy, hard days hard.",
   "days": [
     {
       "d": "Mon",
-      "date": "6/15",
+      "date": "6/22",
       "name": "Lower — Squat Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -28,35 +28,43 @@
           "n": "Back Squat",
           "s": 4,
           "r": "5",
-          "note": "RPE 7 — work up, log top weight",
+          "note": "Work up to ~195 lb top set @ RPE 8 (last wk 185×5). Stop ~1 rep shy of failure.",
           "focus": "Brace your core, sit back, drive knees out, hit depth.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "195"
         },
         {
           "n": "Romanian Deadlift",
           "s": 3,
           "r": "8",
-          "note": "RPE 7",
+          "note": "RPE 8 — ~195 lb, controlled. Own the eccentric (hamstrings cramped on you last wk).",
           "focus": "Hinge at the hips, soft knees, feel the hamstring stretch.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "195"
         },
         {
           "n": "Walking Lunges",
           "s": 3,
           "r": "10/leg",
-          "focus": "Long stride, front knee over ankle, stay tall."
+          "focus": "Long stride, front knee over ankle, stay tall.",
+          "target": "50",
+          "note": "≈50 lb total — match or beat last week."
         },
         {
           "n": "Leg Curl",
           "s": 3,
           "r": "12",
-          "focus": "Squeeze the hamstring, control the lowering."
+          "focus": "Squeeze the hamstring, control the lowering.",
+          "target": "100",
+          "note": "Top set ~100 lb, full squeeze."
         },
         {
           "n": "Standing Calf Raise",
           "s": 3,
           "r": "15",
-          "focus": "Full stretch at the bottom, pause at the top."
+          "focus": "Full stretch at the bottom, pause at the top.",
+          "target": "45",
+          "note": "~45 lb, full stretch + pause."
         },
         {
           "n": "Dead Bug",
@@ -89,7 +97,7 @@
     },
     {
       "d": "Tue",
-      "date": "6/16",
+      "date": "6/23",
       "name": "Easy Run + Core",
       "block": "5:00–7:00 AM",
       "dur": "~45 min",
@@ -103,8 +111,8 @@
       ],
       "run": {
         "title": "Easy Run",
-        "dist": "3–4 mi",
-        "detail": "5 min easy to start. Then settle into a conversational Zone-2 pace (~140–150 bpm) for ~30 min — you should be able to speak full sentences the whole time. Finish with a 5 min easy cool-down jog. This week is time on feet, not pace.",
+        "dist": "4 mi",
+        "detail": "5 min easy build, then ~30 min at a true conversational pace — HR ≤150 the whole way. If it drifts over 153, WALK 30–60s and restart easy. Finish 5 min easy. Base-building: slow is the point.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -113,9 +121,9 @@
         "hr": {
           "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
           "warmup": "ease in, < 145 bpm",
-          "main": "140–156 bpm",
+          "main": "138–150 bpm",
           "cool": "< 140 bpm",
-          "note": "Keep it UNDER 157 — that's where Zone 3 starts for you. Your recent easy runs at 160–173 bpm were Zone 3–4 (too hard). Slow down or walk to stay aerobic."
+          "note": "Hard ceiling 153. Last week you averaged 157 here (Zone 3) — too hard. Skip the hard 1-mile add-on after lifts this week; if you jog post-lift, keep it ≤145 or walk it."
         }
       },
       "strength": [
@@ -157,7 +165,7 @@
     },
     {
       "d": "Wed",
-      "date": "6/17",
+      "date": "6/24",
       "name": "Upper — Press Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -172,31 +180,37 @@
           "n": "Bench Press",
           "s": 4,
           "r": "5",
-          "note": "RPE 7 — log top weight",
+          "note": "Work up to ~180×5 @ RPE 8 (last wk 175×5).",
           "focus": "Shoulder blades pinched, controlled descent to the chest.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "180"
         },
         {
           "n": "Overhead Press",
           "s": 3,
           "r": "8",
-          "note": "RPE 7",
+          "note": "RPE 8 — ~110×8 (dialed in at 105 last wk).",
           "focus": "Brace glutes and core, press straight up, don't lean back.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "110"
         },
         {
           "n": "Barbell Row",
           "s": 4,
           "r": "8",
           "focus": "Flat back, pull to the lower ribs, squeeze the blades.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "140",
+          "note": "Top set ~140×8 (last wk 135). Flat back, pull to lower ribs."
         },
         {
           "n": "Lat Pulldown",
           "s": 3,
           "r": "10",
           "focus": "Lead with the elbows, full stretch at the top. Start heavier — reach a working weight by set 1.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "140",
+          "note": "Open at ~140×10 (last wk 130 — you had room)."
         },
         {
           "n": "Pushdown + Curl superset",
@@ -239,7 +253,7 @@
     },
     {
       "d": "Thu",
-      "date": "6/18",
+      "date": "6/25",
       "name": "Easy Run + Strength",
       "block": "5:00–7:00 AM",
       "dur": "~40 min",
@@ -252,9 +266,9 @@
         "World's greatest stretch — 5/side"
       ],
       "run": {
-        "title": "Easy Run",
-        "dist": "2.5–3 mi",
-        "detail": "Same easy feel as Tuesday. 5 min easy build, ~25 min conversational Zone-2, 5 min cool-down. If legs feel heavy from Monday's squats, keep it shorter — no intensity this week.",
+        "title": "Easy Run + Strides",
+        "dist": "3 mi",
+        "detail": "~25 min easy (HR ≤150), then 4 × 20s relaxed strides — smooth and quick, NOT a sprint, with a full walk recovery between each. These strides are the ONLY fast running this week. Easy jog to finish.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -263,9 +277,9 @@
         "hr": {
           "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
           "warmup": "ease in, < 145 bpm",
-          "main": "140–156 bpm",
+          "main": "138–150 bpm",
           "cool": "< 140 bpm",
-          "note": "Keep it UNDER 157 — that's where Zone 3 starts for you. Your recent easy runs at 160–173 bpm were Zone 3–4 (too hard). Slow down or walk to stay aerobic."
+          "note": "Keep the easy portion ≤150. Strides are short accelerations — let HR spike briefly, then fully recover. Last week's 'easy' runs were Zone 3–4; keep everything but the strides genuinely easy."
         }
       },
       "strength": [
@@ -314,7 +328,7 @@
     },
     {
       "d": "Fri",
-      "date": "6/19",
+      "date": "6/26",
       "name": "Full Body — Deadlift Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -329,30 +343,35 @@
           "n": "Deadlift",
           "s": 4,
           "r": "4",
-          "note": "RPE 7 — log top weight",
+          "note": "Work up to ~260×4 @ RPE 8 (last wk 245×4 felt Great).",
           "focus": "Bar over midfoot, flat back, push the floor away.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "260"
         },
         {
           "n": "Front/Goblet Squat",
           "s": 3,
           "r": "8",
           "focus": "Elbows up, upright torso, hit depth.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "80",
+          "note": "~80×8, upright torso."
         },
         {
           "n": "Incline DB Press",
           "s": 3,
           "r": "10",
           "focus": "Control the descent, press up and slightly together.",
-          "warmupSet": true
+          "warmupSet": true,
+          "target": "115",
+          "note": "Match last wk (~115). Control the descent."
         },
         {
           "n": "Pull-ups",
           "s": 3,
           "r": "max",
           "repsIn": true,
-          "note": "log reps each set",
+          "note": "Log reps — beat last week's total.",
           "focus": "Full hang to chin over the bar, no kipping."
         },
         {
@@ -386,7 +405,7 @@
     },
     {
       "d": "Sat",
-      "date": "6/20",
+      "date": "6/27",
       "name": "Calisthenics + Finishing Jog",
       "block": "Morning",
       "dur": "~40–50 min",
@@ -458,9 +477,9 @@
         {
           "n": "Easy Finishing Jog",
           "s": 1,
-          "r": "~1–1.5 mi easy",
+          "r": "~1–1.5 mi VERY easy",
           "noWeight": true,
-          "focus": "Relaxed, conversational — just flush the legs to finish."
+          "focus": "Relaxed shuffle, HR ≤150 — last week this hit 173 (Zone 4–5). If you can't keep it easy, just walk it."
         }
       ],
       "stretches": [
@@ -472,7 +491,7 @@
     },
     {
       "d": "Sun",
-      "date": "6/21",
+      "date": "6/28",
       "name": "Yoga",
       "block": "Morning",
       "dur": "~60–75 min",
@@ -500,7 +519,7 @@
               "warmup": "easy start",
               "main": "125–145 bpm",
               "cool": "< 135 bpm",
-              "note": "Recovery pace — gentle, well under 157."
+              "note": "Recovery shuffle only — Zone 1, HR ≤145. This is for blood flow, not fitness."
             }
           }
         }
