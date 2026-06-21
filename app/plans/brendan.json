@@ -2,14 +2,14 @@
   "weekId": "2026-06-22",
   "start": "2026-06-22",
   "title": "Week of June 22–28",
-  "subtitle": "Week 2 · Progression — targets are set. Chase RPE 8 on the lifts; keep every run genuinely easy.",
+  "subtitle": "Week 2 · Progression — targets set. One quality run (Tue); everything else easy. Easy flush jog after each lift.",
   "goals": [
-    "Hit the suggested weights at RPE 8 on the main lifts — small jumps, clean reps, stop ~1 rep shy",
-    "Run EASY: HR ≤150 on Tue/Thu, walk breaks are fine — no Zone 3 grinding",
-    "Skip the hard 1-mile add-ons after lifts; only Thursday's strides are fast",
-    "Stay consistent — 3 lifts + 2 easy runs + calisthenics — and keep protein ≥180g"
+    "Hit the suggested weights at RPE 8 on the main lifts — small jumps, clean reps",
+    "ONE hard run (Tuesday) — open it up; keep every other run easy (HR ≤150)",
+    "Finish each lift day with a 1–1.5 mi easy flush jog — no more hard post-lift miles",
+    "Stay consistent and keep protein ≥180g"
   ],
-  "review": "Calibration done, and it was a strong, consistent week — 6 sessions and every baseline logged. Weight is already moving: 202.9 → 199 lb, on pace for 189.9 by Aug 14. Lifts looked good: Squat 185×5, Bench 175×5, OHP 105×8, Deadlift 245×4 (felt Great), Row to 135, Pulldown to 130 — so Week 2 now carries suggested weights on every main lift; aim for the targets at RPE 8. The one thing to fix: every run last week landed in Zone 3–5 (Tue avg 157, Thu 163, and the Saturday 'recovery jog' hit 173). That's the opposite of base-building, especially in a deficit. This week the job is to run truly EASY — cap HR around 150, walk when it climbs, and drop the hard 1-mile add-ons after lifts. Thursday's strides are the only fast running. Easy days easy, hard days hard.",
+  "review": "Calibration done, and it was a strong, consistent week — 6 sessions, every baseline logged, and weight already moving 202.9 → 199 lb (on pace for 189.9 by Aug 14). Lifts looked good — Squat 185×5, Bench 175×5, OHP 105×8, Deadlift 245×4 (felt Great), Row to 135, Pulldown to 130 — so Week 2 now carries suggested weights on every main lift; chase the targets at RPE 8. The fix this week is running: last week 86% of your run time was Zone 3–5 (only 14% easy). So we polarize — Tuesday is your ONE hard 'release' run (push into Zone 4 and enjoy it), and every other run stays genuinely easy (HR ≤150), including a short easy flush jog to finish each lift day. Hard day hard, easy days easy — that's what actually builds the base while protecting your lifting in the deficit.",
   "days": [
     {
       "d": "Mon",
@@ -93,12 +93,35 @@
         "Hip flexor stretch — 30s each side",
         "Ankle circles — 10 each direction",
         "Glute / figure-4 stretch — 30s each side"
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog",
+            "dist": "1–1.5 mi",
+            "detail": "Relaxed conversational flush right after lifting — just shake the legs out. Keep it truly easy; walk if your HR climbs.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1–2 · easy flush",
+              "warmup": "easy",
+              "main": "≤150 bpm",
+              "cool": "easy",
+              "note": "Recovery, not training — stay under 150. This replaces the hard 1-mile add-ons from last week."
+            }
+          }
+        }
       ]
     },
     {
       "d": "Tue",
       "date": "6/23",
-      "name": "Easy Run + Core",
+      "name": "Quality Run + Core",
       "block": "5:00–7:00 AM",
       "dur": "~45 min",
       "type": "run",
@@ -110,20 +133,20 @@
         "World's greatest stretch — 5/side"
       ],
       "run": {
-        "title": "Easy Run",
-        "dist": "4 mi",
-        "detail": "5 min easy build, then ~30 min at a true conversational pace — HR ≤150 the whole way. If it drifts over 153, WALK 30–60s and restart easy. Finish 5 min easy. Base-building: slow is the point.",
+        "title": "Quality Run — your hard one",
+        "dist": "3.5–4 mi",
+        "detail": "This is your ONE hard run this week — the release. 10 min easy warm-up, then pick one: (a) 20 min steady comfortably-hard tempo, or (b) 5–6 × 2 min hard / 90s easy jog. Open it up and enjoy it. 5–10 min easy cool-down. Putting the hard work here is what lets every other run stay easy.",
         "fields": [
           "Distance (mi)",
           "Time",
           "Avg HR"
         ],
         "hr": {
-          "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
-          "warmup": "ease in, < 145 bpm",
-          "main": "138–150 bpm",
-          "cool": "< 140 bpm",
-          "note": "Hard ceiling 153. Last week you averaged 157 here (Zone 3) — too hard. Skip the hard 1-mile add-on after lifts this week; if you jog post-lift, keep it ≤145 or walk it."
+          "zone": "Zone 4 · threshold/hard (your Z4 = 172–186)",
+          "warmup": "10 min easy, < 150 bpm",
+          "main": "172–186 bpm on the hard portions",
+          "cool": "easy, < 150 bpm",
+          "note": "This is the only run you push hard. If Monday's squats left your legs flat, swap this with Thursday's easy run."
         }
       },
       "strength": [
@@ -249,6 +272,29 @@
         "Chest doorway stretch — 30s each side",
         "Shoulder cross-body stretch — 30s each side",
         "Overhead lat stretch — 30s each side"
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog",
+            "dist": "1–1.5 mi",
+            "detail": "Relaxed conversational flush right after lifting — just shake the legs out. Keep it truly easy; walk if your HR climbs.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1–2 · easy flush",
+              "warmup": "easy",
+              "main": "≤150 bpm",
+              "cool": "easy",
+              "note": "Recovery, not training — stay under 150. This replaces the hard 1-mile add-ons from last week."
+            }
+          }
+        }
       ]
     },
     {
@@ -266,9 +312,9 @@
         "World's greatest stretch — 5/side"
       ],
       "run": {
-        "title": "Easy Run + Strides",
+        "title": "Easy Run",
         "dist": "3 mi",
-        "detail": "~25 min easy (HR ≤150), then 4 × 20s relaxed strides — smooth and quick, NOT a sprint, with a full walk recovery between each. These strides are the ONLY fast running this week. Easy jog to finish.",
+        "detail": "Strict easy — HR ≤150 the whole way, walk breaks fine. After Tuesday's hard effort, this is pure aerobic recovery. Slow is the point.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -279,7 +325,7 @@
           "warmup": "ease in, < 145 bpm",
           "main": "138–150 bpm",
           "cool": "< 140 bpm",
-          "note": "Keep the easy portion ≤150. Strides are short accelerations — let HR spike briefly, then fully recover. Last week's 'easy' runs were Zone 3–4; keep everything but the strides genuinely easy."
+          "note": "Genuinely easy — keep it ≤150. Save the intensity for Tuesday's run; everything else stays aerobic."
         }
       },
       "strength": [
@@ -401,6 +447,29 @@
         "Hamstring stretch — 30s each side",
         "Hip flexor stretch — 30s each side",
         "Thoracic rotation — 10 each side"
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog",
+            "dist": "1 mi",
+            "detail": "Relaxed conversational flush right after lifting — just shake the legs out. Keep it truly easy; walk if your HR climbs.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1–2 · easy flush",
+              "warmup": "easy",
+              "main": "≤150 bpm",
+              "cool": "easy",
+              "note": "Recovery, not training — stay under 150. This replaces the hard 1-mile add-ons from last week."
+            }
+          }
+        }
       ]
     },
     {

@@ -451,9 +451,10 @@ const TEMPLATES = {
     desc:"Easy run — log distance, time, and how it felt.", fields:["Distance (mi)","Time","Avg HR"], st:{ fields:{}, done:false } })
 };
 
-const PROFILE = "brendan";        // active profile (multi-profile-ready)
+const PROFILE = ((new URLSearchParams(location.search).get('p')||'brendan').toLowerCase().replace(/[^a-z0-9]/g,''))||'brendan';        // active profile (multi-profile-ready)
 let PLAN = DEFAULT_PLAN;           // overridden by the server plan file if present
-let KEY = "wlog-" + PLAN.weekId;
+function pkey(){ return PROFILE==="brendan" ? PLAN.weekId : PROFILE+"-"+PLAN.weekId; }
+let KEY = "wlog-" + pkey();
 let mem = {days:{}};
 let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
 let expanded = {}, progCharts = [];
@@ -462,8 +463,8 @@ const STALE_MS = 3*60*60*1000;
 function loadState(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s); }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
 function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length)||(d.mods&&Object.keys(d.mods).length))); }
-async function syncDown(){ try{ const r=await fetch('/api/'+PLAN.weekId); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
-async function syncUp(){ try{ await fetch('/api/'+PLAN.weekId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
+async function syncDown(){ try{ const r=await fetch('/api/'+pkey()); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
+async function syncUp(){ try{ await fetch('/api/'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
 
@@ -1216,7 +1217,7 @@ document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
 // Load the active profile's plan from the server (falls back to the built-in DEFAULT_PLAN if none).
-function applyPlan(p){ PLAN=p; KEY="wlog-"+PLAN.weekId; cur=todayIdx(); mem={days:{}}; loadState(); render(); }
+function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); mem={days:{}}; loadState(); render(); }
 async function loadPlan(){
   try{
     const r=await fetch('/api/plan/'+PROFILE); if(!r.ok) return;
