@@ -196,6 +196,13 @@ app.put('/api/:weekId', async (req, res) => {
   }
 });
 
+// App icons (home-screen / favicon)
+app.get(/^\/(icon-\d+\.png|favicon\.ico)$/, (req, res) => {
+  const f = path.join(APP_DIR, path.basename(req.path));
+  if (fs.existsSync(f)) return res.sendFile(f);
+  res.status(404).end();
+});
+
 // Serve the apps
 app.get('/weight', (req, res) => {
   res.sendFile(path.join(APP_DIR, 'weight.html'));
