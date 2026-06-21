@@ -1,0 +1,272 @@
+{
+  "weekId": "2026-06-22",
+  "start": "2026-06-22",
+  "title": "Week of June 22–28 · Starter Week",
+  "subtitle": "Welcome, Camille! Week 1 is calibration — start light, nail your form, and log how each session feels.",
+  "goals": [
+    "Get 3 quality sessions in (Mon/Tue/Wed) — strength, cardio, and mobility",
+    "Keep the lifts light this week — RPE 6–7, form first (we'll add load once it's dialed in)",
+    "Log weights, reps, and how it felt so next week can build on real numbers",
+    "Move easy on the off days — a walk, swim, or stretch keeps things ticking"
+  ],
+  "review": "This is your starting point. You're an experienced mover but newer to barbell work, so Week 1 keeps the loads light and the focus on clean technique across a few staple movements. Each lift has a focus cue; pick a weight that feels like a 6–7 out of 10 and stop with a couple reps in the tank. Tuesday is your OrangeTheory-style day — intervals plus core — and Wednesday finishes with mobility. Log everything (even a quick note on how it felt), and next week's plan will progress from what you actually did. Goal trend: a gradual, sustainable move from 135 toward 125 with strength and tone along the way.",
+  "days": [
+    {
+      "d": "Mon",
+      "date": "6/22",
+      "name": "Full-Body Strength A",
+      "block": "Evening",
+      "dur": "~45 min",
+      "type": "lift",
+      "warmup": [
+        "3–4 min easy cardio (walk, bike, or march in place)",
+        "Arm circles + shoulder rolls — 10 each",
+        "Bodyweight squats — 1×10",
+        "Hip hinge / good-morning drill — 1×10"
+      ],
+      "items": [
+        {
+          "n": "Goblet Squat",
+          "s": 3,
+          "r": "10",
+          "note": "Start light (one dumbbell or kettlebell at the chest), RPE 6–7.",
+          "focus": "Chest tall, sit between your hips, knees track over toes, full depth you can control.",
+          "warmupSet": true
+        },
+        {
+          "n": "Dumbbell Bench Press (or Push-up)",
+          "s": 3,
+          "r": "10",
+          "note": "RPE 6–7 — sub push-ups (on knees if needed) any time.",
+          "focus": "Shoulder blades set, lower under control, press up and slightly together."
+        },
+        {
+          "n": "Dumbbell Romanian Deadlift",
+          "s": 3,
+          "r": "10",
+          "note": "Light — this is a hinge, not a squat.",
+          "focus": "Soft knees, push hips back, feel the hamstrings, flat back the whole way."
+        },
+        {
+          "n": "One-Arm Dumbbell Row",
+          "s": 3,
+          "r": "10/arm",
+          "focus": "Flat back, pull the dumbbell to your hip, squeeze the shoulder blade."
+        },
+        {
+          "n": "Dumbbell Shoulder Press",
+          "s": 3,
+          "r": "10",
+          "note": "Seated or standing, RPE 6–7.",
+          "focus": "Brace your core, press straight up, don't arch the low back."
+        },
+        {
+          "n": "Plank",
+          "s": 3,
+          "r": "20–30s",
+          "noWeight": true,
+          "coreStart": true,
+          "focus": "Straight line head to heels, squeeze glutes, breathe."
+        },
+        {
+          "n": "Dead Bug",
+          "s": 2,
+          "r": "8/side",
+          "noWeight": true,
+          "focus": "Low back pressed to the floor, move slow and controlled."
+        }
+      ],
+      "stretches": [
+        "Chest / doorway stretch — 30s each side",
+        "Hip flexor stretch — 30s each side",
+        "Hamstring stretch — 30s each side",
+        "Child's pose — 30s"
+      ]
+    },
+    {
+      "d": "Tue",
+      "date": "6/23",
+      "name": "Cardio & Core",
+      "block": "Evening",
+      "dur": "~45 min",
+      "type": "run",
+      "warmup": [
+        "5 min easy walk or jog to warm up",
+        "Leg swings — 10 each / leg",
+        "Walking lunges — 8/leg",
+        "Ankle circles + arm swings"
+      ],
+      "run": {
+        "title": "Intervals (your OTF-style day)",
+        "dist": "~2.5–3 mi total",
+        "detail": "Treadmill or outdoors — your choice. 5 min easy warm-up, then 5 × (1.5 min faster / 90s easy) — 'faster' is comfortably hard, an effort you could hold but wouldn't want to chat through. Finish with 5 min easy. Prefer steady? Run/walk an easy 25 min instead. This is effort-based — no need to chase a number.",
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "How it felt (RPE 1–10)"
+        ],
+        "hr": {
+          "zone": "Effort-based (RPE) — no HR data yet",
+          "warmup": "easy, RPE 3–4",
+          "main": "RPE 7–8 on the faster pushes, RPE 3–4 on recovery",
+          "cool": "easy, RPE 3",
+          "note": "Listen to your body — 55+ recovery matters. If a push feels like more than an 8, ease off. Power-walking the intervals counts."
+        }
+      },
+      "strength": [
+        {
+          "n": "Glute Bridge",
+          "s": 2,
+          "r": "15",
+          "noWeight": true,
+          "focus": "Drive through the heels, squeeze hard at the top."
+        },
+        {
+          "n": "Bird Dog",
+          "s": 2,
+          "r": "8/side",
+          "noWeight": true,
+          "focus": "Reach opposite arm and leg, keep hips level, no rotation."
+        },
+        {
+          "n": "Side Plank (or knee side plank)",
+          "s": 2,
+          "r": "15–20s/side",
+          "noWeight": true,
+          "focus": "Stack the hips, straight line, lift tall."
+        },
+        {
+          "n": "Bicycle Crunch",
+          "s": 2,
+          "r": "12",
+          "noWeight": true,
+          "focus": "Slow, opposite elbow toward knee, full extension."
+        }
+      ],
+      "stretches": [
+        "Quad stretch — 30s each side",
+        "Calf stretch — 30s each side",
+        "Figure-4 glute stretch — 30s each side",
+        "Standing side reach — 20s each side"
+      ]
+    },
+    {
+      "d": "Wed",
+      "date": "6/24",
+      "name": "Strength B + Mobility",
+      "block": "Evening",
+      "dur": "~45 min",
+      "type": "lift",
+      "warmup": [
+        "3–4 min easy cardio",
+        "Cat–cow — 8 slow reps",
+        "Band pull-aparts or arm circles — 1×15",
+        "Bodyweight reverse lunges — 6/leg"
+      ],
+      "items": [
+        {
+          "n": "Kettlebell (or DB) Deadlift",
+          "s": 3,
+          "r": "10",
+          "note": "Light KB or two DBs, RPE 6–7 — hinge pattern.",
+          "focus": "Hips back, flat back, stand tall by squeezing glutes — don't round.",
+          "warmupSet": true
+        },
+        {
+          "n": "Reverse Lunge",
+          "s": 3,
+          "r": "8/leg",
+          "note": "Bodyweight or light DBs.",
+          "focus": "Step back, drop straight down, tall torso, push through the front heel."
+        },
+        {
+          "n": "Lat Pulldown (or Band Pulldown)",
+          "s": 3,
+          "r": "12",
+          "focus": "Lead with the elbows, full stretch at the top, control the return."
+        },
+        {
+          "n": "Incline Dumbbell Press (or Push-up)",
+          "s": 3,
+          "r": "10",
+          "note": "RPE 6–7.",
+          "focus": "Control down, press up and together, ribs down."
+        },
+        {
+          "n": "Kettlebell Goblet March",
+          "s": 2,
+          "r": "10/side",
+          "focus": "Hold the KB at your chest, march tall and slow, brace your core."
+        },
+        {
+          "n": "Bird Dog",
+          "s": 2,
+          "r": "8/side",
+          "noWeight": true,
+          "coreStart": true,
+          "focus": "Slow and stable, hips level."
+        }
+      ],
+      "stretches": [
+        "Mobility finisher (~8–10 min): World's greatest stretch — 5/side",
+        "Thread-the-needle (thoracic) — 5/side",
+        "Pigeon / figure-4 — 45s each side",
+        "Standing forward fold — 45s",
+        "Seated spinal twist — 30s each side"
+      ]
+    },
+    {
+      "d": "Thu",
+      "date": "6/25",
+      "name": "Rest / Easy Walk",
+      "block": "Anytime",
+      "dur": "optional",
+      "type": "cardio",
+      "desc": "Rest day. Optional: an easy 20–30 min walk to keep the blood moving. Nothing hard — recovery is where the adaptation happens.",
+      "fields": [
+        "Did you move? (walk / swim / nothing — all fine)",
+        "Notes"
+      ]
+    },
+    {
+      "d": "Fri",
+      "date": "6/26",
+      "name": "Rest / Mobility or Swim",
+      "block": "Anytime",
+      "dur": "optional",
+      "type": "cardio",
+      "desc": "Rest day. Optional: a swim (you enjoy it) or 10 min of gentle stretching. Keep it light and easy.",
+      "fields": [
+        "Activity (swim / stretch / rest)",
+        "Notes"
+      ]
+    },
+    {
+      "d": "Sat",
+      "date": "6/27",
+      "name": "Optional Active — Walk / Hike / Swim",
+      "block": "Anytime",
+      "dur": "optional",
+      "type": "cardio",
+      "desc": "Free choice, all optional: a hike, longer walk, easy bike, or swim — whatever sounds good and stays enjoyable. Time outside counts double.",
+      "fields": [
+        "Activity",
+        "Time / distance",
+        "How it felt"
+      ]
+    },
+    {
+      "d": "Sun",
+      "date": "6/28",
+      "name": "Gentle Yoga / Stretch",
+      "block": "Anytime",
+      "dur": "~30 min",
+      "type": "cardio",
+      "desc": "Gentle yoga or a full-body stretch — hips, hamstrings, shoulders, spine. Restorative and easy; set up the week ahead.",
+      "fields": [
+        "Duration",
+        "Style (flow / restorative / stretch)"
+      ]
+    }
+  ]
+}
