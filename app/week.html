@@ -979,57 +979,70 @@ function logCustom(st, push){ (st.custom||[]).forEach(ci=>{ const sets=(ci.sets|
 
 function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
 
-// ---- Strava share (comprehensive) ----
-function pace(distStr, timeStr){ const d=parseFloat(distStr); const sec=parseTimeSec(timeStr); if(!d||!sec) return ""; const per=sec/d; return `${Math.floor(per/60)}:${String(Math.round(per%60)).padStart(2,"0")}/mi`; }
+// ---- Strava share (comprehensive, branded) ----
+function darkZoneBar(z){ const tot=zoneSecs(z)||1; const c=['#5b6473','#2bd576','#15b8b8','#ff7a1a','#ff4d4d']; const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div style="display:flex;height:20px;border-radius:8px;overflow:hidden;margin-top:20px;background:rgba(255,255,255,.08)">`+ks.map((k,idx)=> z[k]>0?`<span style="width:${(z[k]/tot*100).toFixed(1)}%;background:${c[idx]}"></span>`:"").join("")+`</div>`; }
+function zoneLegendDark(z){ const ks=['Z1','Z2','Z3','Z4','Z5']; return ks.filter(k=>z[k]>0).map(k=>`${k} ${Math.round(z[k]/60)}m`).join("  ·  "); }
 function shareCard(i){
   const sessions=sessionsFor(i), st=sessions[0].st, day=PLAN.days[i];
   const km=kindMeta(day.type);
-  let bigStats=[], rows=[];
+  const acts=stravaByDate[dayISO(i)]||[];
+  let bigStats=[], rows=[], zones=null, hrChip="";
+
   if(day.type==="lift"){
     const u=liftUnits(day,st), vol=volume(day,st);
-    bigStats=[["Sets",`${u.done}/${u.total}`],["Volume",`${vol.toLocaleString()} lb`]];
+    bigStats=[["Volume",`${vol.toLocaleString()} lb`],["Sets",`${u.done}/${u.total}`]];
     if(st._sessionStart && (st._ended||st._lastSet)>st._sessionStart) bigStats.push(["Time", fmtDur((st._ended||st._lastSet)-st._sessionStart)]);
-    (day.items||[]).forEach((it0,ii)=>{ const it=effItem(day,st,ii); if(it.noWeight){ if(itemDone(it,st,ii)) rows.push([it.n,"✓"]); return; }
-      if(it.superset){ const ss=supersetSummary(it,st,ii); if(ss.replace(/[–\/ lb]/g,"")) rows.push([it.n, ss]); return; }
-      const top=itemTopWeight(it,st,ii); if(top) rows.push([it.n, top+" lb"]); else if(itemDone(it,st,ii)) rows.push([it.n,"✓"]); });
-  } else if(day.type==="run"){
+    const lw=acts.find(w=>(w.type||'').toLowerCase().includes('weight')); if(lw&&lw.calories) bigStats.push(["Burn", lw.calories+" cal"]);
+    (day.items||[]).forEach((it0,ii)=>{ const it=effItem(day,st,ii); if(it.noWeight) return; if(it.superset){ const ss=supersetSummary(it,st,ii); if(/\d/.test(ss)) rows.push([it.n, ss]); return; } const top=itemTopWeight(it,st,ii); if(top) rows.push([it.n, top+" lb"]); });
+    if(lw&&lw.avgHR) rows.push(["Avg HR", lw.avgHR+" bpm"]);
+  } else {
+    const w=acts.find(x=>(x.type||'').toLowerCase().includes('run'))||acts[0]||null;
     const f=st.fields||{};
-    if(f["Distance (mi)"]) bigStats.push(["Distance", f["Distance (mi)"]+" mi"]);
-    if(f["Time"]) bigStats.push(["Time", f["Time"]]);
-    const p=pace(f["Distance (mi)"], f["Time"]); if(p) bigStats.push(["Pace", p]);
-    if(f["Avg HR"]) rows.push(["Avg HR", f["Avg HR"]+" bpm"]);
-    (day.strength||[]).forEach((it0,ii)=>{ const it=effItem(day,st,ii); let dn=0; for(let s=0;s<it.s;s++){ if((st.sets[ii+"-"+s]||{}).done) dn++; } if(dn) rows.push([it.n, dn+"/"+it.s]); });
-  } else { const f=st.fields||{}; (day.fields||[]).forEach(fl=>{ if(f[fl]) bigStats.push([fl.replace(/\s*\(.*\)/,""), f[fl]]); }); }
+    const dist=(w&&w.distanceMi)?w.distanceMi:(parseFloat(f["Distance (mi)"])||null);
+    const durSec=(w&&w.durationSec)?w.durationSec:parseTimeSec(f["Time"]);
+    if(dist) bigStats.push(["Distance", dist+" mi"]);
+    if(durSec) bigStats.push(["Time", fmtDur(durSec*1000)]);
+    if(dist&&durSec){ const per=durSec/dist; bigStats.push(["Pace", `${Math.floor(per/60)}:${String(Math.round(per%60)).padStart(2,'0')}/mi`]); }
+    const avgHR=(w&&w.avgHR)?w.avgHR:(parseInt(f["Avg HR"])||null);
+    if(avgHR) bigStats.push(["Avg HR", avgHR+" bpm"]);
+    if(w&&w.maxHR) rows.push(["Max HR", w.maxHR+" bpm"]);
+    if(w&&w.calories) rows.push(["Calories", w.calories+" cal"]);
+    if(w&&w.elevationFt) rows.push(["Elevation", w.elevationFt+" ft"]);
+    if(w&&w.zones&&zoneSecs(w.zones)>0){ zones=w.zones; if(avgHR){ const zn=hrZoneOf(avgHR); hrChip = zn.z<=2? `Avg ${avgHR} · Zone ${zn.z} — kept it easy ✓` : `Avg ${avgHR} · Zone ${zn.z}`; } }
+  }
 
-  const wd=(day.warmup||[]).filter((_,k)=>st.warmup[k]).length, wt=(day.warmup||[]).length;
-  const cd=(day.stretches||[]).filter((_,k)=>st.stretches[k]).length, ct=(day.stretches||[]).length;
-  const feel = st.feel;
+  const a=weekAgg();
+  const weekStrip=[["Sessions", a.sessionsDone+"/"+a.sessionsPlanned],["Run", a.totalMiles+" mi"],["Lift vol", (a.totalVol>=1000?(a.totalVol/1000).toFixed(1)+'k':a.totalVol)]];
+  const feel=st.feel;
 
-  const statCells = bigStats.slice(0,3).map(r=>`<div style="flex:1;min-width:150px"><div style="font-size:50px;font-weight:800;letter-spacing:-1px;color:#fff">${esc(r[1])}</div><div style="font-size:17px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:4px">${esc(r[0])}</div></div>`).join("");
-  const detailRows = rows.map(r=>`<div style="display:flex;justify-content:space-between;font-size:25px;font-weight:700;color:#fff;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="color:rgba(255,255,255,.82)">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join("");
-  const wcTag=(wt||ct)?`<div style="font-size:19px;color:rgba(255,255,255,.5);margin-top:18px">Warm-up ${wd}/${wt} · Cool-down ${cd}/${ct}</div>`:"";
-  const feelTag = feel? `<span style="display:inline-block;background:#fc4c02;color:#fff;font-size:21px;font-weight:800;padding:8px 20px;border-radius:999px">Felt ${esc(feel)}</span>`:"";
+  const statCells = bigStats.slice(0,4).map(r=>`<div style="flex:1 0 auto;min-width:135px"><div style="font-size:46px;font-weight:800;letter-spacing:-1px;color:#fff">${esc(r[1])}</div><div style="font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:4px">${esc(r[0])}</div></div>`).join("");
+  const detailRows = rows.slice(0,6).map(r=>`<div style="display:flex;justify-content:space-between;font-size:24px;font-weight:700;color:#fff;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08)"><span style="color:rgba(255,255,255,.8)">${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join("");
+  const hrChipHtml = hrChip? `<div style="display:inline-block;background:rgba(255,255,255,.1);color:#fff;font-size:18px;font-weight:800;padding:7px 16px;border-radius:999px;margin-top:18px">❤️ ${esc(hrChip)}</div>`:"";
+  const zoneBarHtml = zones? darkZoneBar(zones)+`<div style="font-size:15px;color:rgba(255,255,255,.55);margin-top:8px;font-weight:700">${zoneLegendDark(zones)}</div>` : "";
+  const weekStripHtml = `<div style="display:flex;gap:26px;margin-top:34px;border-top:1px solid rgba(255,255,255,.12);padding-top:22px">`+weekStrip.map(s=>`<div><div style="font-size:26px;font-weight:800;color:#fff">${esc(s[1])}</div><div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px">${esc(s[0])} · wk</div></div>`).join("")+`</div>`;
+  const feelTag = feel? `<span style="display:inline-block;background:#fc4c02;color:#fff;font-size:20px;font-weight:800;padding:8px 20px;border-radius:999px">Felt ${esc(feel)}</span>`:"<span></span>";
 
-  const html=`<div style="width:1080px;background:linear-gradient(160deg,#16181d,#0b0c10);padding:78px 70px;box-sizing:border-box;font-family:-apple-system,Helvetica,Arial,sans-serif">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-size:24px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fc4c02">${km.ico} ${esc(km.label)}</div>
-        <div style="font-size:23px;font-weight:700;color:rgba(255,255,255,.5)">${esc(day.d)} ${esc(day.date)} · 5–7 AM</div>
-      </div>
-      <div style="font-size:70px;font-weight:800;letter-spacing:-2px;color:#fff;margin-top:16px;line-height:1.04">${esc(day.name)}</div>
-      <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:50px">${statCells||'<div style="color:rgba(255,255,255,.6);font-size:26px">Workout logged</div>'}</div>
-      ${detailRows?`<div style="margin-top:40px;border-top:2px solid rgba(255,255,255,.15);padding-top:20px">${detailRows}</div>`:""}
-      ${wcTag}
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px">
-        ${feelTag||"<span></span>"}
-        <div style="font-size:20px;font-weight:800;letter-spacing:2px;color:rgba(255,255,255,.35);text-transform:uppercase">Morning Training</div>
-      </div>
-    </div>`;
+  const html=`<div style="width:1080px;background:linear-gradient(160deg,#191c22,#0a0b0e);padding:72px 70px;box-sizing:border-box;font-family:-apple-system,Helvetica,Arial,sans-serif">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:23px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fc4c02">${km.ico} ${esc(km.label)}</div>
+      <div style="font-size:22px;font-weight:700;color:rgba(255,255,255,.5)">${esc(day.d)} ${esc(day.date)}</div>
+    </div>
+    <div style="font-size:64px;font-weight:800;letter-spacing:-2px;color:#fff;margin-top:14px;line-height:1.05">${esc(day.name)}</div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;margin-top:42px">${statCells||'<div style="color:rgba(255,255,255,.6);font-size:26px">Workout logged</div>'}</div>
+    ${hrChipHtml}${zoneBarHtml}
+    ${detailRows?`<div style="margin-top:32px;border-top:2px solid rgba(255,255,255,.15);padding-top:14px">${detailRows}</div>`:""}
+    ${weekStripHtml}
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px">
+      ${feelTag}
+      <div style="text-align:right"><div style="font-size:20px;font-weight:800;color:#fc4c02">⚡ Auto-coached</div><div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.4)">by my own training app</div></div>
+    </div>
+  </div>`;
   const stage=document.getElementById("shareStage"); stage.innerHTML=html;
   if(typeof html2canvas!=="function"){ toast("Image tool still loading — try again"); return; }
   html2canvas(stage.firstChild,{scale:1, backgroundColor:null, logging:false}).then(canvas=>{
     canvas.toBlob(async (blob)=>{ const fname=`workout-${day.date.replace("/","-")}.png`, file=new File([blob],fname,{type:"image/png"});
       if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], title:day.name}); }catch(e){} }
-      else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); toast("Image downloaded"); }
+      else { const a2=document.createElement("a"); a2.href=URL.createObjectURL(blob); a2.download=fname; a2.click(); toast("Image downloaded"); }
       stage.innerHTML=""; }, "image/png");
   }).catch(()=>{ toast("Couldn't make image"); stage.innerHTML=""; });
 }

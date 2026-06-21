@@ -246,17 +246,18 @@ let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; if(cal.smart==null) cal.smart=true; if(cal.deficit==null) cal.deficit=700; if(cal.bmr==null) cal.bmr=1895; if(cal.neat==null) cal.neat=450; }
+function normalizeCal(){ if(!cal||typeof cal!=='object') cal={}; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; if(cal.smart==null) cal.smart=true; if(!(cal.deficit>0)) cal.deficit=700; if(!(cal.bmr>0)) cal.bmr=1895; if(!(cal.neat>=0)) cal.neat=450; }
+function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} normalizeCal(); }
 async function loadHealth(){ try{ const r=await fetch('/api/health-brendan'); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
 function dateMinus(dateStr,n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function tdeeForDate(date){ const hd=healthDays[date];
-  if(hd && hd.activeCalories!=null) return { tdee: cal.bmr + (+hd.activeCalories||0), src:'Health' };
+function tdeeForDate(date){ const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:450); const hd=healthDays[date];
+  if(hd && hd.activeCalories!=null) return { tdee: BMR + (+hd.activeCalories||0), src:'Health' };
   const wc = hd ? (hd.workouts||[]).reduce((a,w)=>a+(+w.calories||0),0) : 0;
-  if(wc>0) return { tdee: cal.bmr + cal.neat + wc, src:'Strava' };
+  if(wc>0) return { tdee: BMR + NEAT + wc, src:'Strava' };
   // fallback: average of recent days' workout calories so a typical day projects sensibly
   const vals=[]; for(let i=1;i<=7;i++){ const h=healthDays[dateMinus(date,i)]; if(h){ const w=(h.workouts||[]).reduce((a,x)=>a+(+x.calories||0),0); if(w>0) vals.push(w); } }
   const avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
-  return { tdee: cal.bmr + cal.neat + avg, src:'est' };
+  return { tdee: BMR + NEAT + avg, src:'est' };
 }
 function smartGoalFor(date){ return Math.round(tdeeForDate(date).tdee - (cal.deficit||700)); }
 function effGoal(date){ return cal.smart ? smartGoalFor(date) : (cal.goal||2200); }
@@ -264,7 +265,7 @@ function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, go
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
     const remoteHas = (remote && Array.isArray(remote.entries) && remote.entries.length>0) || (remote && remote.cal && remote.cal.days && Object.keys(remote.cal.days).length>0);
-    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; saveLocal(); refresh(); }
+    if(remoteHas){ if(Array.isArray(remote.entries)) entries=remote.entries; if(remote.goal!==undefined) goal=remote.goal; if(remote.cal) cal=remote.cal; normalizeCal(); saveLocal(); refresh(); }
     else if(entries.length>0 || Object.keys(cal.days).length>0){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ }
   }catch(e){}
 }
