@@ -1,0 +1,39 @@
+name: Nightly sync + backup
+
+on:
+  schedule:
+    - cron: '0 6 * * *'      # 06:00 UTC nightly (~2am ET). Adjust as you like.
+  workflow_dispatch: {}        # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull new Strava activities
+        run: |
+          curl -fsS "https://workoutplanning-production.up.railway.app/api/strava/sync/brendan?cb=$(date +%s)" || echo "strava sync call failed (non-fatal)"
+
+      - name: Export full data backup
+        run: |
+          mkdir -p backups
+          FILE="backups/backup-$(date -u +%F).json"
+          curl -fsS "https://workoutplanning-production.up.railway.app/api/_export?cb=$(date +%s)" -o "$FILE" || { echo "export failed"; exit 0; }
+          # safety: don't keep an empty/too-small backup
+          if [ ! -s "$FILE" ] || [ "$(wc -c < "$FILE")" -lt 800 ]; then
+            echo "export looked empty — discarding"; rm -f "$FILE"; exit 0;
+          fi
+          # keep only the 30 most recent backups
+          ls -1t backups/backup-*.json 2>/dev/null | tail -n +31 | xargs -r rm -f
+
+      - name: Commit backup
+        run: |
+          git config user.name "nightly-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add backups/
+          git commit -m "Nightly backup $(date -u +%F)" || echo "no changes to commit"
+          git push
