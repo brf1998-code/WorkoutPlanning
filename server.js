@@ -64,6 +64,18 @@ app.get('/api/_weeks', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'weeks error' }); }
 });
 
+// Maintenance: clear a single WEEK record (dated keys only — cannot touch weight-log/health/etc.).
+// Used by the app's reset and to remove stray/duplicate week keys. Nightly git backups make this recoverable.
+app.get('/api/_resetweek', async (req, res) => {
+  try {
+    const key = req.query.key || '';
+    if (!/^([a-z]+-)?\d{4}-\d{2}-\d{2}[a-z]?$/.test(key)) return res.status(400).json({ error: 'bad key' });
+    if (pool) { await pool.query('DELETE FROM workout_state WHERE week_id = $1', [key]); }
+    else { delete mem[key]; }
+    res.json({ ok: true, cleared: key });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'reset error' }); }
+});
+
 // Serve data-driven plan files (app/plans/<profile>.json). 404 -> app uses its built-in fallback.
 app.get('/api/plan/:profile', (req, res) => {
   const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');
