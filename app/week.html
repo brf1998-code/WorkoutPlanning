@@ -280,6 +280,29 @@
   .fld-sec{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin:24px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line)}
   .chips .rankno{display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px; background:rgba(255,255,255,.28); border-radius:50%; font-size:11px; font-weight:800; margin-right:6px}
 </style>
+<style>
+.weeknav{display:flex;align-items:center;gap:10px;justify-content:center;padding:7px 12px;background:var(--card);border-bottom:1px solid var(--line)}
+.wn-arrow{border:1px solid var(--line);background:var(--card2);color:inherit;border-radius:9px;padding:4px 12px;font-size:14px;font-weight:800}
+.wn-arrow:disabled{opacity:.3}
+.wn-label{font-size:13px;font-weight:800;color:var(--dim);min-width:160px;text-align:center}
+.wn-today{border:none;background:var(--orange);color:#fff;border-radius:9px;padding:4px 10px;font-size:12px;font-weight:800}
+.ro-banner{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;font-weight:700;color:var(--dim);margin:10px 0}
+.ro-banner.next{color:var(--orange)}
+.ro-day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:9px 0}
+.ro-dh{font-weight:800;font-size:14px;margin-bottom:7px}
+.ro-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:3px 0;border-top:1px solid var(--line)}
+.ro-n{color:var(--dim)}
+.ro-v{font-weight:700;text-align:right}
+.ro-empty{font-size:12px;color:var(--dim);font-style:italic}
+.ro-feel{font-size:12px;color:var(--dim);margin-top:6px}
+.ro-journal{font-size:12px;color:var(--dim);margin-top:6px;white-space:pre-wrap;line-height:1.45}
+.reqbox{display:flex;flex-direction:column;gap:8px}
+.reqlbl{font-weight:800;font-size:14px}
+.reqta{width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:9px;font:inherit;background:var(--card2);color:inherit;box-sizing:border-box}
+.reqsave{align-self:flex-start;border:none;background:var(--orange);color:#fff;border-radius:9px;padding:7px 14px;font-weight:800}
+.reqhint{font-size:12px;color:var(--dim)}
+</style>
+
 </head>
 <body>
 <div class="topbar">
@@ -302,6 +325,13 @@
     <button id="lockWeightBtn" style="display:none">🔒 Hide weight</button>
     <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
   </div>
+</div>
+
+<div class="weeknav" id="weeknav" style="display:none">
+  <button class="wn-arrow" id="wnPrev" aria-label="Previous week">&#9664;</button>
+  <div class="wn-label" id="wnLabel">This week</div>
+  <button class="wn-arrow" id="wnNext" aria-label="Next week">&#9654;</button>
+  <button class="wn-today" id="wnToday" style="display:none">&#9679; This week</button>
 </div>
 
 <div class="tabs" id="tabs"></div>
@@ -604,8 +634,10 @@ function renderTrends(){
 function render(){
   document.getElementById("segWeek").classList.toggle("on", mode==="week");
   document.getElementById("segProg").classList.toggle("on", mode==="progress");
-  document.getElementById("tabs").style.display = mode==="week" ? "flex" : "none";
-  if(mode==="progress"){ renderProgress(); return; }
+  try{ if(typeof updateWeekNav==="function") updateWeekNav(); }catch(e){}
+  if(mode==="progress"){ try{weekNav.offset=0;}catch(e){} document.getElementById("tabs").style.display="none"; renderProgress(); return; }
+  if(typeof weekNav!=="undefined" && weekNav.offset!==0){ renderWeekView(); return; }
+  document.getElementById("tabs").style.display = "flex";
   renderWeek();
 }
 
@@ -1217,7 +1249,7 @@ document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
 // Load the active profile's plan from the server (falls back to the built-in DEFAULT_PLAN if none).
-function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); mem={days:{}}; loadState(); render(); }
+function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); mem={days:{}}; loadState(); try{weekNav.offset=0; archiveCurrentPlan(); loadWeekList();}catch(e){} render(); }
 async function loadPlan(){
   try{
     const r=await fetch('/api/plan/'+PROFILE); if(!r.ok) return;
@@ -1229,7 +1261,109 @@ async function loadPlan(){
   }catch(e){}
 }
 
-loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000);
+/* ===== Week navigation (history view-only + next-week preview) — additive, isolated ===== */
+let weekNav = { offset:0, list:null, cache:{} };
+function isoAddDays(iso,n){ const d=new Date(iso+"T00:00:00"); d.setDate(d.getDate()+n); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function mdOf(iso){ const d=new Date(iso+"T00:00:00"); return (d.getMonth()+1)+"/"+d.getDate(); }
+function weekRangeLabel(startIso){ const e=isoAddDays(startIso,6); const a=new Date(startIso+"T00:00:00"), b=new Date(e+"T00:00:00"); const mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; return "Week of "+mo[a.getMonth()]+" "+a.getDate()+"–"+(a.getMonth()===b.getMonth()? b.getDate() : mo[b.getMonth()]+" "+b.getDate()); }
+function archiveCurrentPlan(){ try{ fetch('/api/wkplan-'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(PLAN)}); }catch(e){} }
+async function loadWeekList(){ try{ const r=await fetch('/api/_weeks?profile='+PROFILE); if(r.ok){ weekNav.list=await r.json(); updateWeekNav(); } }catch(e){} }
+function navTargets(){
+  const cur={start:PLAN.start, key:pkey(), kind:'current', title:PLAN.title||weekRangeLabel(PLAN.start)};
+  const pasts=(weekNav.list||[]).filter(x=> x.start < PLAN.start).map(x=>({start:x.start, key:x.key, kind:'past', title:x.title||weekRangeLabel(x.start)}));
+  const ns=isoAddDays(PLAN.start,7);
+  const next={start:ns, key:null, kind:'next', title:weekRangeLabel(ns)};
+  const arr=[...pasts, cur, next]; arr.sort((a,b)=> a.start<b.start?-1:1); return arr;
+}
+function curNavIndex(arr){ return arr.findIndex(x=>x.kind==='current'); }
+function gotoWeek(delta){ const arr=navTargets(); const ci=curNavIndex(arr); const i=Math.max(0,Math.min(arr.length-1, ci+weekNav.offset+delta)); weekNav.offset=i-ci; if(mode!=='week') mode='week'; render(); }
+function backToCurrent(){ weekNav.offset=0; render(); }
+function updateWeekNav(){
+  const bar=document.getElementById('weeknav'); if(!bar) return;
+  bar.style.display = (mode==='week') ? 'flex' : 'none';
+  const arr=navTargets(); const ci=curNavIndex(arr); const i=Math.max(0,Math.min(arr.length-1, ci+weekNav.offset)); const w=arr[i];
+  const lab=document.getElementById('wnLabel'); if(lab) lab.textContent = w.title + (w.kind==='current'?' · this week':w.kind==='next'?' · planned':'');
+  const pv=document.getElementById('wnPrev'), nx=document.getElementById('wnNext'), td=document.getElementById('wnToday');
+  if(pv) pv.disabled=(i<=0); if(nx) nx.disabled=(i>=arr.length-1);
+  if(td) td.style.display=(weekNav.offset!==0)?'inline-block':'none';
+}
+async function fetchPastWeek(w){
+  try{
+    const lr=await fetch('/api/'+w.key); const logs= lr.ok? await lr.json() : {days:{}};
+    let plan=null;
+    const pr=await fetch('/api/wkplan-'+w.key); if(pr.ok){ const pj=await pr.json(); if(pj && Array.isArray(pj.days) && pj.weekId) plan=pj; }
+    if(!plan && typeof DEFAULT_PLAN!=='undefined' && DEFAULT_PLAN && w.start===DEFAULT_PLAN.start) plan=DEFAULT_PLAN;
+    weekNav.cache[w.key]={plan,logs};
+  }catch(e){ weekNav.cache[w.key]={plan:null,logs:{days:{}}}; }
+}
+function roSet(v){ if(!v) return ''; if(v.w!=null&&v.w!=='') return esc(v.w)+'lb'+((v.reps||v.r)?(' ×'+esc(v.reps||v.r)):'')+(v.done?' ✓':''); if(v.reps||v.r) return esc(v.reps||v.r)+' reps'+(v.done?' ✓':''); return v.done?'✓':''; }
+function renderPastDayLogs(day, dlog){
+  if(!dlog) return '<div class="ro-empty">Not logged</div>';
+  let h=''; const sets=dlog.sets||{};
+  if(Array.isArray(day.items)){
+    day.items.forEach((it,ii)=>{
+      const vals=[]; const wu=sets[ii+'-w']; if(wu&&roSet(wu)) vals.push('wu '+roSet(wu));
+      for(let s=0;s<(it.s||0);s++){ const v=sets[ii+'-'+s]; if(v){ const t=roSet(v); if(t) vals.push(t); } }
+      h+='<div class="ro-row"><span class="ro-n">'+esc(it.n)+'</span><span class="ro-v">'+(vals.length?vals.join(' · '):'—')+'</span></div>';
+    });
+  }
+  const f=dlog.fields||{}; const fp=Object.keys(f).filter(k=>f[k]!=='' ).map(k=>esc(k)+': '+esc(f[k]));
+  if(fp.length){ const nm=(day.run&&day.run.title)||day.name||'Logged'; h+='<div class="ro-row"><span class="ro-n">'+esc(nm)+'</span><span class="ro-v">'+fp.join(' · ')+'</span></div>'; }
+  (dlog.extra||[]).forEach(ex=>{ const ef=(ex.st&&ex.st.fields)||{}; const ep=Object.keys(ef).filter(k=>ef[k]!=='').map(k=>esc(k)+': '+esc(ef[k])); h+='<div class="ro-row"><span class="ro-n">'+esc(ex.name||'Added')+'</span><span class="ro-v">'+(ep.join(' · ')||'✓')+'</span></div>'; });
+  if(dlog.mods) Object.values(dlog.mods).forEach(m=>{ const mf=(m&&m.fields)||{}; const mp=Object.keys(mf).filter(k=>mf[k]!=='').map(k=>esc(k)+': '+esc(mf[k])); if(mp.length) h+='<div class="ro-row"><span class="ro-n">add-on</span><span class="ro-v">'+mp.join(' · ')+'</span></div>'; });
+  if(dlog.feel) h+='<div class="ro-feel">Felt: '+esc(dlog.feel)+'</div>';
+  if(dlog.journal&&(''+dlog.journal).trim()) h+='<div class="ro-journal">'+esc(dlog.journal)+'</div>';
+  return h||'<div class="ro-empty">Not logged</div>';
+}
+function renderPastWeek(w, data){
+  const c=document.getElementById('content'); const plan=data.plan, logs=data.logs||{days:{}};
+  let h='<div class="ro-banner">📖 Past week · view only</div>';
+  if(!plan){ c.innerHTML=h+'<div class="card">Logged data exists, but this week’s plan wasn’t archived, so detailed labels aren’t available.</div>'; return; }
+  h+='<div class="ahead"><h1>'+esc(plan.title||weekRangeLabel(w.start))+'</h1><div class="when">'+esc(w.start)+'</div></div>';
+  plan.days.forEach((day,i)=>{ const dlog=(logs.days||{})[i]; h+='<div class="ro-day"><div class="ro-dh">'+esc(day.d)+' '+esc(day.date||mdOf(isoAddDays(w.start,i)))+' · '+esc(day.name)+'</div>'+renderPastDayLogs(day,dlog)+'</div>'; });
+  c.innerHTML=h;
+}
+function buildCarryForward(){ const ns=isoAddDays(PLAN.start,7); const p=JSON.parse(JSON.stringify(PLAN)); p.start=ns; p.weekId=ns; p.title=weekRangeLabel(ns); (p.days||[]).forEach((d,i)=>{ d.date=mdOf(isoAddDays(ns,i)); }); return p; }
+function renderPlanDaySummary(day){
+  let h='';
+  if(Array.isArray(day.items)) day.items.forEach(it=>{ const tgt=it.target?(' — ~'+esc(it.target)+' lb'):''; h+='<div class="ro-row"><span class="ro-n">'+esc(it.n)+'</span><span class="ro-v">'+esc((it.s||'')+'×'+(it.r||''))+tgt+'</span></div>'; });
+  if(day.run) h+='<div class="ro-row"><span class="ro-n">'+esc(day.run.title||'Run')+'</span><span class="ro-v">'+esc(day.run.dist||'')+'</span></div>';
+  if(day.desc) h+='<div class="ro-feel">'+esc(day.desc)+'</div>';
+  (day.addons||[]).forEach(a=>{ h+='<div class="ro-row"><span class="ro-n">'+esc(a.name||'add-on')+'</span><span class="ro-v">'+esc((a.run&&a.run.dist)||'')+'</span></div>'; });
+  return h||'<div class="ro-empty">Rest / optional</div>';
+}
+async function renderNextPreview(w){
+  const c=document.getElementById('content'); const p=buildCarryForward();
+  let existing=''; try{ const r=await fetch('/api/planreq-'+PROFILE); if(r.ok){ const j=await r.json(); if(j&&j.forWeek===w.start&&j.notes) existing=j.notes; } }catch(e){}
+  let h='<div class="ro-banner next">📅 Next week · planned — the Sunday coach will refine this</div>';
+  h+='<div class="ahead"><h1>'+esc(p.title)+'</h1><div class="when">'+esc(p.start)+' · carry-forward preview</div></div>';
+  h+='<div class="card reqbox"><div class="reqlbl">Adjustments / requests for next week</div><textarea id="nextNotes" class="reqta" placeholder="e.g. add a swim Thursday, go lighter on deadlifts, more core, travel Wed...">'+esc(existing)+'</textarea><button class="reqsave" id="nextNotesSave">Save requests</button><span class="reqhint" id="reqhint"></span></div>';
+  p.days.forEach((day)=>{ h+='<div class="ro-day"><div class="ro-dh">'+esc(day.d)+' '+esc(day.date)+' · '+esc(day.name)+'</div>'+renderPlanDaySummary(day)+'</div>'; });
+  c.innerHTML=h;
+  const sv=document.getElementById('nextNotesSave'); if(sv) sv.onclick=()=>{ const txt=document.getElementById('nextNotes').value; try{ fetch('/api/planreq-'+PROFILE,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({forWeek:w.start,notes:txt,ts:Date.now()})}); const hh=document.getElementById('reqhint'); if(hh) hh.textContent='Saved ✓ — the coach will use this Sunday'; }catch(e){ const hh=document.getElementById('reqhint'); if(hh) hh.textContent='Save failed'; } };
+}
+function renderWeekView(){
+  try{
+    const arr=navTargets(); const ci=curNavIndex(arr); const i=Math.max(0,Math.min(arr.length-1, ci+weekNav.offset)); const w=arr[i];
+    updateWeekNav();
+    if(w.kind==='current'){ weekNav.offset=0; document.getElementById('tabs').style.display='flex'; renderWeek(); return; }
+    document.getElementById('tabs').style.display='none';
+    if(w.kind==='next'){ renderNextPreview(w); return; }
+    const cached=weekNav.cache[w.key];
+    if(!cached){ document.getElementById('content').innerHTML='<div class="card">Loading week…</div>'; fetchPastWeek(w).then(()=>{ if(weekNav.offset!==0) renderWeekView(); }); return; }
+    renderPastWeek(w, cached);
+  }catch(e){ try{ weekNav.offset=0; document.getElementById('tabs').style.display='flex'; renderWeek(); }catch(_){} }
+}
+function initWeekNav(){
+  const pv=document.getElementById('wnPrev'), nx=document.getElementById('wnNext'), td=document.getElementById('wnToday');
+  if(pv) pv.onclick=()=>gotoWeek(-1);
+  if(nx) nx.onclick=()=>gotoWeek(1);
+  if(td) td.onclick=backToCurrent;
+  try{ archiveCurrentPlan(); loadWeekList(); }catch(e){}
+}
+/* ===== end week navigation ===== */
+
+loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000); initWeekNav();
 loadStrava().then(()=>render()); syncStrava().then(loadStrava).then(()=>render());
 </script>
 </body>

@@ -35,6 +35,35 @@ app.get('/api/_export', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'export error' }); }
 });
 
+// List week records for a profile (for the in-app week navigator). GET /api/_weeks?profile=brendan
+app.get('/api/_weeks', async (req, res) => {
+  try {
+    const profile = (req.query.profile || 'brendan').replace(/[^a-z0-9]/gi, '') || 'brendan';
+    let rows = [];
+    if (pool) { const r = await pool.query('SELECT week_id, data FROM workout_state'); rows = r.rows.map(x => ({ key: x.week_id, data: x.data })); }
+    else { rows = Object.keys(mem).map(k => ({ key: k, data: mem[k] })); }
+    const byKey = {}; rows.forEach(r => { byKey[r.key] = r.data; });
+    const isWeekKey = (k) => profile === 'brendan'
+      ? /^\d{4}-\d{2}-\d{2}[a-z]?$/.test(k)
+      : new RegExp('^' + profile + '-\\d{4}-\\d{2}-\\d{2}[a-z]?$').test(k);
+    const out = {};
+    rows.forEach(({ key, data }) => {
+      if (!isWeekKey(key)) return;
+      if (!data || typeof data !== 'object' || !data.days || Array.isArray(data.days)) return;
+      const plan = byKey['wkplan-' + key];
+      const hasPlan = !!(plan && Array.isArray(plan.days) && plan.weekId);
+      const dateStr = (key.match(/(\d{4}-\d{2}-\d{2})/) || [])[1] || key;
+      const start = (hasPlan && plan.start) || dateStr;
+      const title = (hasPlan && plan.title) || ('Week of ' + dateStr);
+      const hasLogs = Object.keys(data.days || {}).length > 0;
+      const prev = out[start];
+      if (!prev || (hasPlan && !prev.hasPlan)) out[start] = { key, start, title, hasPlan, hasLogs };
+    });
+    const list = Object.values(out).sort((a, b) => a.start < b.start ? -1 : 1);
+    res.json(list);
+  } catch (e) { console.error(e); res.status(500).json({ error: 'weeks error' }); }
+});
+
 // Serve data-driven plan files (app/plans/<profile>.json). 404 -> app uses its built-in fallback.
 app.get('/api/plan/:profile', (req, res) => {
   const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');
