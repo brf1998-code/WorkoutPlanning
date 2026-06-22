@@ -1,19 +1,19 @@
 {
   "weekId": "2026-06-22b",
-  "start": "2026-06-29",
-  "title": "Week of June 29 – July 5",
-  "subtitle": "Week 3 · Lock in — consolidate last week's targets (this week's sessions weren't in the backup yet, so loads hold). One quality run (Tue); everything else easy. Flush jogs = recovery.",
+  "start": "2026-06-22",
+  "title": "Week of June 22–28",
+  "subtitle": "Week 2 · Progression — targets set. One quality run (Tue); everything else easy. Easy flush jog after each lift.",
   "goals": [
-    "Own last week's weights — hit each target clean at RPE 8; no new jumps until they're logged",
-    "ONE hard run (Tuesday); every other run genuinely easy (HR ≤150) — flush jogs included",
-    "Hold mileage ~12–13 mi — fix how you run easy before adding any volume",
-    "Protein ≥180g in the ~2200 deficit — weight's on pace, keep it steady"
+    "Hit the suggested weights at RPE 8 on the main lifts — small jumps, clean reps",
+    "ONE hard run (Tuesday) — open it up; keep every other run easy (HR ≤150)",
+    "Finish each lift day with a 1–1.5 mi easy flush jog — no more hard post-lift miles",
+    "Stay consistent and keep protein ≥180g"
   ],
-  "review": "Week 3 is a lock-in week. This plan was built before this week's sessions made it into the data backup, so instead of stacking another jump onto weights you haven't logged yet, we hold last week's targets and own them: Squat 195×5, Bench 180×5, OHP 110×8, Deadlift 260×4, Row & Pulldown 140 — all at RPE 8. Hit them clean and the next bump comes automatically once they're in. Body-comp is tracking well: 202.9 → 199 lb, on pace for 189.9 by Aug 14 — keep protein ≥180g in the ~2200 deficit. Running still needs the same discipline. The one week we have heart-rate for, 86% of your run time was Zone 3–5, and even the short flush jogs hit Zone 4–5 (one peaked at 173). So again: Tuesday is your only hard run — open it up — and everything else stays genuinely easy (≤150); flush jogs are recovery, not training. We're holding mileage at ~12–13 mi (7-day load 12.3, acute:chronic 0.68 — plenty of room, but discipline first). Hard days hard, easy days easy.",
+  "review": "Calibration done, and it was a strong, consistent week — 6 sessions, every baseline logged, and weight already moving 202.9 → 199 lb (on pace for 189.9 by Aug 14). Lifts looked good — Squat 185×5, Bench 175×5, OHP 105×8, Deadlift 245×4 (felt Great), Row to 135, Pulldown to 130 — so Week 2 now carries suggested weights on every main lift; chase the targets at RPE 8. The fix this week is running: last week 86% of your run time was Zone 3–5 (only 14% easy). So we polarize — Tuesday is your ONE hard 'release' run (push into Zone 4 and enjoy it), and every other run stays genuinely easy (HR ≤150), including a short easy flush jog to finish each lift day. Hard day hard, easy days easy — that's what actually builds the base while protecting your lifting in the deficit.",
   "days": [
     {
       "d": "Mon",
-      "date": "6/29",
+      "date": "6/22",
       "name": "Lower — Squat Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -28,7 +28,7 @@
           "n": "Back Squat",
           "s": 4,
           "r": "5",
-          "note": "Lock in ~195×5 @ RPE 8 — own last week's target. Brace, sit back, drive knees out, hit depth; stop ~1 rep shy.",
+          "note": "Work up to ~195 lb top set @ RPE 8 (last wk 185×5). Stop ~1 rep shy of failure.",
           "focus": "Brace your core, sit back, drive knees out, hit depth.",
           "warmupSet": true,
           "target": "195"
@@ -37,7 +37,7 @@
           "n": "Romanian Deadlift",
           "s": 3,
           "r": "8",
-          "note": "~195×8, controlled — own the eccentric (hamstrings cramped early in the block, so warm them well).",
+          "note": "RPE 8 — ~195 lb, controlled. Own the eccentric (hamstrings cramped on you last wk).",
           "focus": "Hinge at the hips, soft knees, feel the hamstring stretch.",
           "warmupSet": true,
           "target": "195"
@@ -120,7 +120,7 @@
     },
     {
       "d": "Tue",
-      "date": "6/30",
+      "date": "6/23",
       "name": "Quality Run + Core",
       "block": "5:00–7:00 AM",
       "dur": "~45 min",
@@ -188,7 +188,7 @@
     },
     {
       "d": "Wed",
-      "date": "7/1",
+      "date": "6/24",
       "name": "Upper — Press Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -203,7 +203,7 @@
           "n": "Bench Press",
           "s": 4,
           "r": "5",
-          "note": "Confirm ~180×5 @ RPE 8 — clean reps, controlled descent to the chest.",
+          "note": "Work up to ~180×5 @ RPE 8 (last wk 175×5).",
           "focus": "Shoulder blades pinched, controlled descent to the chest.",
           "warmupSet": true,
           "target": "180"
@@ -212,7 +212,7 @@
           "n": "Overhead Press",
           "s": 3,
           "r": "8",
-          "note": "~110×8 @ RPE 8 — brace glutes and core, press straight up, don't lean back.",
+          "note": "RPE 8 — ~110×8 (dialed in at 105 last wk).",
           "focus": "Brace glutes and core, press straight up, don't lean back.",
           "warmupSet": true,
           "target": "110"
@@ -224,7 +224,7 @@
           "focus": "Flat back, pull to the lower ribs, squeeze the blades.",
           "warmupSet": true,
           "target": "140",
-          "note": "~140×8 — flat back, pull to the lower ribs, squeeze the blades."
+          "note": "Top set ~140×8 (last wk 135). Flat back, pull to lower ribs."
         },
         {
           "n": "Lat Pulldown",
@@ -233,7 +233,7 @@
           "focus": "Lead with the elbows, full stretch at the top. Start heavier — reach a working weight by set 1.",
           "warmupSet": true,
           "target": "140",
-          "note": "~140×10 — lead with the elbows, full stretch at the top."
+          "note": "Open at ~140×10 (last wk 130 — you had room)."
         },
         {
           "n": "Pushdown + Curl superset",
@@ -299,7 +299,7 @@
     },
     {
       "d": "Thu",
-      "date": "7/2",
+      "date": "6/25",
       "name": "Easy Run + Strength",
       "block": "5:00–7:00 AM",
       "dur": "~40 min",
@@ -374,7 +374,7 @@
     },
     {
       "d": "Fri",
-      "date": "7/3",
+      "date": "6/26",
       "name": "Full Body — Deadlift Focus",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
@@ -389,7 +389,7 @@
           "n": "Deadlift",
           "s": 4,
           "r": "4",
-          "note": "Lock in ~260×4 @ RPE 8 — bar over midfoot, flat back, push the floor away.",
+          "note": "Work up to ~260×4 @ RPE 8 (last wk 245×4 felt Great).",
           "focus": "Bar over midfoot, flat back, push the floor away.",
           "warmupSet": true,
           "target": "260"
@@ -401,7 +401,7 @@
           "focus": "Elbows up, upright torso, hit depth.",
           "warmupSet": true,
           "target": "80",
-          "note": "~80×8 — elbows up, upright torso, hit depth."
+          "note": "~80×8, upright torso."
         },
         {
           "n": "Incline DB Press",
@@ -410,14 +410,14 @@
           "focus": "Control the descent, press up and slightly together.",
           "warmupSet": true,
           "target": "115",
-          "note": "~115×10 — control the descent, press up and slightly together."
+          "note": "Match last wk (~115). Control the descent."
         },
         {
           "n": "Pull-ups",
           "s": 3,
           "r": "max",
           "repsIn": true,
-          "note": "Log reps — match or beat last week's total.",
+          "note": "Log reps — beat last week's total.",
           "focus": "Full hang to chin over the bar, no kipping."
         },
         {
@@ -474,7 +474,7 @@
     },
     {
       "d": "Sat",
-      "date": "7/4",
+      "date": "6/27",
       "name": "Calisthenics + Finishing Jog",
       "block": "Morning",
       "dur": "~40–50 min",
@@ -548,8 +548,7 @@
           "s": 1,
           "r": "~1–1.5 mi VERY easy",
           "noWeight": true,
-          "focus": "Relaxed shuffle, HR ≤150 — last week this hit 173 (Zone 4–5). If you can't keep it easy, just walk it.",
-          "note": "Relaxed shuffle, HR ≤150 — these have been creeping into Zone 4–5 (one hit 173). If you can't keep it easy, just walk it."
+          "focus": "Relaxed shuffle, HR ≤150 — last week this hit 173 (Zone 4–5). If you can't keep it easy, just walk it."
         }
       ],
       "stretches": [
@@ -561,7 +560,7 @@
     },
     {
       "d": "Sun",
-      "date": "7/5",
+      "date": "6/28",
       "name": "Yoga",
       "block": "Morning",
       "dur": "~60–75 min",
