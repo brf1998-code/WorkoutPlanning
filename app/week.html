@@ -463,7 +463,7 @@ const STALE_MS = 3*60*60*1000;
 function loadState(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s); }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
 function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length)||(d.mods&&Object.keys(d.mods).length))); }
-async function syncDown(){ try{ const r=await fetch('/api/'+pkey()); if(!r.ok) return; const remote=await r.json(); if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
+async function syncDown(){ try{ const k=pkey(); const r=await fetch('/api/'+k); if(!r.ok) return; if(k!==pkey()) return; const remote=await r.json(); if(k!==pkey()) return; if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
 async function syncUp(){ try{ await fetch('/api/'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
