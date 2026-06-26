@@ -261,9 +261,11 @@ app.get(/^\/(icon-\d+\.png|favicon\.ico)$/, (req, res) => {
 
 // Serve the apps
 app.get('/weight', (req, res) => {
+  res.set('Cache-Control','no-cache');
   res.sendFile(path.join(APP_DIR, 'weight.html'));
 });
 app.get('*', (req, res) => {
+  res.set('Cache-Control','no-cache');
   res.sendFile(path.join(APP_DIR, 'week.html'));
 });
 
