@@ -570,6 +570,33 @@ function parseTimeSec(str){ if(!str) return 0; const p=(""+str).split(":").map(N
 let stravaByDate = {};
 async function loadStrava(){ try{ const r=await fetch('/api/health-'+PROFILE); if(r.ok){ const d=await r.json(); stravaByDate={}; Object.entries((d&&d.days)||{}).forEach(([dt,v])=>{ if(v.workouts&&v.workouts.length) stravaByDate[dt]=v.workouts; }); } }catch(e){} }
 async function syncStrava(){ try{ await fetch('/api/strava/sync/'+PROFILE); }catch(e){} }
+let dietWL=null, dietHealth={};
+async function loadDiet(){ try{ const r=await fetch('/api/weight-log'); if(r.ok) dietWL=await r.json(); const h=await fetch('/api/health-'+PROFILE); if(h.ok){ const d=await h.json(); dietHealth=(d&&d.days)||{}; } }catch(e){} }
+function dietTdee(date){ const cal=(dietWL&&dietWL.cal)||{}; const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:450); const hd=dietHealth[date]; if(hd && hd.activeCalories!=null) return BMR+(+hd.activeCalories||0); const wc=(hd&&hd.workouts)?hd.workouts.reduce((a,x)=>a+(+x.calories||0),0):0; if(wc>0) return BMR+NEAT+wc; return BMR+NEAT; }
+function dietGoal(date){ const cal=(dietWL&&dietWL.cal)||{}; if(cal.smart===false) return cal.goal||2200; return Math.round(dietTdee(date)-(cal.deficit||700)); }
+function buildDietSection(){
+  if(!dietWL) return "";
+  const cal=dietWL.cal||{}, pg=cal.pgoal||180;
+  let md="\n---\n\n# Diet & Nutrition\n\n";
+  const ents=(dietWL.entries||[]).slice().sort((a,b)=> a.date<b.date?-1:1);
+  if(ents.length){ const last=ents[ents.length-1]; const wk=ents.filter(e=> e.date>=PLAN.start);
+    md+=`**Weight:** ${last.weight} lb (as of ${last.date})`;
+    if(wk.length>1){ const chg=last.weight-wk[0].weight; md+=` · ${chg<=0?'down':'up'} ${Math.abs(chg).toFixed(1)} lb this week`; }
+    const g=dietWL.goal; if(g&&g.weight){ md+=` · goal ${g.weight} lb by ${g.date}`; }
+    md+="\n\n";
+  }
+  let n=0,ks=0,ps=0,gs=0;
+  PLAN.days.forEach((day,i)=>{ const ds=dayISO(i); const arr=(cal.days&&cal.days[ds])||[]; if(!arr.length) return;
+    const t=arr.reduce((a,b)=>a+(+b.kcal||0),0), p=arr.reduce((a,b)=>a+(+b.protein||0),0), gl=dietGoal(ds);
+    n++; ks+=t; ps+=p; gs+=gl; const diff=t-gl;
+    md+=`### ${day.d} ${day.date} — ${t.toLocaleString()} kcal · ${p}g protein\n`;
+    md+=`- vs smart goal ${gl.toLocaleString()} kcal: ${diff<=0?(Math.abs(diff)+' under'):(diff+' over')} · protein ${p>=pg?'\u2713 hit '+pg+'g':(pg-p)+'g short of '+pg}\n`;
+    arr.forEach(e=>{ md+=`  - ${e.label||'item'} — ${(+e.kcal||0)} kcal${e.protein?(' \u00b7 '+(+e.protein)+'g'):''}\n`; });
+    md+="\n";
+  });
+  if(n){ md+=`**Week so far (${n} day${n>1?'s':''} logged):** avg ${Math.round(ks/n).toLocaleString()} kcal vs avg smart goal ${Math.round(gs/n).toLocaleString()} · avg ${Math.round(ps/n)}g protein (goal ${pg}g)\n`; }
+  return md;
+}
 function dayISO(i){ const d=new Date(PLAN.start+"T00:00:00"); d.setDate(d.getDate()+i); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function fmtShortDate(iso){ try{ return new Date(iso+"T00:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric'}); }catch(e){ return iso; } }
 function paceFromWorkout(w){ if(!w.distanceMi||!w.durationSec) return ""; const per=w.durationSec/w.distanceMi; return `${Math.floor(per/60)}:${String(Math.round(per%60)).padStart(2,"0")}/mi`; }
@@ -990,6 +1017,7 @@ function buildLog(){
     sessions.forEach((s,si)=>{ if(si>0) md+=`\n**+ ${s.def.name}**\n`; md+=logSession(s.def, s.st); });
     if(st._sessionStart && st._lastSet && st._lastSet>st._sessionStart) md+=`- Session time: ${fmtDur((st._ended||st._lastSet) - st._sessionStart)}\n`;
     if(st.feel) md+=`- Feel: ${st.feel}\n`; if(st.journal) md+=`- Journal: ${st.journal}\n`; md+=`\n`; });
+  md+=buildDietSection();
   if(intakes && intakes.length){
     md+=`\n---\n\n# New profile intake submissions\n_Build a personal plan + profile for each of these._\n\n`;
     intakes.forEach(it=>{ md+=`## ${it.name}\n`; (it.fields||[]).forEach(f=>{ md+=`- ${f[0]} — ${f[1]}\n`; }); md+=`\n`; });
@@ -1097,8 +1125,8 @@ document.getElementById("menu").onclick=(e)=>e.stopPropagation();
 document.getElementById("segWeek").onclick=()=>{ mode="week"; render(); };
 document.getElementById("segProg").onclick=()=>{ mode="progress"; render(); };
 document.getElementById("shareBtn").onclick=()=>{ closeMenu(); toast("Building image…"); setTimeout(()=>shareCard(cur),60); };
-document.getElementById("copyBtn").onclick=async ()=>{ const md=buildLog(); closeMenu(); try{ await navigator.clipboard.writeText(md); toast("Log copied — paste to Claude"); } catch(e){ const ta=document.createElement("textarea"); ta.value=md; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Log copied"); } };
-document.getElementById("exportBtn").onclick=()=>{ const md=buildLog(), fname=`log-${PLAN.weekId}.md`, blob=new Blob([md],{type:"text/markdown"}); closeMenu();
+document.getElementById("copyBtn").onclick=async ()=>{ await loadDiet(); const md=buildLog(); closeMenu(); try{ await navigator.clipboard.writeText(md); toast("Log copied — paste to Claude"); } catch(e){ const ta=document.createElement("textarea"); ta.value=md; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Log copied"); } };
+document.getElementById("exportBtn").onclick=async ()=>{ await loadDiet(); const md=buildLog(), fname=`log-${PLAN.weekId}.md`, blob=new Blob([md],{type:"text/markdown"}); closeMenu();
   if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob],fname)]})){ navigator.share({files:[new File([blob],fname,{type:"text/markdown"})], title:fname}).catch(()=>{}); }
   else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); toast("Downloaded — move to logs/"); } };
 document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; save(); tickTimer(); };
@@ -1363,7 +1391,7 @@ function initWeekNav(){
 }
 /* ===== end week navigation ===== */
 
-loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000); initWeekNav();
+loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000); initWeekNav(); loadDiet();
 loadStrava().then(()=>render()); syncStrava().then(loadStrava).then(()=>render());
 </script>
 </body>
