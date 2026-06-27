@@ -415,9 +415,9 @@
         {
           "n": "Pull-ups",
           "s": 3,
-          "r": "max",
+          "r": "8",
           "repsIn": true,
-          "note": "Log reps — beat last week's total.",
+          "note": "Leave ~2 in reserve — save max-effort pull-ups for Saturday.",
           "focus": "Full hang to chin over the bar, no kipping."
         },
         {
@@ -542,13 +542,6 @@
           "noWeight": true,
           "rest": "45s",
           "focus": "Straight line, squeeze glutes, no sag."
-        },
-        {
-          "n": "Easy Finishing Jog",
-          "s": 1,
-          "r": "~1–1.5 mi VERY easy",
-          "noWeight": true,
-          "focus": "Relaxed shuffle, HR ≤150 — last week this hit 173 (Zone 4–5). If you can't keep it easy, just walk it."
         }
       ],
       "stretches": [
@@ -556,6 +549,29 @@
         "Hip flexor stretch — 30s each side",
         "Hamstring stretch — 30s each side",
         "Calf stretch — 30s each side"
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog",
+            "dist": "~1–1.5 mi",
+            "detail": "Relaxed shuffle to finish — very easy, just flush the legs. Walk if you need to.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1–2 · very easy recovery",
+              "warmup": "easy",
+              "main": "≤150 bpm (expect drift after the lift — fine)",
+              "cool": "easy",
+              "note": "This is recovery, not training. Post-lift HR runs hot from heat/fatigue — keep the effort easy or walk it."
+            }
+          }
+        }
       ]
     },
     {

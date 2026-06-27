@@ -242,6 +242,7 @@
   .timerbar{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(16px + env(safe-area-inset-bottom));
     background:var(--text); color:var(--card); border-radius:999px; padding:9px 8px 9px 18px; display:none; gap:14px; align-items:center; box-shadow:var(--shadow-lg); z-index:25}
   .timerbar.done{background:var(--green)}
+  .timerbar.go{background:var(--orange); color:#fff}
   .timerbar .tcol{display:flex; flex-direction:column; align-items:flex-start; line-height:1}
   .timerbar .tlabel{font-size:9px; text-transform:uppercase; letter-spacing:.08em; opacity:.65; font-weight:800; margin-bottom:3px}
   .timerbar .tval{font-size:17px; font-weight:800; font-variant-numeric:tabular-nums}
@@ -320,7 +321,6 @@
   <div class="menu" id="menu">
     <button id="shareBtn">📷 Share to Strava</button>
     <button id="copyBtn">📋 Copy log</button>
-    <button id="exportBtn">⬆ Export week log</button>
     <button id="intakeBtn">➕ New profile intake</button>
     <button id="lockWeightBtn" style="display:none">🔒 Hide weight</button>
     <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
@@ -338,10 +338,11 @@
 <div class="wrap" id="content"></div>
 
 <div class="timerbar" id="timerbar">
-  <div class="tcol"><span class="tlabel">Rest</span><span class="tval" id="tRest">0:00</span></div>
+  <div class="tcol"><span class="tlabel" id="tRestLabel">Rest</span><span class="tval" id="tRest">0:00</span></div>
+  <button class="treset" id="tPause" title="Pause / resume">⏸</button>
   <div class="sep"></div>
   <div class="tcol"><span class="tlabel">Session</span><span class="tval" id="tSession">0:00</span></div>
-  <button class="treset" id="tReset" title="Reset rest timer">↺</button>
+  <button class="treset" id="tReset" title="Restart rest">↺</button>
 </div>
 <div class="toast" id="toast"></div>
 <div id="shareStage"></div>
@@ -864,25 +865,34 @@ function renderCustom(ci, sx, ci_i){
 }
 
 // ---- timer ----
-function markSetTime(){ const st=dayState(cur); if(!st._sessionStart) st._sessionStart=Date.now(); st._lastSet=Date.now(); st._ended=null; }
+function markSetTime(restTarget){ const st=dayState(cur); if(!st._sessionStart) st._sessionStart=Date.now(); st._lastSet=Date.now(); st._ended=null; st._restTarget=(restTarget>0?restTarget:90); st._pausedAt=null; }
 function tickTimer(){
   const bar=document.getElementById("timerbar"), st=dayState(cur), day=PLAN.days[cur];
   if(day.type!=="lift" || !st._sessionStart){ bar.style.display="none"; return; }
   const u=liftUnits(day,st); const complete=u.total>0&&u.done===u.total;
   if(complete && !st._ended){ st._ended=Date.now(); save(); }
   if(!complete && st._ended){ st._ended=null; }
-  if(!st._lastSet || (!st._ended && Date.now()-st._lastSet>STALE_MS)){ bar.style.display="none"; return; }
+  if(!st._lastSet || (!st._ended && !st._pausedAt && Date.now()-st._lastSet>STALE_MS)){ bar.style.display="none"; return; }
   bar.style.display="flex"; bar.classList.toggle("done", !!st._ended);
-  const refEnd = st._ended || Date.now();
-  document.getElementById("tRest").textContent = st._ended ? "—" : fmtDur(Date.now()-st._lastSet);
-  document.getElementById("tSession").textContent = fmtDur(refEnd - st._sessionStart);
+  const sessRef = st._ended || st._pausedAt || Date.now();
+  document.getElementById("tSession").textContent = fmtDur(sessRef - st._sessionStart);
+  const restEl=document.getElementById("tRest"), labEl=document.getElementById("tRestLabel"), pBtn=document.getElementById("tPause");
+  if(st._ended){ restEl.textContent="—"; if(labEl) labEl.textContent="Rest"; bar.classList.remove("go"); if(pBtn) pBtn.style.display="none"; return; }
+  if(pBtn) pBtn.style.display="";
+  const ref = st._pausedAt || Date.now();
+  const elapsed = Math.max(0, Math.round((ref - st._lastSet)/1000));
+  const target = st._restTarget>0 ? st._restTarget : 90;
+  const paused = !!st._pausedAt;
+  if(elapsed < target){ restEl.textContent=(paused?"⏸ ":"")+fmtDur((target-elapsed)*1000); if(labEl) labEl.textContent="Rest"; bar.classList.remove("go"); }
+  else { restEl.textContent=(paused?"⏸ ":"+")+fmtDur((elapsed-target)*1000); if(labEl) labEl.textContent="Work"; bar.classList.add("go"); }
+  if(pBtn) pBtn.textContent = paused ? "▶" : "⏸";
 }
 
 // ---- handlers ----
 function stForSx(sx){ return sessionsFor(cur)[sx].st; }
 function attachHandlers(){
   const c=document.getElementById("content"), q=sel=>c.querySelectorAll(sel);
-  q("[data-k]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) v.rest=Math.round((now-st._lastSet)/1000); markSetTime(); } save(); render(); });
+  q("[data-k]").forEach(b=> b.onclick=()=>{ const s=sessionsFor(cur)[+b.dataset.sx]; const st=s.st; const ii=+(String(b.dataset.k).split("-")[0]); const it=((s.def.items||s.def.strength||[])[ii])||{}; const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) v.rest=Math.round((now-st._lastSet)/1000); markSetTime(recRestSec(it)); } save(); render(); });
   q("[data-w]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.w]||(st.sets[inp.dataset.w]={}); v.w=inp.value; save(); });
   q("[data-r]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.r]||(st.sets[inp.dataset.r]={}); v.r=inp.value; save(); });
   q("[data-ssw]").forEach(inp=> inp.oninput=()=>{ const [k,li]=inp.dataset.ssw.split("."); const st=stForSx(+inp.dataset.sx); const v=st.sets[k]||(st.sets[k]={}); v.ws=v.ws||{}; v.ws[li]=inp.value; save(); });
@@ -890,7 +900,7 @@ function attachHandlers(){
   q("[data-sk]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); st.stretches[b.dataset.sk]=!st.stretches[b.dataset.sk]; save(); render(); });
   q("[data-iname]").forEach(inp=> inp.oninput=()=>{ const s=sessionsFor(cur)[+inp.dataset.sx]; (s.def.items||s.def.strength)[+inp.dataset.iname].n=inp.value; save(); });
   q("[data-cn]").forEach(inp=> inp.oninput=()=>{ stForSx(+inp.dataset.sx).custom[+inp.dataset.cn].n=inp.value; save(); });
-  q("[data-cchk]").forEach(b=> b.onclick=()=>{ const [ci,si]=b.dataset.cchk.split("."); const st=stForSx(+b.dataset.sx); const se=st.custom[+ci].sets[+si]; se.done=!se.done; if(se.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) se.rest=Math.round((now-st._lastSet)/1000); markSetTime(); } save(); render(); });
+  q("[data-cchk]").forEach(b=> b.onclick=()=>{ const [ci,si]=b.dataset.cchk.split("."); const st=stForSx(+b.dataset.sx); const se=st.custom[+ci].sets[+si]; se.done=!se.done; if(se.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) se.rest=Math.round((now-st._lastSet)/1000); markSetTime(90); } save(); render(); });
   q("[data-cw]").forEach(inp=> inp.oninput=()=>{ const [ci,si]=inp.dataset.cw.split("."); stForSx(+inp.dataset.sx).custom[+ci].sets[+si].w=inp.value; save(); });
   q("[data-cr]").forEach(inp=> inp.oninput=()=>{ const [ci,si]=inp.dataset.cr.split("."); stForSx(+inp.dataset.sx).custom[+ci].sets[+si].r=inp.value; save(); });
   q("[data-caddset]").forEach(b=> b.onclick=()=>{ stForSx(+b.dataset.sx).custom[+b.dataset.caddset].sets.push({}); save(); render(); });
@@ -1126,10 +1136,8 @@ document.getElementById("segWeek").onclick=()=>{ mode="week"; render(); };
 document.getElementById("segProg").onclick=()=>{ mode="progress"; render(); };
 document.getElementById("shareBtn").onclick=()=>{ closeMenu(); toast("Building image…"); setTimeout(()=>shareCard(cur),60); };
 document.getElementById("copyBtn").onclick=async ()=>{ await loadDiet(); const md=buildLog(); closeMenu(); try{ await navigator.clipboard.writeText(md); toast("Log copied — paste to Claude"); } catch(e){ const ta=document.createElement("textarea"); ta.value=md; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); toast("Log copied"); } };
-document.getElementById("exportBtn").onclick=async ()=>{ await loadDiet(); const md=buildLog(), fname=`log-${PLAN.weekId}.md`, blob=new Blob([md],{type:"text/markdown"}); closeMenu();
-  if(navigator.share && navigator.canShare && navigator.canShare({files:[new File([blob],fname)]})){ navigator.share({files:[new File([blob],fname,{type:"text/markdown"})], title:fname}).catch(()=>{}); }
-  else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; a.click(); toast("Downloaded — move to logs/"); } };
-document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; save(); tickTimer(); };
+document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; st._pausedAt=null; save(); tickTimer(); };
+document.getElementById("tPause").onclick=()=>{ const st=dayState(cur); if(st._pausedAt){ st._lastSet += (Date.now()-st._pausedAt); st._pausedAt=null; } else { st._pausedAt=Date.now(); } save(); tickTimer(); };
 
 // ---- Weight PIN lock (soft, per-device) ----
 const WPIN="2020";
