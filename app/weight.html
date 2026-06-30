@@ -67,8 +67,11 @@
   .foodsug .fsg .fl{font-weight:700; color:var(--text); font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
   .foodsug .fsg .fk{font-size:12px; color:var(--dim); font-weight:800; white-space:nowrap}
   .foodsug .fsg .fdel{color:var(--faint); background:none; border:none; font-size:16px; padding:0 2px; flex:0 0 auto}
-  .caldate{display:flex; align-items:center; gap:10px; margin-top:14px}
+  .caldate{display:flex; align-items:center; gap:8px; margin-top:14px; flex-wrap:wrap}
   .caldate .cdl{font-size:13px; color:var(--dim); font-weight:600}
+  .caldate .daynav{font-size:20px; font-weight:800; color:var(--orange); background:var(--card2); border:1px solid var(--line); border-radius:9px; padding:1px 12px; line-height:1.3}
+  .caldate .daynav:disabled{opacity:.3}
+  .caldate .cddate{font-weight:800; font-size:14px; min-width:104px; text-align:center}
   .caldate input[type=date]{background:var(--card2); border:1px solid var(--line); border-radius:9px; color:var(--text); padding:8px 10px; font-size:15px; outline:none}
   .calitem{display:flex; align-items:center; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line); font-size:14px}
   .calitem:last-child{border-bottom:none}
@@ -192,7 +195,7 @@
       <div class="calrem" id="proRem"></div>
     </div>
     <div class="calbar pro"><span id="proBarFill"></span></div>
-    <div class="caldate"><span class="cdl">Logging for</span><input type="date" id="calDateIn" onchange="setCalDate(this.value)"><button class="linkbtn" id="calTodayBtn" onclick="setCalDate('')" style="display:none">↺ Today</button></div>
+    <div class="caldate"><button class="daynav" id="calPrev" onclick="stepCalDate(-1)" title="Previous day">‹</button><span class="cddate" id="calDateLabel">Today</span><button class="daynav" id="calNext" onclick="stepCalDate(1)" title="Next day">›</button><input type="date" id="calDateIn" onchange="setCalDate(this.value)"><button class="linkbtn" id="calTodayBtn" onclick="setCalDate('')" style="display:none">↺ Today</button></div>
     <input type="text" id="calLabel" placeholder="what — type to search your foods" autocomplete="off" style="width:100%; margin-top:10px; background:var(--card2); border:1px solid var(--line); border-radius:10px; color:var(--text); padding:11px 12px; font-size:16px; outline:none">
     <div id="foodSuggest" class="foodsug"></div>
     <div class="entry-row" style="margin-top:8px">
@@ -322,6 +325,8 @@ function refresh(){ updateLatest(); renderCal(); updateChart(); updateHistory();
 // ---- daily calories ----
 function calToday(){ if(!calDate) calDate=today(); return cal.days[calDate] || []; }
 function setCalDate(v){ calDate = v || today(); renderCal(); }
+function stepCalDate(n){ const base=calDate||today(); const d=new Date(base+'T00:00:00'); d.setDate(d.getDate()+n); const ns=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; if(ns>today()) return; calDate=ns; renderCal(); }
+function calDateFriendly(ds){ if(ds===today()) return 'Today'; const d=new Date(ds+'T00:00:00'); const y=new Date(); y.setDate(y.getDate()-1); const yds=`${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,'0')}-${String(y.getDate()).padStart(2,'0')}`; if(ds===yds) return 'Yesterday'; return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}); }
 function renderCal(){
   const list=calToday();
   const total=list.reduce((a,b)=>a+(+b.kcal||0),0);
@@ -344,6 +349,8 @@ function renderCal(){
   document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>{ const gl=effGoal(x.ds); const pct=gl>0?Math.round(x.t/gl*100):0; const cls=Math.abs(pct-100)<=3?'ontarget':(pct<100?'undertgt':'overtgt'); const pOk=x.pt>=(cal.pgoal||180); return `<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${cls}" title="${x.t.toLocaleString()} / ${gl.toLocaleString()} kcal">${pct}%</div><div class="dd dp${pOk?' pok':''}" style="margin-top:2px">${x.pt}g</div></div>`; }).join('')+`</div>` : '';
   const di=document.getElementById('calDateIn'); if(di) di.value=calDate;
   const tb=document.getElementById('calTodayBtn'); if(tb) tb.style.display = (calDate===today())?'none':'inline-block';
+  const dl=document.getElementById('calDateLabel'); if(dl) dl.textContent=calDateFriendly(calDate||today());
+  const nx=document.getElementById('calNext'); if(nx) nx.disabled=((calDate||today())>=today());
   const lbl=document.getElementById('calLabel'); if(lbl){ lbl.oninput=renderFoodSuggest; lbl.onfocus=renderFoodSuggest; }
 }
 // food memory: searchable list of previously-logged foods (autofills kcal + protein)
