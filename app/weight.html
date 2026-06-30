@@ -79,6 +79,9 @@
   .calrecent .cd .dd{font-size:10px; color:var(--dim); font-weight:700; text-transform:uppercase}
   .calrecent .cd .dv{font-size:13px; font-weight:800; margin-top:2px}
   .calrecent .cd .dv.under{color:var(--green)} .calrecent .cd .dv.over{color:var(--amber)}
+  .calrecent .cd .dv.ontarget{color:var(--green)} .calrecent .cd .dv.undertgt{color:var(--amber)} .calrecent .cd .dv.overtgt{color:var(--red)}
+  .calrecent .cd .dp.pok{color:var(--green)}
+  .calrem.low{color:var(--amber)}
 
   /* Goal / glideslope */
   .goalset .grow{display:flex; gap:8px; align-items:center; margin-bottom:9px}
@@ -332,13 +335,13 @@ function renderCal(){
   document.getElementById('calGoalBtn').textContent=(cal.smart?'Smart':'Goal')+' · '+g+' · '+pg+'g';
   const sn=document.getElementById('calSmartNote');
   if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); const srcLabel=t.src==='Health'?'measured · Apple Health':t.src==='Strava'?'measured · Strava':'predicted from recent days'; sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burn − ${cal.deficit} deficit <span style="color:var(--faint)">(${srcLabel})</span>`; } else sn.style.display='none'; }
-  const remEl=document.getElementById('calRem'); remEl.textContent = rem>=0 ? rem.toLocaleString()+' left' : Math.abs(rem).toLocaleString()+' over'; remEl.className='calrem'+(rem<0?' over':'');
+  const remEl=document.getElementById('calRem'); { const pct=g>0?Math.round(total/g*100):0; const onT=Math.abs(pct-100)<=3; remEl.textContent = onT ? ('on target ✓ · '+pct+'%') : (rem>=0 ? (rem.toLocaleString()+' left · '+pct+'%') : (Math.abs(rem).toLocaleString()+' over · '+pct+'%')); remEl.className='calrem'+(onT?' done':(rem<0?' over':' low')); }
   const premEl=document.getElementById('proRem'); premEl.textContent = prem>0 ? prem+'g to go' : 'goal hit ✓'; premEl.className='calrem'+(prem>0?'':' done');
   const cbar=document.getElementById('calBarFill'); cbar.style.width=(g>0?Math.min(100,Math.round(total/g*100)):0)+'%'; cbar.parentElement.className='calbar'+(total>g?' over':'');
   const pbar=document.getElementById('proBarFill'); pbar.style.width=(pg>0?Math.min(100,Math.round(ptotal/pg*100)):0)+'%';
   document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()} kcal${e.protein?` · ${+e.protein}g`:''}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
   const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const arr=cal.days[ds]||[]; const t=arr.reduce((a,b)=>a+(+b.kcal||0),0); const pt=arr.reduce((a,b)=>a+(+b.protein||0),0); if(t>0||pt>0) days.push({ds,t,pt}); }
-  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>`<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${x.t<=effGoal(x.ds)?'under':'over'}" title="goal ${effGoal(x.ds).toLocaleString()} kcal">${x.t.toLocaleString()}</div><div class="dd" style="margin-top:2px">${x.pt}g</div></div>`).join('')+`</div>` : '';
+  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>{ const gl=effGoal(x.ds); const pct=gl>0?Math.round(x.t/gl*100):0; const cls=Math.abs(pct-100)<=3?'ontarget':(pct<100?'undertgt':'overtgt'); const pOk=x.pt>=(cal.pgoal||180); return `<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${cls}" title="${x.t.toLocaleString()} / ${gl.toLocaleString()} kcal">${pct}%</div><div class="dd dp${pOk?' pok':''}" style="margin-top:2px">${x.pt}g</div></div>`; }).join('')+`</div>` : '';
   const di=document.getElementById('calDateIn'); if(di) di.value=calDate;
   const tb=document.getElementById('calTodayBtn'); if(tb) tb.style.display = (calDate===today())?'none':'inline-block';
   const lbl=document.getElementById('calLabel'); if(lbl){ lbl.oninput=renderFoodSuggest; lbl.onfocus=renderFoodSuggest; }
