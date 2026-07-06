@@ -1,20 +1,20 @@
 {
-  "weekId": "2026-06-29b",
-  "start": "2026-06-29",
-  "title": "Week of June 29–July 5",
-  "subtitle": "Week 3 · Build — ramp bench 165/175/185/190; Squat to 200, Deadlift to 270.",
+  "weekId": "2026-07-06",
+  "start": "2026-07-06",
+  "title": "Week of July 6–12",
+  "subtitle": "Week 4 · Deload — key lifts back off ~10-15%, mileage down ~30%, clear Weeks 2-3 fatigue before the next build block.",
   "goals": [
-    "Bench ramp 165/175/185/190 — RPE 8 on the top set (unspotted → keep 1–2 reps left)",
-    "Push top sets: Squat → 200, Deadlift → 270, OHP → 120, Incline DB → 130",
-    "One hard run Tuesday (Z4); all other runs genuinely easy Z2 — Thursday proved you can do it",
-    "Protein ≥180g daily; stay inside the 2200 kcal target"
+    "Deload: squat/bench/deadlift/OHP ease back ~10-15% off last week's tops — clean reps, no grinding.",
+    "Mileage down to ~10 mi this week (from ~14); Tuesday's quality run is shorter too — still the one hard session.",
+    "More core variety this week (Bird Dog, Pallof Press, Woodchopper, Suitcase Carry) — per your note.",
+    "Protein ≥180g daily; stay inside the 2200 kcal target — trending well (199.4→195.3 lb since 6/18)."
   ],
-  "review": "Strong Week 2 — lifts moved well across the board. Squat hit 195 (Great), bench exceeded the target at 185 (Good, 1–2 RIR), OHP went to 115, deadlift hit 265 (exceeded 260), incline DB reached 125. Applied your journal note: bench now ramps per-set (165/175/185/190) instead of one flat number. Tuesday’s quality run was excellent — 6×2 min descending 7:30→6:27 pace. Thursday’s easy run was textbook: 3 mi fully Z2 (avg 142). Saturday post-calisthenics jog stayed Z2 (97% — perfect). Weekly run total 12.2 mi, A:C 1.18 — healthy range. Deficit working: 199.5 → 195.9 this week; protein averaged ~200g. Week 3 bumps the key lifts ~5 lb; runs hold at ~13 mi same easy/hard split. Right hip flexor was slightly tight Tuesday — flag if it worsens.",
+  "review": "Week 3 was a strong build: squat hit 200 (Good, though form loosened on the last rep), RDL exceeded to 205 but your back felt tight — noted. Bench nailed 190 (Good, 1-2 RIR held) and OHP got pushed to 125, but that turned into a push press — too heavy, pulling it back. Barbell row (145) and lat pulldown (150) both moved up and felt good. Deadlift hit a shockingly good 275, and switching goblet→front squat clearly worked (125, way more effort at the same reps) — keeping front squat going forward. Tuesday's hard run averaged HR 167 — that's expected and by design for your one hard session each week, not a red flag, but this week's version is trimmed to match the deload. Weekly mileage landed close to plan (~14 mi), acute:chronic ratio came out to ~1.37 (just over the 1.3 caution line), and this lands right on the Week-4 deload slot in the 3-4 week cadence — so mileage backs off ~30% and key lifts ease ~10-15% this week to bank recovery before the next build block. On your note that the run progression feels slow: understood — you handled ~30 mi/wk before, but that volume is exactly what preceded the crash driving this rebuild, so we're staying disciplined on the ramp for now; once this deload clears, the build rate picks back up. Added core variety per your ask (Bird Dog, Pallof Press, Woodchopper, Suitcase Carry mixed in, staples like Plank/Ab Wheel held). Weight trending well: 199.4→195.3 lb since 6/18, on pace for the mid-Aug goal. No HRV/sleep/resting-HR synced this week — worth checking your wearable sync if that continues.",
   "days": [
     {
       "d": "Mon",
-      "date": "6/29",
-      "name": "Lower — Squat Focus",
+      "date": "7/6",
+      "name": "Lower — Squat Focus (Deload)",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
       "type": "lift",
@@ -26,21 +26,21 @@
       "items": [
         {
           "n": "Back Squat",
-          "s": 4,
+          "s": 3,
           "r": "5",
-          "note": "Ramp 175/185/195/200 — top set ~200 @ RPE 8 (last wk 195, Great). Stop 1 rep short of failure.",
+          "note": "Ramp 155/165/175 — deload, ~12% off last week's 200 top. Clean depth and bracing, not load.",
           "focus": "Brace your core, sit back, drive knees out, hit depth.",
           "warmupSet": true,
-          "target": "200"
+          "target": "175"
         },
         {
           "n": "Romanian Deadlift",
           "s": 3,
           "r": "8",
-          "note": "Ramp 185/195/200 — top set ~200 lb, controlled eccentric (last wk 195, Great).",
+          "note": "Ramp 150/165/175 — back off from 205; your back felt tight last week, keep the hinge pain-free.",
           "focus": "Hinge at the hips, soft knees, feel the hamstring stretch.",
           "warmupSet": true,
-          "target": "200"
+          "target": "175"
         },
         {
           "n": "Walking Lunges",
@@ -48,15 +48,15 @@
           "r": "10/leg",
           "focus": "Long stride, front knee over ankle, stay tall.",
           "target": "55",
-          "note": "≈55 lb total — small step up from 53 last wk."
+          "note": "Hold ~55 lb (deload) — ease off the knee this week."
         },
         {
           "n": "Leg Curl",
           "s": 3,
           "r": "12",
           "focus": "Squeeze the hamstring, control the lowering.",
-          "target": "105",
-          "note": "~105 lb (last wk 100, felt fine)."
+          "target": "100",
+          "note": "~100 lb — slight deload from 105."
         },
         {
           "n": "Standing Calf Raise",
@@ -64,15 +64,15 @@
           "r": "15",
           "focus": "Full stretch at the bottom, pause at the top.",
           "target": "90",
-          "note": "~90 lb — match last week, full stretch + pause at top."
+          "note": "Hold at 90 — low-fatigue accessory, no need to deload here."
         },
         {
-          "n": "Dead Bug",
+          "n": "Bird Dog",
           "s": 2,
           "r": "10/side",
           "noWeight": true,
           "coreStart": true,
-          "focus": "Low back glued to the floor, move slow."
+          "focus": "Slow, opposite arm/leg extend together, hips stay level. New movement for core variety."
         },
         {
           "n": "Hollow Body Hold",
@@ -82,11 +82,11 @@
           "focus": "Lower back pressed down, ribs tucked."
         },
         {
-          "n": "Russian Twist",
+          "n": "Pallof Press",
           "s": 2,
-          "r": "20",
+          "r": "12/side",
           "noWeight": true,
-          "focus": "Rotate from the torso, not just the arms."
+          "focus": "Anti-rotation — resist the pull, brace hard. New movement for core variety."
         }
       ],
       "stretches": [
@@ -112,7 +112,7 @@
               "warmup": "easy",
               "main": "≤150 bpm",
               "cool": "easy",
-              "note": "Post-lift HR drifts from heat — don’t stress the number, just keep the effort conversational."
+              "note": "Post-lift HR drifts from heat — don't stress the number, just keep the effort conversational."
             }
           }
         }
@@ -120,22 +120,22 @@
     },
     {
       "d": "Tue",
-      "date": "6/30",
-      "name": "Quality Run + Core",
+      "date": "7/7",
+      "name": "Quality Run + Core (Deload)",
       "block": "5:00–7:00 AM",
-      "dur": "~45 min",
+      "dur": "~35 min",
       "type": "run",
       "warmup": [
         "5 min brisk walk → easy jog to raise the heart rate",
         "Leg swings — 10 front-to-back & side-to-side / leg",
         "Walking lunge with reach — 8/leg",
         "Ankle circles + 15 calf raises",
-        "World’s greatest stretch — 5/side"
+        "World's greatest stretch — 5/side"
       ],
       "run": {
-        "title": "Quality Run — your hard one",
-        "dist": "3.5–4 mi",
-        "detail": "Your ONE hard run this week. 10 min easy warm-up, then pick one: (a) 5–6 × 3 min hard / 90s easy jog (step up from 2 min last week), or (b) 20–25 min steady tempo. Check in on the right hip flexor before you open it up — if it’s cranky, back off one gear. 5–10 min easy cool-down.",
+        "title": "Quality Run — trimmed deload version",
+        "dist": "2.5–3 mi",
+        "detail": "Still your ONE hard run this week, just trimmed. 8 min easy warm-up, then 4×2 min hard / 90s easy jog (down from 5-6×3min last week), 5 min easy cool-down. Averaging HR ~167 like last week is expected on this session — that's the point of the one hard day, not a red flag. Ease off if the right hip flexor talks.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -143,10 +143,10 @@
         ],
         "hr": {
           "zone": "Zone 4 · threshold/hard (your Z4 = 172–186)",
-          "warmup": "10 min easy, < 150 bpm",
+          "warmup": "8 min easy, < 150 bpm",
           "main": "172–186 bpm on the hard portions",
           "cool": "easy, < 150 bpm",
-          "note": "This is the only run you push hard all week. If the hip flexor is more than a 2/10, drop to a tempo run instead of intervals."
+          "note": "Same intensity as always, less total volume this week — the deload is about dose, not effort."
         }
       },
       "strength": [
@@ -188,8 +188,8 @@
     },
     {
       "d": "Wed",
-      "date": "7/1",
-      "name": "Upper — Press Focus",
+      "date": "7/8",
+      "name": "Upper — Press Focus (Deload)",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
       "type": "lift",
@@ -201,30 +201,30 @@
       "items": [
         {
           "n": "Bench Press",
-          "s": 4,
+          "s": 3,
           "r": "5",
-          "note": "Ramp 165/175/185/190 — top set ~190 @ RPE 8. Unspotted → keep 1–2 reps left. Last wk top set 185, Good.",
+          "note": "Ramp 145/155/165 — deload, ~13% off last week's 190 top. Unspotted → 1–2 RIR, no grinding.",
           "focus": "Shoulder blades pinched, controlled descent to the chest.",
           "warmupSet": true,
-          "target": "190"
+          "target": "165"
         },
         {
           "n": "Overhead Press",
           "s": 3,
           "r": "8",
-          "note": "Ramp 100/110/120 — top set ~120 @ RPE 8 (last wk 115, Good).",
-          "focus": "Brace glutes and core, press straight up, don’t lean back.",
+          "note": "Ramp 85/95/105 — pull back meaningfully; 125 turned into a push press last week. Strict reps only.",
+          "focus": "Brace glutes and core, press straight up, don't lean back.",
           "warmupSet": true,
-          "target": "120"
+          "target": "105"
         },
         {
           "n": "Barbell Row",
-          "s": 4,
+          "s": 3,
           "r": "8",
           "focus": "Flat back, pull to the lower ribs, squeeze the blades.",
           "warmupSet": true,
-          "target": "140",
-          "note": "Ramp 125/135/140/140 — hit the 140 target (last wk sat at 135 all sets — you’ve got it)."
+          "target": "130",
+          "note": "Ramp 115/125/130 — ease off from 145."
         },
         {
           "n": "Lat Pulldown",
@@ -232,8 +232,8 @@
           "r": "10",
           "focus": "Lead with the elbows, full stretch at the top.",
           "warmupSet": true,
-          "target": "145",
-          "note": "Ramp 130/140/145 — top set ~145 (last wk 140, solid)."
+          "target": "135",
+          "note": "Ramp 120/130/135 — down from 150."
         },
         {
           "n": "Pushdown + Curl superset",
@@ -243,7 +243,7 @@
             "Triceps Pushdown",
             "Biceps Curl"
           ],
-          "focus": "Elbows pinned, full squeeze on every rep."
+          "focus": "Elbows pinned, full squeeze on every rep. Light deload — 70/55."
         },
         {
           "n": "Ab Wheel Rollout",
@@ -251,7 +251,7 @@
           "r": "8",
           "noWeight": true,
           "coreStart": true,
-          "focus": "Brace hard, don’t let the hips sag."
+          "focus": "Brace hard, don't let the hips sag."
         },
         {
           "n": "Side Plank",
@@ -261,11 +261,11 @@
           "focus": "Stack the hips, straight line head to feet."
         },
         {
-          "n": "Bicycle Crunch",
+          "n": "Standing Woodchopper",
           "s": 2,
-          "r": "20",
+          "r": "10/side",
           "noWeight": true,
-          "focus": "Slow, opposite elbow to knee, full extension."
+          "focus": "Rotate through the core, not just the arms. New movement for core variety."
         }
       ],
       "stretches": [
@@ -299,22 +299,22 @@
     },
     {
       "d": "Thu",
-      "date": "7/2",
-      "name": "Easy Run + Strength",
+      "date": "7/9",
+      "name": "Easy Run + Strength (Deload)",
       "block": "5:00–7:00 AM",
-      "dur": "~40 min",
+      "dur": "~30 min",
       "type": "run",
       "warmup": [
         "5 min brisk walk → easy jog",
         "Leg swings — 10 each direction / leg",
         "High knees + butt kicks — 20m each",
         "Walking lunge with reach — 8/leg",
-        "World’s greatest stretch — 5/side"
+        "World's greatest stretch — 5/side"
       ],
       "run": {
         "title": "Easy Run",
-        "dist": "3 mi",
-        "detail": "Strict easy — HR ≤150 the whole way, walk breaks fine. Last week’s 3-mi Thursday was textbook (avg 142, fully Z2) — replicate that. This is pure aerobic recovery after Tuesday’s hard effort.",
+        "dist": "2 mi",
+        "detail": "Strict easy — HR ≤150 the whole way, walk breaks fine. Shorter distance this deload week — pure aerobic recovery after Tuesday's hard effort.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -325,7 +325,7 @@
           "warmup": "ease in, < 145 bpm",
           "main": "138–150 bpm",
           "cool": "< 140 bpm",
-          "note": "Genuinely easy — keep it ≤150. If you’re low-energy again (deficit days happen), dial pace down and walk if needed."
+          "note": "Genuinely easy — keep it ≤150. Deload week, so if you're low-energy, dial pace down and walk if needed."
         }
       },
       "strength": [
@@ -374,8 +374,8 @@
     },
     {
       "d": "Fri",
-      "date": "7/3",
-      "name": "Full Body — Deadlift Focus",
+      "date": "7/10",
+      "name": "Full Body — Deadlift Focus (Deload)",
       "block": "5:00–7:00 AM",
       "dur": "1 hr work",
       "type": "lift",
@@ -387,21 +387,21 @@
       "items": [
         {
           "n": "Deadlift",
-          "s": 4,
+          "s": 3,
           "r": "4",
-          "note": "Ramp 225/245/265/270 — top set ~270 @ RPE 8 (last wk 265, Good). Controlled, no bouncing.",
+          "note": "Ramp 195/215/235 — deload, ~15% off last week's shockingly good 275. Controlled, no bouncing.",
           "focus": "Bar over midfoot, flat back, push the floor away.",
           "warmupSet": true,
-          "target": "270"
+          "target": "235"
         },
         {
-          "n": "Front/Goblet Squat",
+          "n": "Front Squat",
           "s": 3,
           "r": "8",
           "focus": "Elbows up, upright torso, hit depth.",
           "warmupSet": true,
-          "target": "80",
-          "note": "~80×8, all 3 sets — hit the full volume this time."
+          "target": "105",
+          "note": "Ramp 85/95/105 — down from 125, keeping the crisper front-squat position you found last week."
         },
         {
           "n": "Incline DB Press",
@@ -409,15 +409,15 @@
           "r": "10",
           "focus": "Control the descent, press up and slightly together.",
           "warmupSet": true,
-          "target": "130",
-          "note": "Ramp 115/125/130 — top set ~130 (last wk 125, Good)."
+          "target": "115",
+          "note": "Ramp 95/105/115 — down from 135."
         },
         {
           "n": "Pull-ups",
           "s": 3,
           "r": "8",
           "repsIn": true,
-          "note": "Leave ~2 in reserve — save max-effort pull-ups for Saturday.",
+          "note": "Fixed 3×8, ~2-3 in reserve — a touch easier than last week's grind. Save max effort for Saturday.",
           "focus": "Full hang to chin over the bar, no kipping."
         },
         {
@@ -426,21 +426,22 @@
           "r": "45s",
           "noWeight": true,
           "coreStart": true,
-          "focus": "Straight line, squeeze glutes, don’t sag."
+          "focus": "Straight line, squeeze glutes, don't sag."
+        },
+        {
+          "n": "Suitcase Carry",
+          "s": 2,
+          "r": "30s/side",
+          "target": "40",
+          "note": "~40 lb per hand, walk tall.",
+          "focus": "Brace tall, don't lean toward the weight. New movement for core/stability variety."
         },
         {
           "n": "Ab Wheel Rollout",
           "s": 2,
           "r": "8",
           "noWeight": true,
-          "focus": "Brace hard, don’t let the hips sag."
-        },
-        {
-          "n": "Dead Bug",
-          "s": 2,
-          "r": "10/side",
-          "noWeight": true,
-          "focus": "Low back glued to the floor, move slow."
+          "focus": "Brace hard, don't let the hips sag."
         }
       ],
       "stretches": [
@@ -474,16 +475,16 @@
     },
     {
       "d": "Sat",
-      "date": "7/4",
-      "name": "Calisthenics + Finishing Jog",
+      "date": "7/11",
+      "name": "Calisthenics + Finishing Jog (Deload)",
       "block": "Morning",
-      "dur": "~40–50 min",
+      "dur": "~35–40 min",
       "type": "lift",
       "warmup": [
         "3–5 min easy cardio or brisk walk",
         "Arm circles + leg swings — 10 each",
         "Band pull-aparts / scapular pulls — 1×15",
-        "World’s greatest stretch — 5/side"
+        "World's greatest stretch — 5/side"
       ],
       "items": [
         {
@@ -493,11 +494,11 @@
           "repsIn": true,
           "noWeight": true,
           "rest": "90s",
-          "focus": "Full hang to chin over the bar; swap to inverted rows if needed. Last week 3×8 felt great — shoot for 9–10 this week."
+          "focus": "Full hang to chin over the bar; swap to inverted rows if needed. Deload cue: stop when form/grip fades — don't chase a new max this week, bank recovery."
         },
         {
           "n": "Push-ups",
-          "s": 3,
+          "s": 2,
           "r": "15",
           "noWeight": true,
           "rest": "60–90s",
@@ -505,7 +506,7 @@
         },
         {
           "n": "Bench / Parallel-bar Dips",
-          "s": 3,
+          "s": 2,
           "r": "10",
           "noWeight": true,
           "rest": "60–90s",
@@ -513,7 +514,7 @@
         },
         {
           "n": "Pike Push-ups",
-          "s": 3,
+          "s": 2,
           "r": "8–10",
           "noWeight": true,
           "rest": "60–90s",
@@ -521,15 +522,15 @@
         },
         {
           "n": "Bulgarian Split Squat",
-          "s": 3,
+          "s": 2,
           "r": "10/leg",
           "noWeight": true,
           "rest": "60–90s",
-          "focus": "Tall torso, controlled — keep it lighter on the legs after Friday’s deadlifts."
+          "focus": "Tall torso, controlled — lighter volume this deload week."
         },
         {
           "n": "Hanging Leg Raise",
-          "s": 3,
+          "s": 2,
           "r": "12",
           "noWeight": true,
           "rest": "45s",
@@ -537,7 +538,7 @@
         },
         {
           "n": "Plank",
-          "s": 3,
+          "s": 2,
           "r": "45s",
           "noWeight": true,
           "rest": "45s",
@@ -556,8 +557,8 @@
           "name": "Easy Finishing Jog",
           "run": {
             "title": "Easy Finishing Jog",
-            "dist": "~1.5–2 mi",
-            "detail": "Relaxed shuffle to finish — very easy, just flush the legs. Walk if you need to. Happy 4th!",
+            "dist": "~1–1.5 mi",
+            "detail": "Relaxed shuffle to finish — very easy, just flush the legs. Walk if you need to.",
             "fields": [
               "Distance (mi)",
               "Time",
@@ -576,7 +577,7 @@
     },
     {
       "d": "Sun",
-      "date": "7/5",
+      "date": "7/12",
       "name": "Yoga",
       "block": "Morning",
       "dur": "~60–75 min",
@@ -591,9 +592,9 @@
           "type": "run",
           "name": "Light Jog",
           "run": {
-            "title": "Light 2-mile Jog",
-            "dist": "2 mi",
-            "detail": "Very easy recovery jog at a relaxed, conversational pace.",
+            "title": "Light 1.5-mile Jog",
+            "dist": "1.5 mi",
+            "detail": "Very easy recovery jog at a relaxed, conversational pace. Slightly shorter this deload week.",
             "fields": [
               "Distance (mi)",
               "Time",
