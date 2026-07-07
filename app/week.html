@@ -194,6 +194,10 @@
   .fieldrow{display:flex; align-items:center; gap:10px; margin-top:9px}
   .fieldrow .flbl{font-size:13px; color:var(--dim); width:108px; flex:0 0 108px; font-weight:600}
   .bigdone{width:100%; margin-top:13px; padding:13px; border-radius:12px; border:none; background:var(--card2); color:var(--text); font-size:15px; font-weight:800}
+  .altsw{display:flex; gap:6px; margin:2px 0 10px}
+  .altbtn{flex:1; padding:8px 0; border-radius:10px; border:1px solid var(--line); background:var(--card2); color:var(--sub); font-size:13px; font-weight:700}
+  .altbtn.on{background:var(--accent); border-color:var(--accent); color:#fff}
+  .altnote{font-size:12px; color:var(--sub); margin:-4px 0 8px; line-height:1.4}
   .bigdone.on{background:var(--green); color:#fff}
   .addex{width:100%; margin-top:4px; padding:11px; border-radius:12px; border:1.5px dashed var(--line); background:transparent; color:var(--dim); font-size:14px; font-weight:700}
   .addex:active{border-color:var(--orange); color:var(--orange)}
@@ -491,11 +495,11 @@ let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
 let expanded = {}, progCharts = [];
 const STALE_MS = 3*60*60*1000;
 
-function loadState(){ try{ const s=localStorage.getItem(KEY); if(s) mem=JSON.parse(s); }catch(e){} }
-function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
+function loadState(){ try{ const s=localStorage.getItem(KEY); if(s){ const m=JSON.parse(s); if(m&&m._wk&&m._wk!==pkey()){ mem={days:{}}; } else if(m){ mem=m; } } }catch(e){} }
+function saveLocal(){ try{ mem._wk=pkey(); localStorage.setItem(KEY, JSON.stringify(mem)); }catch(e){} }
 function memHasContent(){ return Object.values(mem.days||{}).some(d=> d && ((d.sets&&Object.keys(d.sets).length)||(d.fields&&Object.keys(d.fields).length)||(d.warmup&&Object.keys(d.warmup).length)||(d.stretches&&Object.keys(d.stretches).length)||(d.journal&&(""+d.journal).trim())||d.feel||d.done||d.runDone||(d.custom&&d.custom.length)||(d.extra&&d.extra.length)||(d.mods&&Object.keys(d.mods).length))); }
-async function syncDown(){ try{ const k=pkey(); const r=await fetch('/api/'+k); if(!r.ok) return; if(k!==pkey()) return; const remote=await r.json(); if(k!==pkey()) return; if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()){ syncUp(); /* safeguard: server empty but we have data -> reseed it */ } }catch(e){} }
-async function syncUp(){ try{ await fetch('/api/'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
+async function syncDown(){ try{ const k=pkey(); const r=await fetch('/api/'+k); if(!r.ok) return; if(k!==pkey()) return; const remote=await r.json(); if(k!==pkey()) return; if(remote&&remote._wk&&remote._wk!==k) return; /* stale cross-week record — ignore */ if(remote&&remote.days&&Object.keys(remote.days).length>0){ mem=remote; saveLocal(); render(); } else if(memHasContent()&&mem._wk===k){ syncUp(); /* safeguard: server empty but we have (stamped, same-week) data -> reseed */ } }catch(e){} }
+async function syncUp(){ try{ if(mem._wk!==pkey()) return; /* never push another week's data */ await fetch('/api/'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
 
@@ -763,22 +767,49 @@ function renderStretches(def, st, sx){ if(!(def.stretches||[]).length) return ""
   if(cd===ct&&!expanded[cid]) return `<div class="secdone" data-expand="${cid}"><span class="dch">✓</span><span class="dn">Cool-down · Stretches</span><span class="ds">${cd}/${ct} · tap to view</span></div>`;
   let h=secLabel("cool","Cool-down · Stretches",`${cd}/${ct}`)+`<div class="card">`; def.stretches.forEach((sN,si)=>{ h+=`<div class="setrow"><button class="chk${st.stretches[si]?" on":""}" data-sx="${sx}" data-sk="${si}">✓</button><span class="ilbl${st.stretches[si]?" dim":""}">${esc(sN)}</span></div>`; }); return h+`</div>`; }
 
+// ── Cardio alternates: swap a planned run for an equivalent bike/swim session (injury-friendly) ──
+function altOf(st){ const a=(st&&st.alt)||"run"; return (a==="bike"||a==="swim")?a:"run"; }
+function runMiles(r){ const rx=/([\d.]+)\s*mi(?:les?)?(?![a-z])/i; const m=rx.exec((r&&r.dist)||"")||rx.exec((r&&r.title)||""); return m?parseFloat(m[1]):null; }
+function effRun(def, st){
+  const mode=altOf(st), r=def.run||{};
+  if(mode==="run") return r;
+  const mi=runMiles(r);
+  if(mode==="bike"){
+    const bmi=mi?Math.round(mi*3*2)/2:null;
+    return Object.assign({},r,{
+      title:(r.title||"The Run")+" → Ride", dist:bmi?("~"+bmi+" mi easy ride"):"steady ride · same duration",
+      detail:"Bike swap — match the planned run's DURATION and effort, not its distance"+(mi?(" (≈"+mi+" mi run ≈ "+bmi+" mi easy ride)"):"")+". Cadence 85–95, low resistance — zero impact, easy on the back."+(r.detail?(" Original plan: "+r.detail):""),
+      hr: r.hr?Object.assign({},r.hr,{note:((r.hr.note?r.hr.note+" ":"")+"HR runs ~5–10 bpm lower on the bike for the same effort — same zones, go by feel.")}):{zone:"Same effort as the planned run",warmup:"5 min easy spin",main:"steady — conversational",cool:"5 min easy spin",note:"HR runs ~5–10 bpm lower on the bike for the same effort."},
+      fields:["Bike Distance (mi)","Time","Avg HR"] });
+  }
+  const yd=mi?Math.round(mi*450/50)*50:null;
+  return Object.assign({},r,{
+    title:(r.title||"The Run")+" → Swim", dist:yd?("~"+yd+" yd easy swim"):"easy swim · same duration",
+    detail:"Swim swap — same cardio stimulus, zero impact"+(mi?(" (≈"+mi+" mi run ≈ "+yd+" yd easy)"):"")+". Break it into repeats (100s/200s) with short rests as needed."+(r.detail?(" Original plan: "+r.detail):""),
+    hr:{zone:"Go by RPE — HR straps are unreliable in water",warmup:"200 yd easy",main:"RPE 4–6 / 10 — could-hold-a-conversation effort",cool:"100 yd easy",note:"Water suppresses HR ~10 bpm; effort feel is the better guide."},
+    fields:["Swim Distance (yd)","Time","RPE (1–10)"] });
+}
+function altDoneLabel(mode,on){ const n=mode==="bike"?"Ride":mode==="swim"?"Swim":"Run"; return on?(n+" complete ✓"):("Mark "+n.toLowerCase()+" complete"); }
+
 function renderSessionBody(def, st, sx){
   if(def.type==="cardio"){ let h=`<div class="card ex">`; (def.fields||[]).forEach(f=>{ h+=`<div class="fieldrow"><span class="flbl">${esc(f)}</span><input type="text" value="${esc((st.fields||{})[f]||"")}" data-sx="${sx}" data-f="${esc(f)}"></div>`; }); h+=`<button class="bigdone${st.done?" on":""}" data-sx="${sx}" data-done="1">${st.done?"Completed ✓":"Mark complete"}</button></div>`; return h; }
 
   if(def.type==="run"){
-    let h=renderWarmup(def,st,sx); const rid=sx+":run", f=st.fields||{};
-    if(st.runDone&&!expanded[rid]){ const sub=[f["Distance (mi)"]?f["Distance (mi)"]+" mi":"",f["Time"]||""].filter(Boolean).join(" · ")||"Done";
-      h+=`<div class="secdone" data-expand="${rid}"><span class="dch">✓</span><span class="dn">${esc(def.run.title||"The Run")}</span><span class="ds">${esc(sub)} · tap to view</span></div>`; }
-    else { h+=secLabel("run",def.run.title||"The Run",def.run.dist||"")+`<div class="card ex">`;
-      if(def.run.detail) h+=`<div class="runbreak">${esc(def.run.detail)}</div>`;
-      if(def.run.hr){ const z=def.run.hr; h+=`<div class="hrguide"><div class="hrz">❤️ ${esc(z.zone||"Target heart rate")}</div>`+
+    let h=renderWarmup(def,st,sx); const rid=sx+":run", f=st.fields||{}; const mode=altOf(st), run=effRun(def,st);
+    if(st.runDone&&!expanded[rid]){ const d0=run.fields&&run.fields[0], unit=d0&&d0.indexOf("(yd)")>-1?" yd":d0&&d0.indexOf("(mi)")>-1?" mi":"";
+      const sub=[f[d0]?f[d0]+unit:"",f["Time"]||""].filter(Boolean).join(" · ")||"Done";
+      h+=`<div class="secdone" data-expand="${rid}"><span class="dch">✓</span><span class="dn">${esc(run.title||"The Run")}</span><span class="ds">${esc(sub)} · tap to view</span></div>`; }
+    else { h+=secLabel("run",run.title||"The Run",run.dist||"")+`<div class="card ex">`;
+      h+=`<div class="altsw">`+["run","bike","swim"].map(m=>`<button class="altbtn${mode===m?" on":""}" data-sx="${sx}" data-alt="${m}">${m==="run"?"🏃 Run":m==="bike"?"🚴 Bike":"🏊 Swim"}</button>`).join("")+`</div>`;
+      if(mode!=="run") h+=`<div class="altnote">Swapped from the planned run — matched by duration &amp; effort. Tap 🏃 Run to switch back.</div>`;
+      if(run.detail) h+=`<div class="runbreak">${esc(run.detail)}</div>`;
+      if(run.hr){ const z=run.hr; h+=`<div class="hrguide"><div class="hrz">❤️ ${esc(z.zone||"Target heart rate")}</div>`+
         `<div class="hrrow"><span>Warm-up</span><b>${esc(z.warmup||"—")}</b></div>`+
         `<div class="hrrow"><span>Main effort</span><b>${esc(z.main||"—")}</b></div>`+
         `<div class="hrrow"><span>Cool-down</span><b>${esc(z.cool||"—")}</b></div>`+
         (z.note?`<div class="hrnote">${esc(z.note)}</div>`:"")+`</div>`; }
-      (def.run.fields||[]).forEach(fl=>{ h+=`<div class="fieldrow"><span class="flbl">${esc(fl)}</span><input type="text" value="${esc(f[fl]||"")}" data-sx="${sx}" data-f="${esc(fl)}"></div>`; });
-      h+=`<button class="bigdone${st.runDone?" on":""}" data-sx="${sx}" data-rundone="1">${st.runDone?"Run complete ✓":"Mark run complete"}</button></div>`; }
+      (run.fields||[]).forEach(fl=>{ h+=`<div class="fieldrow"><span class="flbl">${esc(fl)}</span><input type="text" value="${esc(f[fl]||"")}" data-sx="${sx}" data-f="${esc(fl)}"></div>`; });
+      h+=`<button class="bigdone${st.runDone?" on":""}" data-sx="${sx}" data-rundone="1">${altDoneLabel(mode,st.runDone)}</button></div>`; }
     if(def.strength){
       h+=secLabel("core","Strength + Core","");
       def.strength.forEach((it,ii)=> h+=renderExercise(def,st,sx,ii,"strength"));
@@ -909,6 +940,7 @@ function attachHandlers(){
   q("[data-f]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); st.fields=st.fields||{}; st.fields[inp.dataset.f]=inp.value; save(); });
   q("[data-done]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); st.done=!st.done; save(); render(); });
   q("[data-rundone]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); st.runDone=!st.runDone; save(); render(); });
+  q("[data-alt]").forEach(b=> b.onclick=()=>{ const st=stForSx(+b.dataset.sx); const m=b.dataset.alt; if(m==="run"){ delete st.alt; } else { st.alt=m; } save(); render(); });
   q("[data-expand]").forEach(el=> el.onclick=()=>{ expanded[el.dataset.expand]=true; render(); });
   q("[data-collapse]").forEach(b=> b.onclick=(e)=>{ e.stopPropagation(); expanded[b.dataset.collapse]=false; render(); });
   // substitution
@@ -1044,7 +1076,8 @@ function logSession(def, st){
       md+= sets.length?`- ${nm} (${it.s}×${it.r}): ${sets.join(", ")}\n`:`- ${nm} (${it.s}×${it.r}): skipped\n`; });
     logCustom(st,x=>md+=x); if((def.stretches||[]).length){ const d=def.stretches.filter((_,si)=>st.stretches[si]).length; md+=`- Stretches: ${d}/${def.stretches.length} done\n`; }
   } else if(def.type==="run"){ if((def.warmup||[]).length){ const d=def.warmup.filter((_,wi)=>st.warmup[wi]).length; md+=`- Warmup: ${d}/${def.warmup.length} done\n`; }
-    md+=`**Run** — ${st.runDone?"done ✓":"not marked"}\n`; (def.run.fields||[]).forEach(f=>{ if((st.fields||{})[f]) md+=`- ${f}: ${st.fields[f]}\n`; });
+    { const mode=altOf(st), run=effRun(def,st); const lbl=mode==="bike"?"Bike (run swap)":mode==="swim"?"Swim (run swap)":"Run";
+    md+=`**${lbl}** — ${st.runDone?"done ✓":"not marked"}\n`; (run.fields||[]).forEach(f=>{ if((st.fields||{})[f]) md+=`- ${f}: ${st.fields[f]}\n`; }); }
     if(def.strength){ md+=`**Strength + Core**\n`; def.strength.forEach((it0,ii)=>{ const it=effItem(def,st,ii); let dn=0; for(let s=0;s<it.s;s++){ if((st.sets[ii+"-"+s]||{}).done) dn++; } const nm=it.n+(it._subFrom?` (sub for ${it._subFrom})`:""); md+=`- ${nm} (${it.s}×${it.r}): ${dn?dn+"/"+it.s+" sets ✓":"skipped"}\n`; }); logCustom(st,x=>md+=x); }
     if((def.stretches||[]).length){ const d=def.stretches.filter((_,si)=>st.stretches[si]).length; md+=`- Stretches: ${d}/${def.stretches.length} done\n`; }
   } else { md+= st.done?`- Completed ✓\n`:`- Not marked complete\n`; (def.fields||[]).forEach(f=>{ if((st.fields||{})[f]) md+=`- ${f}: ${st.fields[f]}\n`; }); }

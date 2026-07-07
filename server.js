@@ -76,6 +76,29 @@ app.get('/api/_resetweek', async (req, res) => {
   } catch (e) { console.error(e); res.status(500).json({ error: 'reset error' }); }
 });
 
+// Maintenance: exclude specific DATES from the weight/nutrition log (e.g. skip a holiday weekend).
+// Removes weight-log entries and calorie days for the given dates. Workout logs are untouched.
+// GET /api/_exclude?dates=2026-07-03,2026-07-04 — recoverable via nightly git backup.
+app.get('/api/_exclude', async (req, res) => {
+  try {
+    const dates = String(req.query.dates || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (!dates.length || !dates.every(d => /^\d{4}-\d{2}-\d{2}$/.test(d))) return res.status(400).json({ error: 'bad dates' });
+    const wl = await kvRead('weight-log');
+    if (!wl) return res.status(404).json({ error: 'no weight-log' });
+    const removed = { weights: 0, calDays: 0 };
+    if (Array.isArray(wl.entries)) {
+      const before = wl.entries.length;
+      wl.entries = wl.entries.filter(e => !(e && dates.includes(e.date)));
+      removed.weights = before - wl.entries.length;
+    }
+    if (wl.cal && wl.cal.days) {
+      dates.forEach(d => { if (wl.cal.days[d]) { delete wl.cal.days[d]; removed.calDays++; } });
+    }
+    await kvWrite('weight-log', wl);
+    res.json({ ok: true, dates, removed });
+  } catch (e) { console.error(e); res.status(500).json({ error: 'exclude error' }); }
+});
+
 // Serve data-driven plan files (app/plans/<profile>.json). 404 -> app uses its built-in fallback.
 app.get('/api/plan/:profile', (req, res) => {
   const safe = (req.params.profile || '').replace(/[^a-z0-9_-]/gi, '');
