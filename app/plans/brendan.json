@@ -7,7 +7,7 @@
     "Volume restored: mains are back to 4 work sets (calibration week had dropped them to 3), and warm-up sets are back on leg press + hip thrust. This is the exact fix you flagged Mon & Fri.",
     "Mileage ~18.5 mi — a controlled step up from the 17.4 you actually ran. Tuesday is the one hard run (now 6×3 min); everything else strict Z2.",
     "Hold intensity, don't chase: nudge only what you clearly earned (incline bench 150, push press 130). Paused deadlift HOLDS at 225 — the 4th set adds volume, not load — and drops to 205 if the knee talks at all.",
-    "Calisthenics stepped forward: push-ups locked at 20, dips to 3 sets, chase 18+ on the first max pull-up set.",
+    "Calisthenics stepped forward — and reformatted: Saturday now runs as antagonist supersets (pull-ups+dips, push-ups+leg raises, pike+split squats). Same movements and volume, denser and more fun. Push-ups locked at 20, dips at 3 sets, still chase 18+ on the first max pull-up set.",
     "Under-190 is on track — 195.3 and ahead of pace for 189.9 by Aug 14. Protein ≥180g, eat to the SMART goal. The scale is the arbiter."
   ],
   "review": "Week 1 calibration did its job, and you called the miss yourself: two journals flagged that 3 sets on the mains felt like too little volume. You're right — that's a calibration-week artifact (Week 1 of new lifts is deliberately 3 ramping sets to find your numbers), so the 4th work set comes back now that we have them. What you logged: Front Squat 135×5 ('pretty solid'), Incline Bench 145×6 ('significantly stronger'), Push Press 125×6 (you beat the 115 target), Paused DL 225×4 (you noted it needs another week and the knee felt iffy on the last set). So this week: all four mains → 4 work sets; incline bench and push press earn a small top-end nudge (150 / 130); deadlift HOLDS 225 with the 4th set adding only volume, and auto-drops to 205 if the knee complains. Warm-up sets are back on leg press (your ask) and hip thrust. On running — you quietly ran ~17.4 mi, not the 14 the plan asked, and your easy discipline is the best it's been (Sunday's 4-miler came in genuinely easy). So we formalize the progression you're already making: ~18.5 mi, one hard run (Tue, now 6×3 min), the rest strict Z2 — controlled, because the jump from your 12.4-mi deload is already steep and June's burnout is the thing to avoid. Calisthenics gets a real forward step too: push-ups locked at 20 (you moved there on your own), dips to 3 sets, a target to beat on max pull-ups. Big picture on your actual question: the deficit is what's getting you under 190, and it's working — you're ahead of pace. Lifting's job in a cut is to keep the muscle you have (enough volume + heavy loads), not to redline everything at once — that's exactly what re-creates a burnout when you're under-fueled. Next week (7/27) crosses 20 mi and is the last build before the Aug 3 deload.",
@@ -104,7 +104,11 @@
             "title": "Easy Finishing Jog",
             "dist": "1.5 mi",
             "detail": "Relaxed conversational flush right after lifting. Keep it truly easy; walk if your HR climbs.",
-            "fields": ["Distance (mi)", "Time", "Avg HR"],
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
             "hr": {
               "zone": "Zone 1–2 · easy flush",
               "warmup": "easy",
@@ -134,7 +138,11 @@
         "title": "Quality Run — one more interval",
         "dist": "4.5 mi",
         "detail": "10 min easy warm-up, then 6×3 min hard / 2 min easy jog (one more rep than last week — you handled 5×3 well), easy cool-down to ~4.5 mi total. Your one hard run this week; a 160s overall average is expected and fine.",
-        "fields": ["Distance (mi)", "Time", "Avg HR"],
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
         "hr": {
           "zone": "Zone 4 · threshold/hard (your Z4 = 172–186)",
           "warmup": "10 min easy, < 150 bpm",
@@ -232,7 +240,10 @@
           "n": "Lateral Raise + Face Pull superset",
           "s": 3,
           "r": "12 each",
-          "superset": ["Lateral Raise", "Face Pull"],
+          "superset": [
+            "Lateral Raise",
+            "Face Pull"
+          ],
           "focus": "Light and strict — no swinging."
         },
         {
@@ -271,7 +282,11 @@
             "title": "Easy Finishing Jog",
             "dist": "1.5 mi",
             "detail": "Relaxed conversational flush right after lifting. Keep it truly easy; walk if your HR climbs.",
-            "fields": ["Distance (mi)", "Time", "Avg HR"],
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
             "hr": {
               "zone": "Zone 1–2 · easy flush",
               "warmup": "easy",
@@ -301,7 +316,11 @@
         "title": "Easy Run",
         "dist": "4.5 mi",
         "detail": "Up to 4.5 mi — this is your aerobic builder for the block. Replicate Sunday's easy effort (that 4-miler was dialed in). Strict Z2, walk breaks fine.",
-        "fields": ["Distance (mi)", "Time", "Avg HR"],
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
         "hr": {
           "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
           "warmup": "ease in, < 145 bpm",
@@ -439,7 +458,11 @@
             "title": "Easy Finishing Jog",
             "dist": "1 mi",
             "detail": "Short flush after the pulls — very easy, walk if needed.",
-            "fields": ["Distance (mi)", "Time", "Avg HR"],
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
             "hr": {
               "zone": "Zone 1–2 · easy flush",
               "warmup": "easy",
@@ -454,9 +477,9 @@
     {
       "d": "Sat",
       "date": "7/25",
-      "name": "Calisthenics + Easy Jog",
+      "name": "Calisthenics — Antagonist Supersets",
       "block": "Morning",
-      "dur": "~40–45 min",
+      "dur": "~35–40 min",
       "type": "lift",
       "warmup": [
         "3–5 min easy cardio or brisk walk",
@@ -466,56 +489,62 @@
       ],
       "items": [
         {
-          "n": "Pull-ups",
+          "n": "A1 · Pull-ups",
           "s": 3,
           "r": "max",
           "repsIn": true,
           "noWeight": true,
-          "rest": "120s",
-          "focus": "The week's one to-failure slot. You hit 17/9/6 last week — chase 18+ on set 1, and take the full 2-min rest to protect set-1 quality."
+          "rest": "0s → A2",
+          "note": "NEW FORMAT: superset with A2 dips — pull-ups, straight to dips, THEN rest 2 min and repeat. Set 1 is still the week's all-out benchmark: you hit 17/9/6 last week, chase 18+. Dips don't steal from your pull (antagonist), so the test stays honest.",
+          "focus": "Full hang to chin over the bar, no kipping."
         },
         {
-          "n": "Push-ups",
+          "n": "A2 · Bench / Parallel-bar Dips",
+          "s": 3,
+          "r": "12",
+          "noWeight": true,
+          "rest": "2 min, back to A1",
+          "note": "Immediately after each pull-up set. 3rd set stays (the push volume you asked for).",
+          "focus": "Slight forward lean, lower under control, full lockout."
+        },
+        {
+          "n": "B1 · Push-ups",
           "s": 3,
           "r": "20",
           "noWeight": true,
-          "rest": "60–90s",
-          "focus": "Locked to 20 (you moved here on your own). Next progression when 3×20 is easy: a 3s descent or feet elevated."
+          "rest": "0s → B2",
+          "note": "Locked at 20 — straight into hanging leg raises after each set. Next progression when 3×20 superset feels easy: 3s descent or feet elevated.",
+          "focus": "Body in a straight line, full range of motion."
         },
         {
-          "n": "Bench / Parallel-bar Dips",
+          "n": "B2 · Hanging Leg Raise",
           "s": 3,
           "r": "12",
           "noWeight": true,
-          "rest": "60–90s",
-          "focus": "Third set added — building the push volume you wanted. Slight forward lean, lower under control, full lockout."
+          "rest": "90s, back to B1",
+          "note": "Paired with push-ups (3×12 replaces 2×15 — same work, denser).",
+          "focus": "Control the lower, no swinging."
         },
         {
-          "n": "Pike Push-ups",
+          "n": "C1 · Pike Push-ups",
           "s": 2,
           "r": "12",
           "noWeight": true,
-          "rest": "60–90s",
-          "focus": "Hips high, head between hands, press straight overhead. Up to 12."
+          "rest": "0s → C2",
+          "note": "Straight into split squats.",
+          "focus": "Hips high, head between hands, press straight overhead."
         },
         {
-          "n": "Bulgarian Split Squat",
+          "n": "C2 · Bulgarian Split Squat",
           "s": 2,
           "r": "12/leg",
           "noWeight": true,
-          "rest": "60–90s",
-          "focus": "Tall torso, controlled — bodyweight here since Monday's were loaded."
+          "rest": "60–90s, back to C1",
+          "note": "Bodyweight — Monday's were loaded. Shoulders rest while legs work.",
+          "focus": "Tall torso, controlled, drive through the front heel."
         },
         {
-          "n": "Hanging Leg Raise",
-          "s": 2,
-          "r": "15",
-          "noWeight": true,
-          "rest": "45s",
-          "focus": "Control the lower, no swinging. Up to 15."
-        },
-        {
-          "n": "Plank",
+          "n": "Plank — finisher",
           "s": 2,
           "r": "60s",
           "noWeight": true,
@@ -537,7 +566,11 @@
             "title": "Easy Jog",
             "dist": "1.5 mi",
             "detail": "Easy shuffle after the session — conversational, walk breaks fine.",
-            "fields": ["Distance (mi)", "Time", "Avg HR"],
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
             "hr": {
               "zone": "Zone 1–2 · very easy",
               "warmup": "easy",
@@ -557,7 +590,10 @@
       "dur": "~60–75 min",
       "type": "cardio",
       "desc": "Yoga — hip openers, hamstrings, thoracic spine, shoulders. Flow or restorative, your call.",
-      "fields": ["Duration", "Style (flow / restorative / hatha)"],
+      "fields": [
+        "Duration",
+        "Style (flow / restorative / hatha)"
+      ],
       "addons": [
         {
           "type": "run",
@@ -566,7 +602,11 @@
             "title": "Easy 4-mile Run",
             "dist": "4 mi",
             "detail": "Easy aerobic, same relaxed effort as last Sunday's 4-miler — caps the week at ~18.5 mi. Not a shuffle, but strictly Z2.",
-            "fields": ["Distance (mi)", "Time", "Avg HR"],
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
             "hr": {
               "zone": "Zone 1–2 · easy aerobic",
               "warmup": "easy start",
