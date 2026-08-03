@@ -71,6 +71,10 @@
   .tabs{display:flex; gap:7px; overflow-x:auto; padding:10px 14px; background:var(--bg);
     position:sticky; top:52px; z-index:18; scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
+  .tabs{transition:top .22s ease, opacity .22s ease}
+  body.hidetabs .tabs{top:-70px; opacity:0; pointer-events:none}
+  .hud{transition:top .22s ease}
+  body.hidetabs .hud{top:56px}
   .tab{flex:0 0 auto; min-width:50px; padding:7px 11px; border-radius:12px; background:var(--card);
     border:1px solid var(--line); color:var(--dim); text-align:center; box-shadow:var(--shadow)}
   .tab .dn{font-weight:800; font-size:13px; display:block; letter-spacing:.02em}
@@ -350,6 +354,7 @@
     <button id="shareBtn">📷 Share to Strava</button>
     <button id="copyBtn">📋 Copy log</button>
     <button id="themeBtn">🌗 Theme: Auto</button>
+    <button id="timerResetBtn">⏱ Reset session timer</button>
     <button id="intakeBtn">➕ New profile intake</button>
     <button id="lockWeightBtn" style="display:none">🔒 Hide weight</button>
     <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
@@ -520,6 +525,7 @@ let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
 let expanded = {}, progCharts = [];
 let focusMode = true; try{ focusMode = localStorage.getItem('focus-mode')!=='0'; }catch(e){}
 let focusPeek = null;      // {day,sx,ii} manual peek via arrows; cleared on any set check
+let focusSkipWarm = {};    // per-day: user chose to skip past the warm-up stage in focus mode
 let lastFocus = null;      // tracks the focused tile so we auto-scroll when it rotates
 const STALE_MS = 3*60*60*1000;
 
@@ -530,6 +536,15 @@ async function syncDown(){ try{ const k=pkey(); const r=await fetch('/api/'+k); 
 async function syncUp(){ try{ if(mem._wk!==pkey()) return; /* never push another week's data */ await fetch('/api/'+pkey(),{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(mem)}); }catch(e){} }
 function save(){ saveLocal(); clearTimeout(syncTimer); syncTimer=setTimeout(syncUp,600); }
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden){ syncDown(); updateWeightLockUI(); } });
+
+// Day tabs auto-hide on scroll-down, return on scroll-up (topbar stays for Weight/Progress taps)
+let _lastY=0, _tabsHidden=false;
+function setTabsHidden(v){ if(_tabsHidden===v) return; _tabsHidden=v; document.body.classList.toggle('hidetabs', v); }
+window.addEventListener('scroll', ()=>{ const y=window.scrollY||0;
+  if(y<80) setTabsHidden(false);
+  else if(y>_lastY+6) setTabsHidden(true);
+  else if(y<_lastY-6) setTabsHidden(false);
+  _lastY=y; }, {passive:true});
 
 function todayIdx(){ const start=new Date(PLAN.start+"T00:00:00"); const diff=Math.floor((new Date()-start)/86400000); return Math.min(6,Math.max(0,diff)); }
 let cur = todayIdx();
@@ -874,10 +889,14 @@ function renderSessionBody(def, st, sx){
   }
 
   // lift
-  let h=renderWarmup(def,st,sx);
-  if(focusMode && (def.items||[]).length){ h+=renderFocusLift(def,st,sx); }
-  else { let inCore=false, openedWork=false;
-  (def.items||[]).forEach((it,ii)=>{ if(it.coreStart&&!inCore){ inCore=true; h+=secLabel("core","Core Finisher",""); } if(!inCore&&!openedWork){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderExercise(def,st,sx,ii); }); }
+  if(focusMode && (def.items||[]).length){
+    let h=renderFocusLift(def,st,sx);
+    (st.custom||[]).forEach((ci,ci_i)=> h+=renderCustom(ci,sx,ci_i));
+    h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
+    return h;
+  }
+  let h=renderWarmup(def,st,sx); let inCore=false, openedWork=false;
+  (def.items||[]).forEach((it,ii)=>{ if(it.coreStart&&!inCore){ inCore=true; h+=secLabel("core","Core Finisher",""); } if(!inCore&&!openedWork){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderExercise(def,st,sx,ii); });
   (st.custom||[]).forEach((ci,ci_i)=>{ if(!openedWork&&!inCore){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderCustom(ci,sx,ci_i); });
   h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
   h+=renderStretches(def,st,sx); return h;
@@ -885,31 +904,71 @@ function renderSessionBody(def, st, sx){
 
 function renderFocusLift(def, st, sx){
   const items=def.items||[]; if(!items.length) return "";
+  const u=liftUnits(def,st), pct=u.total?Math.round(u.done/u.total*100):0;
   const nxt=focusNext(def,st);
+  const wu=def.warmup||[], wd=wu.filter((_,i)=>st.warmup[i]).length;
+  const cs=def.stretches||[], cd=cs.filter((_,i)=>st.stretches[i]).length;
+  const anySetDone=Object.keys(st.sets||{}).some(k=>st.sets[k]&&st.sets[k].done);
+  const fochead=(pos,arrows,sxq)=>`<div class="fochead"><button class="fnav" data-sx="${sxq}" data-fprev ${arrows&&arrows.p?"":"disabled"}>‹</button><div class="focinfo"><div class="foclbl">${arrows&&arrows.lbl?arrows.lbl:"Now"}</div><div class="focpos">${pos}</div></div><button class="fnav" data-sx="${sxq}" data-fnext ${arrows&&arrows.n?"":"disabled"}>›</button></div>`;
   let h="";
-  if(!nxt){ // everything done — show the normal (collapsed) list
-    h+=secLabel("work","The Workout","all done ✓");
-    items.forEach((_,ii)=> h+=renderExercise(def,st,sx,ii));
+
+  // ── Stage 1: WARM-UP (until it's done, a working set is checked, or he skips) ──
+  if(wu.length && wd<wu.length && !anySetDone && !focusSkipWarm[cur] && nxt){
+    h+=fochead(`Warm-up · ${wd} of ${wu.length} · ${pct}% of session`, null, sx);
+    h+=`<div class="card foccard" data-foccard="${cur}:${sx}:warm">`;
+    wu.forEach((w,wi)=>{ h+=`<div class="setrow"><button class="chk${st.warmup[wi]?" on":""}" data-sx="${sx}" data-wk="${wi}">✓</button><span class="ilbl${st.warmup[wi]?" dim":""}">${esc(w)}</span></div>`; });
+    h+=`<div class="setminis"><button class="minibtn" data-fskipwarm>Skip to workout →</button></div></div>`;
+    h+=`<div class="upnext">Up next → <b>${esc((effItem(def,st,nxt.ii)||{}).n||"")}</b></div>`;
+    h+=`<div class="fochidden">${items.length} exercise${items.length>1?"s":""} queued — they rotate in as you go · <button class="linkbtn" data-foctoggle>show full list</button></div>`;
     return h;
   }
-  const peek=(focusPeek && focusPeek.day===cur && focusPeek.sx===sx)?focusPeek.ii:null;
-  const fi=(peek!=null)?Math.max(0,Math.min(items.length-1,peek)):nxt.ii;
-  const peeking=(peek!=null && fi!==nxt.ii);
-  const focItem=items[fi];
-  let pos="Exercise "+(fi+1)+" of "+items.length;
-  if(isStation(focItem) && !peeking) pos+=" · Round "+(nxt.s+1)+"/"+(focItem.s||0);
-  h+=`<div class="fochead"><button class="fnav" data-sx="${sx}" data-fprev ${fi<=0?"disabled":""}>‹</button><div class="focinfo"><div class="foclbl">${peeking?"Peeking":"Now"}</div><div class="focpos">${pos}</div></div><button class="fnav" data-sx="${sx}" data-fnext ${fi>=items.length-1?"disabled":""}>›</button></div>`;
-  if(peeking) h+=`<div class="upnext" data-fback style="cursor:pointer">↩ <b>Back to now</b> · ${esc((effItem(def,st,nxt.ii)||{}).n||"")}</div>`;
-  const hl=peeking?null:(nxt.ii+"-"+nxt.s);
-  h+=renderExercise(def,st,sx,fi,{force:true,hl:hl,foc:true});
-  // up next = first not-done entry after the current one that belongs to a different exercise
-  const ord=execOrder(def,st); let un=null, hit=false;
-  for(const o of ord){ if(!hit){ if(o.ii===nxt.ii&&o.s===nxt.s) hit=true; continue; } if((st.sets[o.ii+"-"+o.s]||{}).done) continue; if(o.ii!==nxt.ii){ un=o; break; } }
-  if(un && !peeking) h+=`<div class="upnext">Up next → <b>${esc((effItem(def,st,un.ii)||{}).n||"")}</b>&nbsp;· set ${un.s+1}</div>`;
-  // completed exercises collapse below; untouched ones stay hidden until they rotate in
-  let hiddenUp=0;
-  items.forEach((x,ii2)=>{ if(ii2===fi) return; if(itemDone(effItem(def,st,ii2),st,ii2)) h+=renderExercise(def,st,sx,ii2); else hiddenUp++; });
-  if(hiddenUp>0) h+=`<div class="fochidden">${hiddenUp} more queued — they rotate in as you go · <button class="linkbtn" data-foctoggle>show full list</button></div>`;
+
+  // warm-up summary row above the tile (compact if unfinished-but-skipped)
+  const wkey=sx+":warmfoc";
+  if(wu.length && wd<wu.length && !expanded[wkey]) h+=`<div class="secdone" data-expand="${wkey}" style="background:var(--card2);border-color:var(--line)"><span class="dch" style="background:var(--amber)">…</span><span class="dn" style="color:var(--amber)">Warm-up</span><span class="ds">${wd}/${wu.length} · tap to finish</span></div>`;
+  else h+=renderWarmup(def,st,sx);
+
+  // ── Stage 2: THE WORKOUT — one rotating tile ──
+  if(nxt){
+    const peek=(focusPeek && focusPeek.day===cur && focusPeek.sx===sx)?focusPeek.ii:null;
+    const fi=(peek!=null)?Math.max(0,Math.min(items.length-1,peek)):nxt.ii;
+    const peeking=(peek!=null && fi!==nxt.ii);
+    const focItem=items[fi];
+    let pos="Exercise "+(fi+1)+" of "+items.length;
+    if(isStation(focItem) && !peeking) pos+=" · Round "+(nxt.s+1)+"/"+(focItem.s||0);
+    pos+=" · "+pct+"%";
+    h+=fochead(pos, {p:fi>0, n:fi<items.length-1, lbl:peeking?"Peeking":"Now"}, sx);
+    if(peeking) h+=`<div class="upnext" data-fback style="cursor:pointer">↩ <b>Back to now</b> · ${esc((effItem(def,st,nxt.ii)||{}).n||"")}</div>`;
+    const hl=peeking?null:(nxt.ii+"-"+nxt.s);
+    h+=renderExercise(def,st,sx,fi,{force:true,hl:hl,foc:true});
+    // up next = first not-done entry after the current one that belongs to a different exercise
+    const ord=execOrder(def,st); let un=null, hit=false;
+    for(const o of ord){ if(!hit){ if(o.ii===nxt.ii&&o.s===nxt.s) hit=true; continue; } if((st.sets[o.ii+"-"+o.s]||{}).done) continue; if(o.ii!==nxt.ii){ un=o; break; } }
+    if(!peeking){
+      if(un) h+=`<div class="upnext">Up next → <b>${esc((effItem(def,st,un.ii)||{}).n||"")}</b>&nbsp;· set ${un.s+1}</div>`;
+      else if(cs.length && cd<cs.length) h+=`<div class="upnext">Up next → <b>Cool-down · stretches</b></div>`;
+    }
+    // completed exercises collapse below; untouched ones stay hidden until they rotate in
+    let hiddenUp=0;
+    items.forEach((x,ii2)=>{ if(ii2===fi) return; if(itemDone(effItem(def,st,ii2),st,ii2)) h+=renderExercise(def,st,sx,ii2); else hiddenUp++; });
+    if(hiddenUp>0) h+=`<div class="fochidden">${hiddenUp} more queued — they rotate in as you go · <button class="linkbtn" data-foctoggle>show full list</button></div>`;
+    return h;
+  }
+
+  // ── Stage 3: COOL-DOWN ──
+  if(cs.length && cd<cs.length){
+    h+=fochead(`Cool-down · ${cd} of ${cs.length} · ${pct}%`, null, sx);
+    h+=`<div class="card foccard" data-foccard="${cur}:${sx}:cool">`;
+    cs.forEach((sN,si)=>{ h+=`<div class="setrow"><button class="chk${st.stretches[si]?" on":""}" data-sx="${sx}" data-sk="${si}">✓</button><span class="ilbl${st.stretches[si]?" dim":""}">${esc(sN)}</span></div>`; });
+    h+=`</div>`;
+    items.forEach((_,ii2)=> h+=renderExercise(def,st,sx,ii2));
+    return h;
+  }
+
+  // ── All done ──
+  h+=secLabel("work","Session complete","✓ 100%");
+  items.forEach((_,ii2)=> h+=renderExercise(def,st,sx,ii2));
+  h+=renderStretches(def,st,sx);
   return h;
 }
 
@@ -1023,6 +1082,7 @@ function attachHandlers(){
   q("[data-fprev]").forEach(b=> b.onclick=()=>focusStep(+b.dataset.sx,-1));
   q("[data-fnext]").forEach(b=> b.onclick=()=>focusStep(+b.dataset.sx,1));
   q("[data-fback]").forEach(el=> el.onclick=()=>{ focusPeek=null; render(); });
+  q("[data-fskipwarm]").forEach(b=> b.onclick=()=>{ focusSkipWarm[cur]=true; render(); });
   q("[data-w]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.w]||(st.sets[inp.dataset.w]={}); v.w=inp.value; save(); });
   q("[data-r]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.r]||(st.sets[inp.dataset.r]={}); v.r=inp.value; save(); });
   q("[data-ssw]").forEach(inp=> inp.oninput=()=>{ const [k,li]=inp.dataset.ssw.split("."); const st=stForSx(+inp.dataset.sx); const v=st.sets[k]||(st.sets[k]={}); v.ws=v.ws||{}; v.ws[li]=inp.value; save(); });
@@ -1271,6 +1331,8 @@ document.getElementById("copyBtn").onclick=async ()=>{ await loadDiet(); const m
 document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; st._pausedAt=null; save(); tickTimer(); };
 document.getElementById("tPause").onclick=()=>{ const st=dayState(cur); if(st._pausedAt){ st._lastSet += (Date.now()-st._pausedAt); st._pausedAt=null; } else { st._pausedAt=Date.now(); } save(); tickTimer(); };
 
+document.getElementById("timerResetBtn").onclick=()=>{ const st=dayState(cur); delete st._sessionStart; delete st._lastSet; delete st._ended; delete st._restTarget; delete st._pausedAt; save(); closeMenu(); tickTimer(); toast("Session timer reset — starts fresh on your next set"); };
+
 // ---- Theme (day/night) override — Auto follows the phone, Light/Dark force it ----
 function themeGet(){ try{ return localStorage.getItem('theme')||"auto"; }catch(e){ return "auto"; } }
 function themeApply(){ const t=themeGet(); if(t==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t); const b=document.getElementById("themeBtn"); if(b) b.textContent = t==="auto"?"🌗 Theme: Auto":(t==="light"?"☀️ Theme: Light":"🌙 Theme: Dark"); }
@@ -1422,7 +1484,7 @@ document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
 // Load the active profile's plan from the server (falls back to the built-in DEFAULT_PLAN if none).
-function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); focusPeek=null; mem={days:{}}; loadState(); try{weekNav.offset=0; archiveCurrentPlan(); loadWeekList();}catch(e){} render(); }
+function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); focusPeek=null; focusSkipWarm={}; mem={days:{}}; loadState(); try{weekNav.offset=0; archiveCurrentPlan(); loadWeekList();}catch(e){} render(); }
 async function loadPlan(){
   try{
     const r=await fetch('/api/plan/'+PROFILE); if(!r.ok) return;
