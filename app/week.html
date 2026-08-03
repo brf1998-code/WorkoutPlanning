@@ -24,7 +24,7 @@
     --shadow-lg:0 4px 18px rgba(20,22,28,.10);
   }
   @media (prefers-color-scheme: dark){
-    :root{
+    :root:not([data-theme=light]){
       --bg:#0e1116; --card:#171b22; --card2:#1f242e; --line:#2a313d;
       --text:#eaeef3; --dim:#8b95a5; --faint:#5b6473;
       --orange:#ff5b1f; --orange-soft:rgba(255,91,31,.16);
@@ -32,6 +32,14 @@
       --amber:#f5b14d; --purple:#a78bfa; --blue:#5b9bff; --teal:#33c2c2;
       --shadow:none; --shadow-lg:0 6px 22px rgba(0,0,0,.45);
     }
+  }
+:root[data-theme=dark]{
+    --bg:#0e1116; --card:#171b22; --card2:#1f242e; --line:#2a313d;
+    --text:#eaeef3; --dim:#8b95a5; --faint:#5b6473;
+    --orange:#ff5b1f; --orange-soft:rgba(255,91,31,.16);
+    --green:#3ecf8e; --green-soft:rgba(62,207,142,.16);
+    --amber:#f5b14d; --purple:#a78bfa; --blue:#5b9bff; --teal:#33c2c2;
+    --shadow:none; --shadow-lg:0 6px 22px rgba(0,0,0,.45);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -257,6 +265,22 @@
   .toast.show{opacity:1}
   #shareStage{position:fixed; left:-99999px; top:0}
 
+  /* Focus mode (auto-rotating exercise tile) */
+  .fochead{display:flex; align-items:center; gap:10px; margin:14px 2px 8px}
+  .fochead .fnav{width:38px; height:38px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--dim); font-size:17px; font-weight:800; box-shadow:var(--shadow)}
+  .fochead .fnav:disabled{opacity:.3}
+  .fochead .focinfo{flex:1; text-align:center; min-width:0}
+  .fochead .foclbl{font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange)}
+  .fochead .focpos{font-size:12px; font-weight:700; color:var(--dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .foccard{border-color:var(--orange); box-shadow:0 0 0 2px var(--orange-soft), var(--shadow-lg); scroll-margin-top:215px}
+  .setrow.curset{background:var(--orange-soft); border-radius:10px; margin-left:-6px; padding:4px 6px 4px 6px}
+  .upnext{display:flex; align-items:center; gap:7px; margin:2px 0 12px; padding:10px 13px; border-radius:12px; background:var(--card2); border:1px dashed var(--line); font-size:13px; font-weight:700; color:var(--dim)}
+  .upnext b{color:var(--text)}
+  .fochidden{text-align:center; font-size:12px; color:var(--faint); font-weight:700; margin:10px 0}
+  .linkbtn{background:none; border:none; color:var(--orange); font-weight:800; font-size:12px; padding:0; text-decoration:underline}
+  .focmode{font-size:11px; font-weight:800; color:var(--dim); background:var(--card2); border:1px solid var(--line); border-radius:8px; padding:5px 9px; white-space:nowrap; flex:0 0 auto}
+  .focmode.on{color:var(--orange); border-color:var(--orange); background:var(--orange-soft)}
+
   /* Intake overlay */
   .overlay{position:fixed; inset:0; background:rgba(10,12,16,.5); z-index:60; display:none; overflow-y:auto}
   .overlay.open{display:block}
@@ -325,6 +349,7 @@
   <div class="menu" id="menu">
     <button id="shareBtn">📷 Share to Strava</button>
     <button id="copyBtn">📋 Copy log</button>
+    <button id="themeBtn">🌗 Theme: Auto</button>
     <button id="intakeBtn">➕ New profile intake</button>
     <button id="lockWeightBtn" style="display:none">🔒 Hide weight</button>
     <div class="mhint">Add anyone (family welcome) — their intake rides along in your Sunday export and I'll build their plan</div>
@@ -493,6 +518,9 @@ let KEY = "wlog-" + pkey();
 let mem = {days:{}};
 let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
 let expanded = {}, progCharts = [];
+let focusMode = true; try{ focusMode = localStorage.getItem('focus-mode')!=='0'; }catch(e){}
+let focusPeek = null;      // {day,sx,ii} manual peek via arrows; cleared on any set check
+let lastFocus = null;      // tracks the focused tile so we auto-scroll when it rotates
 const STALE_MS = 3*60*60*1000;
 
 function loadState(){ try{ const s=localStorage.getItem(KEY); if(s){ const m=JSON.parse(s); if(m&&m._wk&&m._wk!==pkey()){ mem={days:{}}; } else if(m){ mem=m; } } }catch(e){} }
@@ -549,6 +577,26 @@ function runUnits(def, st){
 function sessionUnits(s){ if(s.def.type==="lift") return liftUnits(s.def,s.st); if(s.def.type==="run") return runUnits(s.def,s.st); return {total:1, done:s.st.done?1:0}; }
 function dayProgress(i){ let total=0, done=0; sessionsFor(i).forEach(s=>{ const u=sessionUnits(s); total+=u.total; done+=u.done; }); return {total,done,pct:total?Math.round(done/total*100):0}; }
 function dayComplete(i){ const p=dayProgress(i); return p.total>0 && p.done===p.total; }
+
+// ---- focus mode: execution order (round-aware for circuits / stations / A1-A2 supersets) ----
+function isStation(it){ if(!it) return false; return !!(it.station || /station|next move/i.test(it.rest||"") || /^(circuit|superset|a\d|b\d)\b/i.test(it.n||"")); }
+function execOrder(def, st){
+  const items=def.items||[]; const ord=[]; let i=0;
+  while(i<items.length){
+    if(isStation(items[i])){
+      let j=i; while(j<items.length && isStation(items[j])) j++;
+      let rounds=0; for(let k=i;k<j;k++) rounds=Math.max(rounds, items[k].s||0);
+      for(let r=0;r<rounds;r++) for(let k=i;k<j;k++){ if(r<(items[k].s||0)) ord.push({ii:k, s:r}); }
+      i=j;
+    } else { for(let s=0;s<(items[i].s||0);s++) ord.push({ii:i, s}); i++; }
+  }
+  return ord;
+}
+function focusNext(def, st){
+  const ord=execOrder(def,st);
+  for(const o of ord){ if(!((st.sets[o.ii+"-"+o.s]||{}).done)) return o; }
+  return null;
+}
 
 function setVolume(it, v){ // v = set state object
   if(it.noWeight) return 0;
@@ -678,7 +726,7 @@ function renderTabs(){
   PLAN.days.forEach((day,i)=>{ const b=document.createElement("button");
     b.className="tab"+(i===cur?" active":"")+(dayComplete(i)?" done":"");
     b.innerHTML=`<span class="dn">${day.d}</span><span class="dt">${day.date}</span><br><span class="ring"></span>`;
-    b.onclick=()=>{ cur=i; picking=false; subPicker=null; expanded={}; render(); }; t.appendChild(b); });
+    b.onclick=()=>{ cur=i; picking=false; subPicker=null; expanded={}; focusPeek=null; render(); }; t.appendChild(b); });
 }
 function kindMeta(type){ if(type==="lift") return {ico:"🏋️",label:"Strength"}; if(type==="run") return {ico:"🏃",label:"Run + Strength"}; return {ico:"🧘",label:"Recovery"}; }
 function phaseLabel(def, st){
@@ -699,7 +747,7 @@ function renderWeek(){
     const extra = day.type==="lift" ? `· ${vol.toLocaleString()} lb` : "";
     h += `<div class="hud"><div class="hud-row">
       <span class="hud-title">${esc(day.name)}</span>
-      <span class="hud-phase">${esc(phaseLabel(day,st))}</span></div>
+      <span class="hud-phase">${esc(phaseLabel(day,st))}</span>${day.type==="lift"?`<button class="focmode${focusMode?" on":""}" data-foctoggle>${focusMode?"▣ Focus":"▤ List"}</button>`:""}</div>
       <div class="hud-row" style="margin-top:6px"><span class="hud-nums">${prog.done}/${prog.total} done ${extra}</span><span class="hud-nums">${prog.pct}%</span></div>
       <div class="hud-bar${prog.pct===100?" full":""}"><span style="width:${prog.pct}%"></span></div></div>`;
   }
@@ -733,6 +781,12 @@ function renderWeek(){
 
   document.getElementById("content").innerHTML = h;
   attachHandlers(); tickTimer();
+  try{ // when the focus tile rotates to a new exercise, glide it into view
+    const fc=document.querySelector("[data-foccard]");
+    const fk=fc?fc.getAttribute("data-foccard"):null;
+    if(fc && lastFocus && lastFocus.day===cur && lastFocus.key!==fk){ setTimeout(()=>{ try{ fc.scrollIntoView({behavior:"smooth",block:"start"}); }catch(e){} },80); }
+    lastFocus = fk?{day:cur, key:fk}:null;
+  }catch(e){}
 }
 
 function renderStats(s){
@@ -812,7 +866,7 @@ function renderSessionBody(def, st, sx){
       h+=`<button class="bigdone${st.runDone?" on":""}" data-sx="${sx}" data-rundone="1">${altDoneLabel(mode,st.runDone)}</button></div>`; }
     if(def.strength){
       h+=secLabel("core","Strength + Core","");
-      def.strength.forEach((it,ii)=> h+=renderExercise(def,st,sx,ii,"strength"));
+      def.strength.forEach((it,ii)=> h+=renderExercise(def,st,sx,ii));
       (st.custom||[]).forEach((ci,ci_i)=> h+=renderCustom(ci,sx,ci_i));
       h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
     }
@@ -820,24 +874,57 @@ function renderSessionBody(def, st, sx){
   }
 
   // lift
-  let h=renderWarmup(def,st,sx); let inCore=false, openedWork=false;
-  (def.items||[]).forEach((it,ii)=>{ if(it.coreStart&&!inCore){ inCore=true; h+=secLabel("core","Core Finisher",""); } if(!inCore&&!openedWork){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderExercise(def,st,sx,ii,"items"); });
+  let h=renderWarmup(def,st,sx);
+  if(focusMode && (def.items||[]).length){ h+=renderFocusLift(def,st,sx); }
+  else { let inCore=false, openedWork=false;
+  (def.items||[]).forEach((it,ii)=>{ if(it.coreStart&&!inCore){ inCore=true; h+=secLabel("core","Core Finisher",""); } if(!inCore&&!openedWork){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderExercise(def,st,sx,ii); }); }
   (st.custom||[]).forEach((ci,ci_i)=>{ if(!openedWork&&!inCore){ openedWork=true; h+=secLabel("work","The Workout",""); } h+=renderCustom(ci,sx,ci_i); });
   h+=`<button class="addex" data-sx="${sx}" data-addex="1">＋ Add exercise</button>`;
   h+=renderStretches(def,st,sx); return h;
 }
 
+function renderFocusLift(def, st, sx){
+  const items=def.items||[]; if(!items.length) return "";
+  const nxt=focusNext(def,st);
+  let h="";
+  if(!nxt){ // everything done — show the normal (collapsed) list
+    h+=secLabel("work","The Workout","all done ✓");
+    items.forEach((_,ii)=> h+=renderExercise(def,st,sx,ii));
+    return h;
+  }
+  const peek=(focusPeek && focusPeek.day===cur && focusPeek.sx===sx)?focusPeek.ii:null;
+  const fi=(peek!=null)?Math.max(0,Math.min(items.length-1,peek)):nxt.ii;
+  const peeking=(peek!=null && fi!==nxt.ii);
+  const focItem=items[fi];
+  let pos="Exercise "+(fi+1)+" of "+items.length;
+  if(isStation(focItem) && !peeking) pos+=" · Round "+(nxt.s+1)+"/"+(focItem.s||0);
+  h+=`<div class="fochead"><button class="fnav" data-sx="${sx}" data-fprev ${fi<=0?"disabled":""}>‹</button><div class="focinfo"><div class="foclbl">${peeking?"Peeking":"Now"}</div><div class="focpos">${pos}</div></div><button class="fnav" data-sx="${sx}" data-fnext ${fi>=items.length-1?"disabled":""}>›</button></div>`;
+  if(peeking) h+=`<div class="upnext" data-fback style="cursor:pointer">↩ <b>Back to now</b> · ${esc((effItem(def,st,nxt.ii)||{}).n||"")}</div>`;
+  const hl=peeking?null:(nxt.ii+"-"+nxt.s);
+  h+=renderExercise(def,st,sx,fi,{force:true,hl:hl,foc:true});
+  // up next = first not-done entry after the current one that belongs to a different exercise
+  const ord=execOrder(def,st); let un=null, hit=false;
+  for(const o of ord){ if(!hit){ if(o.ii===nxt.ii&&o.s===nxt.s) hit=true; continue; } if((st.sets[o.ii+"-"+o.s]||{}).done) continue; if(o.ii!==nxt.ii){ un=o; break; } }
+  if(un && !peeking) h+=`<div class="upnext">Up next → <b>${esc((effItem(def,st,un.ii)||{}).n||"")}</b>&nbsp;· set ${un.s+1}</div>`;
+  // completed exercises collapse below; untouched ones stay hidden until they rotate in
+  let hiddenUp=0;
+  items.forEach((x,ii2)=>{ if(ii2===fi) return; if(itemDone(effItem(def,st,ii2),st,ii2)) h+=renderExercise(def,st,sx,ii2); else hiddenUp++; });
+  if(hiddenUp>0) h+=`<div class="fochidden">${hiddenUp} more queued — they rotate in as you go · <button class="linkbtn" data-foctoggle>show full list</button></div>`;
+  return h;
+}
+
 function recRest(it){ if(it.rest) return it.rest; if(it.noWeight) return "30–45s"; if(it.warmupSet) return "2–3 min"; return "60–90s"; }
 function recRestSec(it){ const r=recRest(it); const rng=r.match(/(\d+)\s*[–-]\s*(\d+)/); if(rng) return parseInt(rng[2])*(r.includes("min")?60:1); const m=r.match(/(\d+)\s*min/); if(m) return parseInt(m[1])*60; const s=r.match(/(\d+)\s*s/); if(s) return parseInt(s[1]); return 120; }
 
-function renderExercise(def, st, sx, ii){
+function renderExercise(def, st, sx, ii, opts){
+  opts=opts||{};
   const it = effItem(def, st, ii);
   const cid = sx+":i:"+ii, key=sx+":"+ii;
   const complete = itemDone(it, st, ii);
-  if(complete && !expanded[cid]){ let sub; if(it.superset) sub=supersetSummary(it,st,ii); else if(it.noWeight) sub="Done"; else { const top=itemTopWeight(it,st,ii); sub=top?top+" lb top":"Done"; }
+  if(complete && !expanded[cid] && !opts.force){ let sub; if(it.superset) sub=supersetSummary(it,st,ii); else if(it.noWeight) sub="Done"; else { const top=itemTopWeight(it,st,ii); sub=top?top+" lb top":"Done"; }
     return `<div class="exdone" data-expand="${cid}"><span class="dch">✓</span><span class="dn">${esc(it.n||"Exercise")}</span><span class="ds">${esc(sub)}</span><span class="cev">▾</span></div>`; }
 
-  let h=`<div class="card ex"><div class="top">`;
+  let h=`<div class="card ex${opts.foc?" foccard":""}"${opts.foc?` data-foccard="${cur}:${sx}:${ii}"`:""}><div class="top">`;
   if(it.editable) h+=`<input class="nameinput" placeholder="Exercise name" value="${esc(it.n)}" data-sx="${sx}" data-iname="${ii}">`;
   else h+=`<span class="name">${esc(it.n)}</span>`;
   h+=`<div class="topright">`;
@@ -869,7 +956,7 @@ function renderExercise(def, st, sx, ii){
   for(let s=0;s<it.s;s++){
     const k=ii+"-"+s, v=st.sets[k]||{};
     const rl = (v.done && v.rest) ? `<span class="restlbl${v.rest>recSec*1.5?" long":""}">⏱ ${fmtDur(v.rest*1000)}</span>` : "";
-    h+=`<div class="setrow"><button class="chk${v.done?" on":""}" data-sx="${sx}" data-k="${k}">✓</button><span class="slbl">Set ${s+1}</span>`;
+    h+=`<div class="setrow${opts.hl===k?" curset":""}"><button class="chk${v.done?" on":""}" data-sx="${sx}" data-k="${k}">✓</button><span class="slbl">Set ${s+1}</span>`;
     if(it.superset){ h+= rl + `</div>`;
       it.superset.forEach((sl,li)=>{ const sg=itemSuggest(it,st,ii,li); const cw=((v.ws||{})[li])||"";
         h+=`<div class="ssrow"><span class="sslbl">${esc(sl)}</span><input class="ni" type="number" inputmode="decimal" placeholder="${sg?esc(sg):"wt"}" value="${esc(cw)}" data-sx="${sx}" data-ssw="${k}.${li}"><span class="unit">lb</span></div>`; });
@@ -921,9 +1008,21 @@ function tickTimer(){
 
 // ---- handlers ----
 function stForSx(sx){ return sessionsFor(cur)[sx].st; }
+function focusStep(sx, d){
+  const s=sessionsFor(cur)[sx]; if(!s) return; const def=s.def, st=s.st; const items=def.items||[];
+  const nxt=focusNext(def,st); if(!nxt) return;
+  const curI=(focusPeek && focusPeek.day===cur && focusPeek.sx===sx)?focusPeek.ii:nxt.ii;
+  const ni=Math.max(0,Math.min(items.length-1,curI+d));
+  focusPeek = (ni===nxt.ii) ? null : {day:cur, sx:sx, ii:ni};
+  render();
+}
 function attachHandlers(){
   const c=document.getElementById("content"), q=sel=>c.querySelectorAll(sel);
-  q("[data-k]").forEach(b=> b.onclick=()=>{ const s=sessionsFor(cur)[+b.dataset.sx]; const st=s.st; const ii=+(String(b.dataset.k).split("-")[0]); const it=((s.def.items||s.def.strength||[])[ii])||{}; const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) v.rest=Math.round((now-st._lastSet)/1000); markSetTime(recRestSec(it)); } save(); render(); });
+  q("[data-k]").forEach(b=> b.onclick=()=>{ const s=sessionsFor(cur)[+b.dataset.sx]; const st=s.st; const ii=+(String(b.dataset.k).split("-")[0]); const it=((s.def.items||s.def.strength||[])[ii])||{}; const v=st.sets[b.dataset.k]||(st.sets[b.dataset.k]={}); v.done=!v.done; if(v.done){ const now=Date.now(); if(st._lastSet && (now-st._lastSet)<STALE_MS) v.rest=Math.round((now-st._lastSet)/1000); markSetTime(recRestSec(it)); } focusPeek=null; save(); render(); });
+  q("[data-foctoggle]").forEach(b=> b.onclick=()=>{ focusMode=!focusMode; try{ localStorage.setItem('focus-mode', focusMode?'1':'0'); }catch(e){} focusPeek=null; render(); });
+  q("[data-fprev]").forEach(b=> b.onclick=()=>focusStep(+b.dataset.sx,-1));
+  q("[data-fnext]").forEach(b=> b.onclick=()=>focusStep(+b.dataset.sx,1));
+  q("[data-fback]").forEach(el=> el.onclick=()=>{ focusPeek=null; render(); });
   q("[data-w]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.w]||(st.sets[inp.dataset.w]={}); v.w=inp.value; save(); });
   q("[data-r]").forEach(inp=> inp.oninput=()=>{ const st=stForSx(+inp.dataset.sx); const v=st.sets[inp.dataset.r]||(st.sets[inp.dataset.r]={}); v.r=inp.value; save(); });
   q("[data-ssw]").forEach(inp=> inp.oninput=()=>{ const [k,li]=inp.dataset.ssw.split("."); const st=stForSx(+inp.dataset.sx); const v=st.sets[k]||(st.sets[k]={}); v.ws=v.ws||{}; v.ws[li]=inp.value; save(); });
@@ -1172,6 +1271,11 @@ document.getElementById("copyBtn").onclick=async ()=>{ await loadDiet(); const m
 document.getElementById("tReset").onclick=()=>{ const st=dayState(cur); st._lastSet=Date.now(); st._ended=null; st._pausedAt=null; save(); tickTimer(); };
 document.getElementById("tPause").onclick=()=>{ const st=dayState(cur); if(st._pausedAt){ st._lastSet += (Date.now()-st._pausedAt); st._pausedAt=null; } else { st._pausedAt=Date.now(); } save(); tickTimer(); };
 
+// ---- Theme (day/night) override — Auto follows the phone, Light/Dark force it ----
+function themeGet(){ try{ return localStorage.getItem('theme')||"auto"; }catch(e){ return "auto"; } }
+function themeApply(){ const t=themeGet(); if(t==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t); const b=document.getElementById("themeBtn"); if(b) b.textContent = t==="auto"?"🌗 Theme: Auto":(t==="light"?"☀️ Theme: Light":"🌙 Theme: Dark"); }
+document.getElementById("themeBtn").onclick=()=>{ const t=themeGet(); const n=t==="auto"?"light":(t==="light"?"dark":"auto"); try{ localStorage.setItem('theme',n); }catch(e){} themeApply(); closeMenu(); render(); toast(n==="auto"?"Theme: Auto (follows phone)":n==="light"?"Day mode on":"Night mode on"); };
+
 // ---- Weight PIN lock (soft, per-device) ----
 const WPIN="2020";
 function weightUnlocked(){ try{ return localStorage.getItem('weight-unlocked')==='1'; }catch(e){ return false; } }
@@ -1318,7 +1422,7 @@ document.getElementById("intakeBtn").onclick=()=>{ closeMenu(); openIntake(); };
 document.getElementById("intakeClose").onclick=closeIntake;
 
 // Load the active profile's plan from the server (falls back to the built-in DEFAULT_PLAN if none).
-function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); mem={days:{}}; loadState(); try{weekNav.offset=0; archiveCurrentPlan(); loadWeekList();}catch(e){} render(); }
+function applyPlan(p){ PLAN=p; KEY="wlog-"+pkey(); cur=todayIdx(); focusPeek=null; mem={days:{}}; loadState(); try{weekNav.offset=0; archiveCurrentPlan(); loadWeekList();}catch(e){} render(); }
 async function loadPlan(){
   try{
     const r=await fetch('/api/plan/'+PROFILE); if(!r.ok) return;
@@ -1432,7 +1536,7 @@ function initWeekNav(){
 }
 /* ===== end week navigation ===== */
 
-loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000); initWeekNav(); loadDiet();
+themeApply(); loadState(); render(); syncDown(); loadPlan(); updateWeightLockUI(); loadIntakes(); syncIntakesDown(); setInterval(tickTimer,1000); initWeekNav(); loadDiet();
 loadStrava().then(()=>render()); syncStrava().then(loadStrava).then(()=>render());
 </script>
 </body>
