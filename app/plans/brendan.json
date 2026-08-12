@@ -1,217 +1,89 @@
 {
-  "weekId": "2026-08-03",
-  "start": "2026-08-03",
-  "title": "Week of Aug 3–9",
-  "subtitle": "Week 8 · Block 2 DELOAD — back off on purpose, bank the block, then road-trip to DC. Big-4 retest starts Aug 10.",
+  "weekId": "2026-08-10",
+  "start": "2026-08-10",
+  "title": "Week of Aug 10–16",
+  "subtitle": "Bridge week — back from the road trip, re-regulate, run decent miles, lift moderate. Big-4 retest now starts Aug 17. Sat/Sun short — Maine cabin weekend.",
   "goals": [
-    "This is a deload, and you earned it the hard way — Fri's journal ('exhausted, probably over fatigued'), Sat's 15 on the max set, Sun's HR stuck in Z3–4, and feeling wiped Fri through today. Nothing this week is a test. Lifts drop 10–15% off your tops; every set should feel crisp and easy.",
-    "Mileage: ~11–12 mi, all Mon–Fri (Tue 4 w/ light pickups, Thu 4 easy, short flushes Mon/Wed, Fri optional). That's a bigger cut than the usual −30% because Sat/Sun are driving days — good timing, the road trip does the extra trimming for us.",
-    "Sat + Sun you're driving to DC: each charging stop = one round of the stop circuit (~8–10 min). 4 rounds programmed; if the day only has 3 stops, skip set 4 — 3 rounds is a complete day. No pull-up benchmark this week (no bar at a charging stop) — it returns Aug 15, fresh.",
-    "Side planks are OUT (heard you — 'pretty tired of side planks'). Core stays light and varied this week.",
-    "Eat to the SMART goal as always — it auto-drops with the lower training volume, that's it working. 192.5 and tracking to 189.9 by Aug 14; maintenance starts next week for the retest block.",
-    "Next week: Block 3, Big-4 retest (Back Squat / Bench / Deadlift / OHP), light re-calibration week first. This deload is what makes those PRs possible — protect it."
+    "Block 3 is officially pushed one week — Big-4 retest starts Mon Aug 17. The road trip (Aug 8–11, unlogged, gas-station-fueled) extended the deload by four days; that costs nothing and probably helped. This week's only job is getting the body reregulated: normal sleep times, water, protein at every meal, training that feels good rather than tests anything.",
+    "Lifts Wed/Fri are moderate re-entry work — roughly 90% of your Block 2 tops, crisp bar speed, 2–3 in reserve everywhere. You're priming the pattern after 4 days off, not chasing anything. The chasing starts next week.",
+    "Mileage ~13: Wed 2 (post-lift), Thu 5 easy, Fri 1.5 (post-lift), Sat ~2.5 at the cabin, Sun 2. All easy — no quality day this week; the legs re-learn rhythm first, speed returns with the block.",
+    "Sat + Sun = Maine cabin, deliberately short: a little jog and a quick calisthenics hit each day, ~25–30 min total, then enjoy the weekend. No pull-up benchmark (assuming no bar in the woods) — it returns Sat Aug 22, fresh, inside the retest block.",
+    "Food: maintenance starts NOW, not next week — the deficit ended with Block 2. Eat to the SMART goal at deficit 0 and fuel the retest block. Expect the scale to read noisy/high for a few days after road food (sodium + glycogen, not fat) — do not react, do not compensate-cut. 7-day MA only, and even that gets a free pass until ~Friday.",
+    "The 189.9-by-Aug-14 target is retired — it belonged to the deficit phase that's over. The plan says maintenance 189–191 through the retest block and the waist is the arbiter. Nothing about the road trip changed the long-term math."
   ],
-  "review": "You closed the block exactly right, including the part where you backed off without being told. What you logged: crossed 20 for the first time in the rebuild — 20.83 mi by your entered miles (Mon 1.5, Tue 5.57, Wed 1.5, Thu 5.0, Fri 1.0, Sat 1.5, Sun 4.76). Incline you rode the ramp to 155 again and owned it. Push Press you finished at 145 — above the 140 we agreed to hold, and a new top. Chest-supported row 150, front squat held 145, hip thrust 160. Friday you were honest: 'exhausted and probably over fatigued' — you kept paused DL at 225 instead of chasing 235 and leg press at 250 instead of 270. That was the right read, not a miss; week 3 of a build is supposed to end heavy-legged. Saturday's max set came in at 15 vs the 19 we chased — that's not strength lost, that's three build weeks of fatigue sitting on the bar, and it's the clearest deload signal in the log. Sunday's run averaged 163 ('way too much zone 3 and zone 4' — agreed; tired legs push HR up at the same pace, another vote for the deload). Scale 192.5–192.6, ahead of pace for 189.9 by Aug 14. Block 2 banked: Front Squat 145, Incline 155, Push Press 145, Paused DL 225, 20+ mi/week, pull-up benchmark 18. Now we cash it in: one easy week, a road trip, and into the Big-4 retest fresh.",
+  "review": "Nothing logged since Fri Aug 7 — by design. The deload week closed clean (you kept everything light like it asked), then the road trip took Sat–Tue. Four days of driving, friends, and mediocre food after a deload week is not a setback; it's the most rested you've been since June. Block 2 stays banked: Front Squat 145, Incline 155, Push Press 145, Paused DL 225, first 20+ mi week of the rebuild, pull-up benchmark 18. This week bridges back to structure, and Monday the Big-4 retest starts with a calibration week — squat, bench, deadlift, OHP, ramping to top sets at ~2 RIR to set the block's baselines.",
   "days": [
     {
       "d": "Mon",
-      "date": "8/3",
-      "name": "Lower — Deload",
-      "block": "5:00–7:00 AM",
-      "dur": "~40 min work",
-      "type": "lift",
-      "warmup": [
-        "2–3 min on rower, stairmaster, or erg — easy pace",
-        "Cat-cow + slow bodyweight good mornings — 10 reps (back care)",
-        "Leg swings — 10 each direction/leg",
-        "Bodyweight squats — 1×12, easy"
-      ],
-      "items": [
-        {
-          "n": "Front Squat",
-          "s": 3,
-          "r": "5",
-          "note": "Ramp 95/115/125 — top is ~85% of your 145. Bar speed, elbows high, every rep crisp. If it feels heavy, that's fatigue talking — take 115 and don't think twice.",
-          "focus": "Elbows up, upright torso, brace before every descent.",
-          "warmupSet": true,
-          "target": "125"
-        },
-        {
-          "n": "Barbell Hip Thrust",
-          "s": 2,
-          "r": "10",
-          "note": "120/140 — down from your 160 top. Squeeze at the top, nothing grindy.",
-          "focus": "Chin tucked, ribs down, full lockout with a 1s squeeze.",
-          "target": "140"
-        },
-        {
-          "n": "Bulgarian Split Squat",
-          "s": 2,
-          "r": "8/leg",
-          "note": "25s — down from 35s. Smooth and controlled.",
-          "focus": "Tall torso, controlled down, drive through the front heel.",
-          "target": "25s"
-        },
-        {
-          "n": "Leg Curl",
-          "s": 2,
-          "r": "12",
-          "note": "100 — light, feel the hamstrings work.",
-          "focus": "Squeeze the hamstring, control the lowering.",
-          "target": "100"
-        },
-        {
-          "n": "Dead Bug",
-          "s": 2,
-          "r": "10/side",
-          "noWeight": true,
-          "coreStart": true,
-          "focus": "Low back glued to the floor, slow opposite arm/leg."
-        },
-        {
-          "n": "V-Ups",
-          "s": 2,
-          "r": "10",
-          "noWeight": true,
-          "note": "Side planks are out of the rotation, as requested. Tuck-ups if straight legs break form.",
-          "focus": "Reach hands to feet, control the way down, no flopping."
-        }
-      ],
-      "stretches": [
-        "Hip flexor stretch — 30s each side",
-        "Ankle circles — 10 each direction",
-        "Glute / figure-4 stretch — 30s each side"
-      ],
-      "addons": [
-        {
-          "type": "run",
-          "name": "Easy Finishing Jog",
-          "run": {
-            "title": "Easy Finishing Jog",
-            "dist": "1.5 mi",
-            "detail": "Relaxed conversational flush. Deload week — if the legs say walk, walk.",
-            "fields": [
-              "Distance (mi)",
-              "Time",
-              "Avg HR"
-            ],
-            "hr": {
-              "zone": "Zone 1–2 · easy flush",
-              "warmup": "easy",
-              "main": "≤150 bpm",
-              "cool": "easy",
-              "note": "Post-lift HR drifts from heat — keep the effort conversational, don't chase the number."
-            }
-          }
-        }
+      "date": "8/10",
+      "name": "Road Trip — Travel Day",
+      "block": "On the road",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Still on the road — nothing planned, nothing to log. If you moved at a stop, great; if not, also great.",
+      "fields": [
+        "Notes (optional)"
       ]
     },
     {
       "d": "Tue",
-      "date": "8/4",
-      "name": "Run — Light Pickups",
-      "block": "5:00–7:00 AM",
-      "dur": "~40 min",
-      "type": "run",
-      "warmup": [
-        "5 min brisk walk → easy jog to raise the heart rate",
-        "Leg swings — 10 front-to-back & side-to-side / leg",
-        "Walking lunge with reach — 8/leg",
-        "Ankle circles + 15 calf raises"
-      ],
-      "run": {
-        "title": "Deload Run — 4 mi w/ 4×2 min pickups",
-        "dist": "4 mi",
-        "detail": "10 min easy, then 4×2 min at a strong-but-smooth effort (think last week's opening reps, not the fastest ones) with 2 min easy jog between, then easy to ~4 mi total. This is a touch of speed to stay sharp, NOT a workout — less than half of last week's quality volume. Log your entered miles from the treadmill console, not the watch.",
-        "fields": [
-          "Distance (mi)",
-          "Time",
-          "Avg HR"
-        ],
-        "hr": {
-          "zone": "Zone 3–4 on pickups · everything else easy",
-          "warmup": "10 min easy, < 150 bpm",
-          "main": "pickups strong but controlled — stop short of the red line",
-          "cool": "easy, < 150 bpm",
-          "note": "If the legs feel dead on pickup 1, drop the rest and just run easy. Deload rules."
-        }
-      },
-      "strength": [
-        {
-          "n": "Push-ups",
-          "s": 2,
-          "r": "12",
-          "noWeight": true,
-          "focus": "Body in a straight line, full range of motion."
-        },
-        {
-          "n": "Glute Bridge",
-          "s": 2,
-          "r": "15",
-          "noWeight": true,
-          "focus": "Drive through heels, squeeze hard at the top."
-        },
-        {
-          "n": "Plank",
-          "s": 2,
-          "r": "40s",
-          "noWeight": true,
-          "focus": "Straight line, squeeze glutes, no sag."
-        }
-      ],
-      "stretches": [
-        "Standing quad stretch — 30s each side",
-        "Hamstring stretch — 30s each side",
-        "Calf stretch — 30s each side",
-        "Hip flexor / pigeon — 30s each side"
+      "date": "8/11",
+      "name": "Back to Boston — Travel Day",
+      "block": "Homeward",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Drive home, unpack, real dinner, real bedtime. Re-regulation starts with tonight's sleep, not tomorrow's workout.",
+      "fields": [
+        "Notes (optional)"
       ]
     },
     {
       "d": "Wed",
-      "date": "8/5",
-      "name": "Upper — Deload",
+      "date": "8/12",
+      "name": "Upper — Re-entry",
       "block": "5:00–7:00 AM",
-      "dur": "~40 min work",
+      "dur": "~50 min work",
       "type": "lift",
       "warmup": [
-        "2–3 min on rower, stairmaster, or erg — easy pace",
-        "Scapular push-ups + wall slides — 10 each (you loved these)",
-        "Arm circles + shoulder dislocates — 10 each"
+        "3 min on rower, stairmaster, or erg — easy pace, wake the system up",
+        "Scapular push-ups + wall slides — 10 each",
+        "Arm circles + shoulder dislocates — 10 each",
+        "1 easy set of band pull-aparts or light rows — blood in the upper back"
       ],
       "items": [
         {
           "n": "Incline Barbell Bench",
           "s": 3,
           "r": "6",
-          "note": "Ramp 95/115/135 — top is ~87% of your 155 PR. Fast off the chest, clean lockout, 3+ reps in reserve. UNSPOTTED rules always apply.",
-          "focus": "Shoulder blades pinched, bar to upper chest, controlled descent.",
+          "note": "Ramp 95/125/140 — ~90% of your 155 top. First bar work in 5 days: expect the first set to feel weird and the last to feel great. 2–3 in reserve, UNSPOTTED rules as always.",
+          "focus": "Shoulder blades pinched, bar to upper chest, fast off the chest.",
           "warmupSet": true,
-          "target": "135"
+          "target": "140"
         },
         {
           "n": "Push Press",
           "s": 3,
-          "r": "6",
-          "note": "Ramp 95/110/125 — you hit 145 on Wednesday, so this is deliberately way under it. Crisp dip-drive timing is the whole point today.",
-          "focus": "Dip shallow and vertical, drive through, lock out overhead.",
+          "r": "5",
+          "note": "Ramp 95/115/130 — under your 145. Re-find the dip-drive timing before the block switches you back to strict OHP next week.",
+          "focus": "Dip shallow and vertical, drive through, solid overhead lockout.",
           "warmupSet": true,
-          "target": "125"
+          "target": "130"
         },
         {
           "n": "Chest-Supported Row",
-          "s": 2,
+          "s": 3,
           "r": "10",
-          "note": "130 — down from your 150. Squeeze every rep.",
+          "note": "140 — one step under your 150 top. Squeeze every rep, no yanking.",
           "focus": "Chest glued to the pad, pull to the lower ribs, squeeze.",
-          "target": "130"
+          "target": "140"
         },
         {
           "n": "Neutral-Grip Pulldown",
           "s": 2,
           "r": "10",
-          "note": "130 — full stretch at the top, no yanking.",
+          "note": "140 — full stretch at the top.",
           "focus": "Lead with the elbows, full stretch at the top.",
-          "target": "130"
+          "target": "140"
         },
         {
           "n": "Lateral Raise + Face Pull superset",
@@ -236,7 +108,7 @@
           "s": 2,
           "r": "30s",
           "noWeight": true,
-          "focus": "Lower back pressed down, ribs tucked. 30s is plenty this week."
+          "focus": "Lower back pressed down, ribs tucked."
         }
       ],
       "stretches": [
@@ -249,9 +121,9 @@
           "type": "run",
           "name": "Easy Finishing Jog",
           "run": {
-            "title": "Easy Finishing Jog",
-            "dist": "1.5 mi",
-            "detail": "Relaxed conversational flush. Walk breaks fine — it's a deload.",
+            "title": "Easy Finishing Jog — 2 mi",
+            "dist": "2 mi",
+            "detail": "First run since the trip — conversational, shake the car out of the legs. Log your entered miles.",
             "fields": [
               "Distance (mi)",
               "Time",
@@ -260,9 +132,9 @@
             "hr": {
               "zone": "Zone 1–2 · easy flush",
               "warmup": "easy",
-              "main": "≤150 bpm",
+              "main": "conversational effort",
               "cool": "easy",
-              "note": "Post-lift HR drifts from heat — effort conversational, not the number."
+              "note": "Post-lift HR runs hot — cue effort, not the number."
             }
           }
         }
@@ -270,20 +142,21 @@
     },
     {
       "d": "Thu",
-      "date": "8/6",
-      "name": "Easy Run — Deload",
+      "date": "8/13",
+      "name": "Easy Run — 5 mi",
       "block": "5:00–7:00 AM",
-      "dur": "~40 min",
+      "dur": "~50 min",
       "type": "run",
       "warmup": [
         "5 min brisk walk → easy jog",
         "Leg swings — 10 each direction / leg",
-        "Walking lunge with reach — 8/leg"
+        "Walking lunge with reach — 8/leg",
+        "Ankle circles + 15 calf raises"
       ],
       "run": {
-        "title": "Easy Run — 4 mi",
-        "dist": "4 mi",
-        "detail": "Strict Z2, one mile shorter than last Thursday. Your 143–145 avg on these has been perfect — same effort, and after Sunday's 163 let's make this one boringly easy on purpose. Log your entered miles, not the watch.",
+        "title": "Easy Run — 5 mi, strict Z2",
+        "dist": "5 mi",
+        "detail": "The week's main run. Boringly easy on purpose — after 4 days off, HR may sit lower than usual at the same pace; enjoy that, don't spend it. Optional: 4×20s relaxed strides at the very end if the legs feel like moving. Log your entered miles, not the watch.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -292,9 +165,9 @@
         "hr": {
           "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
           "warmup": "ease in, < 145 bpm",
-          "main": "135–148 bpm",
+          "main": "135–150 bpm",
           "cool": "< 140 bpm",
-          "note": "If HR drifts over 150 at easy pace, that's residual fatigue — slow down or walk a minute."
+          "note": "If HR drifts over 150 at easy pace, that's the road trip talking — slow down, it'll be gone by next week."
         }
       },
       "strength": [
@@ -303,14 +176,14 @@
           "s": 2,
           "r": "12",
           "noWeight": true,
-          "focus": "Full depth, chest up, drive through midfoot."
+          "focus": "Full depth, chest up — greasing the pattern for Monday's back squat."
         },
         {
-          "n": "Single-leg Glute Bridge",
+          "n": "Glute Bridge",
           "s": 2,
-          "r": "10/leg",
+          "r": "15",
           "noWeight": true,
-          "focus": "Hips level, squeeze the working glute."
+          "focus": "Drive through heels, squeeze hard at the top."
         },
         {
           "n": "Bird Dog",
@@ -324,20 +197,20 @@
         "Standing quad stretch — 30s each side",
         "Hamstring stretch — 30s each side",
         "Calf stretch — 30s each side",
-        "Figure-4 glute stretch — 30s each side"
+        "Hip flexor / pigeon — 30s each side"
       ]
     },
     {
       "d": "Fri",
-      "date": "8/7",
-      "name": "Full Body — Deload",
+      "date": "8/14",
+      "name": "Full Body — Re-entry",
       "block": "5:00–7:00 AM",
-      "dur": "~40 min work",
+      "dur": "~50 min work",
       "type": "lift",
       "warmup": [
-        "2–3 min on rower, stairmaster, or erg — easy pace",
-        "Cat-cow + hip hinge drill — 10 reps",
-        "Bodyweight Romanian deadlift — 1×12",
+        "3 min on rower, stairmaster, or erg — easy pace",
+        "Cat-cow + slow bodyweight good mornings — 10 reps (back care)",
+        "Bodyweight squats — 1×12, easy",
         "Empty-bar paused pulls — 1×5, feel the position"
       ],
       "items": [
@@ -345,33 +218,33 @@
           "n": "Paused Deadlift",
           "s": 3,
           "r": "4",
-          "note": "Ramp 145/175/195 — ~87% of the 225 you've owned. Perfect pauses, zero grind. Last pull before the Big-4 retest block, so leave feeling springy. Knee or back talks → stop; you lose nothing this week.",
-          "focus": "Bar over midfoot, flat back, hold the pause without losing brace.",
+          "note": "Ramp 145/185/205 — ~90% of your 225. Last paused work before the block switches to conventional DL Monday. Perfect pauses, flat back, zero grind. Back talks → cap at 185 and move on.",
+          "focus": "Bar over midfoot, hold the pause without losing brace.",
           "warmupSet": true,
-          "target": "195"
+          "target": "205"
         },
         {
-          "n": "Leg Press",
+          "n": "Front Squat",
           "s": 2,
-          "r": "10",
-          "note": "Split leg press at 185/215 — down from 250. Control, don't chase.",
-          "focus": "Full controlled range, knees track over toes, don't slam the sled.",
-          "target": "215"
+          "r": "5",
+          "note": "115/130 — well under your 145. Just re-greasing the squat pattern for Monday's back squat calibration. Elbows high, bar speed.",
+          "focus": "Elbows up, upright torso, brace before every descent.",
+          "target": "130"
         },
         {
           "n": "Flat DB Press",
           "s": 2,
           "r": "10",
-          "note": "50s — easy tens, bar speed.",
+          "note": "55s — smooth tens, controlled descent.",
           "focus": "Control the descent, press up and slightly together.",
-          "target": "50s"
+          "target": "55s"
         },
         {
           "n": "Pull-ups",
           "s": 3,
-          "r": "6",
+          "r": "7",
           "repsIn": true,
-          "note": "3×6, easy sets, 3–4 in reserve. No max work this week — the benchmark returns Aug 15 with fresh arms and a real number.",
+          "note": "3×7, 2–3 in reserve — submax as always on Friday. The max benchmark returns Sat Aug 22.",
           "focus": "Full hang to chin over the bar, no kipping."
         },
         {
@@ -379,8 +252,8 @@
           "s": 2,
           "r": "30s/side",
           "coreStart": true,
-          "target": "50",
-          "note": "50 per hand — down from 62s.",
+          "target": "55",
+          "note": "55 per hand.",
           "focus": "Brace tall, don't lean toward the weight."
         },
         {
@@ -399,11 +272,11 @@
       "addons": [
         {
           "type": "run",
-          "name": "Optional Easy Jog",
+          "name": "Easy Finishing Jog",
           "run": {
-            "title": "Optional Easy Jog — 1 mi",
-            "dist": "1 mi",
-            "detail": "Fully optional. If the week has you feeling flat, skip it and pack the car instead — zero cost on a deload.",
+            "title": "Easy Finishing Jog — 1.5 mi",
+            "dist": "1.5 mi",
+            "detail": "Short flush, then pack for Maine.",
             "fields": [
               "Distance (mi)",
               "Time",
@@ -412,9 +285,9 @@
             "hr": {
               "zone": "Zone 1–2 · easy flush",
               "warmup": "easy",
-              "main": "≤150 bpm",
+              "main": "conversational effort",
               "cool": "easy",
-              "note": "Optional means optional."
+              "note": "Cue effort, not the number."
             }
           }
         }
@@ -422,140 +295,126 @@
     },
     {
       "d": "Sat",
-      "date": "8/8",
-      "name": "Road Day 1 — Charging Stop Circuits",
-      "block": "On the road to DC",
-      "dur": "~8–10 min per stop",
-      "type": "lift",
-      "desc": "Saturday format, road edition: every charging stop = one round. Park, plug in, do the round, walk out the rest of the charge. 4 rounds programmed — if the day only has 3 stops, skip set 4; 3 rounds is a complete day. Each 'Set' checkbox = one stop.",
+      "date": "8/15",
+      "name": "Cabin Jog + Ladder",
+      "block": "Maine cabin — morning, ~30 min total",
+      "dur": "~30 min",
+      "type": "run",
+      "desc": "Saturday format this week: THE LADDER — descending rungs, no equipment, no bar needed. Jog first, ladder right after, done before anyone else has finished coffee.",
       "warmup": [
-        "1–2 min easy walk when you get out of the car — shake off the drive before round 1"
+        "A few minutes of easy walking — cabin air counts as a warm-up"
       ],
-      "items": [
+      "run": {
+        "title": "Easy Cabin Jog — 2.5 mi",
+        "dist": "2.5 mi",
+        "detail": "Explore the roads or trails around the cabin, fully conversational. Anywhere between 2 and 3 miles counts — terrain decides, not the watch.",
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
+        "hr": {
+          "zone": "Zone 1–2 · easy",
+          "warmup": "easy",
+          "main": "conversational — trails may spike HR on hills, that's fine",
+          "cool": "easy",
+          "note": "Vacation pace. If it turns into a hike in spots, still counts."
+        }
+      },
+      "strength": [
         {
-          "n": "Air Squats",
-          "s": 4,
-          "r": "20",
+          "n": "Push-up Ladder",
+          "s": 5,
+          "r": "10/8/6/4/2",
           "noWeight": true,
           "station": true,
-          "rest": "0s → next move",
-          "note": "Each set = one charging stop. First move of every round — wakes the legs up after the seat.",
+          "rest": "0s → squats",
+          "note": "Rung 1 = 10 push-ups, then 8, 6, 4, 2. Each set checkbox = one rung. Pairs with the squat ladder — alternate movements, minimal rest.",
+          "focus": "Body in a straight line, full range, quality over speed."
+        },
+        {
+          "n": "Air Squat Ladder",
+          "s": 5,
+          "r": "20/16/12/8/4",
+          "noWeight": true,
+          "station": true,
+          "rest": "0s → good mornings",
+          "note": "Double the push-up rung: 20/16/12/8/4.",
           "focus": "Full depth, chest up, drive through midfoot."
         },
         {
-          "n": "Incline Push-ups",
-          "s": 4,
-          "r": "12",
+          "n": "Bodyweight Good Mornings",
+          "s": 5,
+          "r": "10",
           "noWeight": true,
           "station": true,
-          "rest": "0s → next move",
-          "note": "Hands on the trunk, a curb, or a charger cabinet — whatever's there. Full push-ups on clean ground if you'd rather.",
-          "focus": "Body in a straight line, full range of motion."
-        },
-        {
-          "n": "Walking Lunges",
-          "s": 4,
-          "r": "10/leg",
-          "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "note": "Down the parking row and back.",
-          "focus": "Long stride, tall torso, knee tracks straight."
-        },
-        {
-          "n": "Curb Calf Raises",
-          "s": 4,
-          "r": "15",
-          "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "focus": "Full stretch off the curb edge, pause at the top."
-        },
-        {
-          "n": "Brisk Walk",
-          "s": 4,
-          "r": "4–5 min",
-          "noWeight": true,
-          "station": true,
-          "rest": "back to the car",
-          "note": "Finish the round walking until the charge is done. Blood flow beats sitting — your back will thank you on the next stint.",
-          "focus": "Head up, brisk pace, shake the arms out."
+          "rest": "0s → back to push-ups",
+          "note": "Steady 10 every rung — hinge quality between the harder moves.",
+          "focus": "Hands behind head, flat back, feel the hamstrings."
         }
       ],
       "stretches": [
-        "Evening, at the stop-over — hip flexor stretch, 45s each side (driving shortens them all day)",
+        "Hip flexor stretch — 30s each side",
         "Hamstring stretch — 30s each side",
-        "Figure-4 glute stretch — 30s each side",
-        "Chest doorway stretch + neck rolls — 30s (steering-wheel shoulders)"
+        "Chest doorway (or tree) stretch — 30s each side"
       ]
     },
     {
       "d": "Sun",
-      "date": "8/9",
-      "name": "Road Day 2 — Charging Stop Circuits",
-      "block": "On the road to DC",
-      "dur": "~8–10 min per stop",
-      "type": "lift",
-      "desc": "Same game, new moves: every charging stop = one round, 4 programmed, 3 is a complete day. Last day of the deload — arrive, unpack, stretch, sleep. Big-4 retest block starts tomorrow.",
+      "date": "8/16",
+      "name": "Cabin Jog + Flow",
+      "block": "Maine cabin — morning, ~25 min total",
+      "dur": "~25 min",
+      "type": "run",
+      "desc": "Short and quiet: little jog, easy bodyweight flow, stretch by the water. Drive home whenever. Big-4 retest starts tomorrow, 5 AM — the calibration week, so even that starts light.",
       "warmup": [
-        "1–2 min easy walk when you get out of the car — shake off the drive before round 1"
+        "Easy walk to start — nothing formal"
       ],
-      "items": [
+      "run": {
+        "title": "Easy Cabin Jog — 2 mi",
+        "dist": "2 mi",
+        "detail": "Shorter than yesterday, fully easy. This closes a ~13-mile re-entry week — right where it should be.",
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
+        "hr": {
+          "zone": "Zone 1–2 · easy",
+          "warmup": "easy",
+          "main": "conversational",
+          "cool": "easy",
+          "note": "Nothing to prove today."
+        }
+      },
+      "strength": [
         {
-          "n": "Curb Step-ups",
-          "s": 4,
+          "n": "Walking Lunges",
+          "s": 2,
           "r": "10/leg",
           "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "note": "Curb, bench, or anything stable. Drive through the top leg, control the way down.",
-          "focus": "Tall torso, full foot on the surface, no push-off from the back leg."
+          "focus": "Long stride, tall torso, knee tracks straight."
         },
         {
-          "n": "Push-ups",
-          "s": 4,
-          "r": "12",
+          "n": "Single-leg Glute Bridge",
+          "s": 2,
+          "r": "10/leg",
           "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "note": "Full from the ground, or incline on the car — your call per stop.",
-          "focus": "Body in a straight line, full range of motion."
+          "focus": "Hips level, squeeze the working glute."
         },
         {
-          "n": "Bodyweight Good Mornings",
-          "s": 4,
-          "r": "12",
+          "n": "Dead Bug",
+          "s": 2,
+          "r": "10/side",
           "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "note": "Slow and deliberate — undoes the car-seat hip position better than anything.",
-          "focus": "Hands behind head, hinge at the hips, flat back, feel the hamstrings."
-        },
-        {
-          "n": "Reverse Lunges",
-          "s": 4,
-          "r": "8/leg",
-          "noWeight": true,
-          "station": true,
-          "rest": "0s → next move",
-          "focus": "Controlled, tall torso, knee tracks straight."
-        },
-        {
-          "n": "Brisk Walk",
-          "s": 4,
-          "r": "4–5 min",
-          "noWeight": true,
-          "station": true,
-          "rest": "back to the car",
-          "note": "Walk out the rest of the charge.",
-          "focus": "Head up, brisk pace, shake the arms out."
+          "focus": "Low back glued to the floor, slow opposite arm/leg."
         }
       ],
       "stretches": [
-        "On arrival in DC — 15 min wind-down: hip flexors 45s/side, pigeon 45s/side",
+        "Sun-salutation style flow — 5 slow rounds, move with the breath",
+        "Pigeon pose — 45s each side",
         "Hamstring stretch — 45s each side",
-        "Thoracic rotation + cat-cow — 10 each",
-        "Chest doorway + neck rolls — 30s each side, then done. Sleep well — retest block starts tomorrow."
+        "Child's pose + thoracic rotation — 1 min, then done. Sleep early — calibration week starts tomorrow."
       ]
     }
   ]
