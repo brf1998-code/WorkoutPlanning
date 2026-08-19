@@ -2,16 +2,16 @@
   "weekId": "2026-08-17",
   "start": "2026-08-17",
   "title": "Week of Aug 17–23",
-  "subtitle": "Block 3, Big-4 retest — Week 1 (calibration), offset a day for the engagement weekend. Back Squat / Bench / Deadlift / OHP return; ramp to top sets at ~2 RIR and log the baselines.",
+  "subtitle": "Block 3, Big-4 retest — Week 1 (calibration). Lifts slid one more day: Wed lower · Thu quality run · Fri upper · Sat full body · Sun recovery. Ramp to top sets at ~2 RIR and log the baselines.",
   "goals": [
-    "First: congratulations. Engaged, Red Sox with your brother, a couple days of walking around town — that is exactly what Monday should have been. The block just slides a day; nothing is lost. Saturday calisthenics sits out this week and its one anchor (the max pull-up benchmark) moves into Saturday's full-body day.",
+    "First: congratulations. Engaged, Red Sox with your brother, a couple days of walking around town — the block just slides, nothing is lost. Tuesday's 4-miler happened, the lift didn't, so the three lifting days now run Wed / Fri / Sat. Saturday calisthenics sits out this week and its one anchor (the max pull-up benchmark) lives inside Saturday's full-body day.",
     "This is the calibration week for the Big-4 retest. Every main lift ramps to ONE top set at ~2 RIR — you log what the bar gives you, and weeks 2–3 build from those numbers toward the Block-1 bests (Squat 200×5, Bench 190, DL 275, OHP ~115 strict). Nothing is a test this week. The listed targets are placeholders from Block 1; if 2 RIR says less, log less without a second thought.",
-    "The offset frame: Tue lower · Wed quality run · Thu upper · Fri easy run · Sat full body · Sun stretch + recovery. Same alternating rhythm as always, shifted one day right.",
-    "Mileage holds ~20 flat all block. This week: Tue 4 (already in the books), Wed 5.5 with the quality work, Thu 1.5 post-lift, Fri 5 easy, Sat 2 post-lift, Sun 2 optional. First quality run since July — Wednesday is controlled threshold, not a race.",
-    "Strict OHP retests this block (form broke down at 125 back in June — that's why Block 2 ran push press). Thursday is strict only: no leg drive, no layback. And the back-care protocol stays on every hinge: extra warm-up, controlled eccentrics, zero grind.",
+    "The rebuilt frame protects what matters most: squats today on fresh legs, and Saturday's deadlift calibration with two easy days for the legs in between (Friday is upper only). The cost is Thursday's quality run landing the day after squats — it's threshold, not a race, and there's built-in permission to trim it.",
+    "Mileage: Tue 4 (done), Thu 5.5 with the quality work, Fri 1.5 post-lift, Sat 2 post-lift, Sun 2.5 easy — ~17.5 for the week. A touch under the block's ~20 because Monday and Tuesday both went to celebrating; that's the right trade and week 2 sits back at 20.",
+    "Strict OHP retests this block (form broke down at 125 back in June — that's why Block 2 ran push press). Friday is strict only: no leg drive, no layback. And the back-care protocol stays on every hinge: extra warm-up, controlled eccentrics, zero grind.",
     "Food: maintenance, full stop. Band is 189–191 and the waist is the arbiter. You're fueling PR attempts for the next three weeks — eat to the SMART goal at deficit 0 and don't react to day-to-day scale noise after a restaurant-heavy celebration stretch."
   ],
-  "review": "The bridge week did its job: ~13 easy miles, two moderate re-entry lifts, short cabin weekend, sleep re-regulated. Block 2 stays banked — Front Squat 145, Incline 155, Push Press 145, Paused DL 225, pull-up benchmark 18, first 20+ mile week of the rebuild. Then the best possible reason to push the start a day. Today's 4-miler already opened the week; tonight the barbell work starts. Three lifting days this week set the baselines the whole block progresses from — ramp honestly to 2 RIR, log it, and let weeks 2–3 do the chasing.",
+  "review": "The bridge week did its job: ~13 easy miles, two moderate re-entry lifts, short cabin weekend, sleep re-regulated. Block 2 stays banked — Front Squat 145, Incline 155, Push Press 145, Paused DL 225, pull-up benchmark 18, first 20+ mile week of the rebuild. Then the best possible reason to slide the start: an engagement. Monday and Tuesday went to celebrating (plus a 4-miler), and the barbell work starts today. Three lifting days in the next four set the baselines the whole block progresses from — ramp honestly to 2 RIR, log it, and let weeks 2–3 do the chasing.",
   "days": [
     {
       "d": "Mon",
@@ -28,6 +28,37 @@
     {
       "d": "Tue",
       "date": "8/18",
+      "name": "Easy Run — 4 mi (done)",
+      "block": "Done — log it",
+      "dur": "~35 min",
+      "type": "run",
+      "desc": "The 4-miler happened, the lift didn't — so the lower day slides to Wednesday and the week rebuilds around it. Log the run here and close the day.",
+      "run": {
+        "title": "Easy Run — 4 mi (already done)",
+        "dist": "4 mi",
+        "detail": "Already in the books — log it here. This opened the week's mileage.",
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
+        "hr": {
+          "zone": "Zone 2 · easy aerobic",
+          "warmup": "easy",
+          "main": "conversational",
+          "cool": "easy",
+          "note": "Logged after the fact — whatever it was, it was right."
+        }
+      },
+      "stretches": [
+        "Standing quad stretch — 30s each side",
+        "Hamstring stretch — 30s each side",
+        "Calf stretch — 30s each side"
+      ]
+    },
+    {
+      "d": "Wed",
+      "date": "8/19",
       "name": "Lower — Squat Calibration",
       "block": "5:00–7:00 AM (or whenever today allows)",
       "dur": "~55 min work",
@@ -44,7 +75,7 @@
           "n": "Back Squat",
           "s": 4,
           "r": "5",
-          "note": "Ramp 135/155/175/185 — top set at ~2 RIR. First back squat since June (Block 2 was front squat), so let the ramp tell you where you are. 185×5 is the placeholder from your 200×5 best; if 2 RIR says 175, log 175 and that's a perfect calibration.",
+          "note": "Ramp 135/155/175/185 — top set at ~2 RIR. First back squat since June (Block 2 was front squat), and today's the freshest your legs will be all week — that's why this moved here. 185×5 is the placeholder from your 200×5 best; if 2 RIR says 175, log 175 and that's a perfect calibration.",
           "focus": "Brace before every descent, controlled eccentric, drive up hard.",
           "warmupSet": true,
           "target": "185"
@@ -93,34 +124,11 @@
         "Standing quad stretch — 30s each side",
         "Hamstring stretch — 30s each side",
         "Hip flexor / pigeon — 30s each side"
-      ],
-      "addons": [
-        {
-          "type": "run",
-          "name": "Morning 4-Miler",
-          "run": {
-            "title": "Easy Run — 4 mi (already done)",
-            "dist": "4 mi",
-            "detail": "Already in the books — log it here. This opened the week and counts toward the ~20.",
-            "fields": [
-              "Distance (mi)",
-              "Time",
-              "Avg HR"
-            ],
-            "hr": {
-              "zone": "Zone 2 · easy aerobic",
-              "warmup": "easy",
-              "main": "conversational",
-              "cool": "easy",
-              "note": "Logged after the fact — whatever it was, it was right."
-            }
-          }
-        }
       ]
     },
     {
-      "d": "Wed",
-      "date": "8/19",
+      "d": "Thu",
+      "date": "8/20",
       "name": "Quality Run — Threshold Intervals",
       "block": "5:00–7:00 AM · out on the road",
       "dur": "~50 min",
@@ -134,7 +142,7 @@
       "run": {
         "title": "Threshold Intervals — 5.5 mi total",
         "dist": "5.5 mi",
-        "detail": "First quality run since July, on real road. 1.5 mi easy warm-up → 3 × 5 min at threshold effort (comfortably hard — you could say short sentences, not paragraphs) with 2–3 min easy jog between → easy cool-down to round out 5.5. Controlled is the whole assignment: finish the last rep feeling like you had one more. Log your entered miles, not the watch.",
+        "detail": "First quality run since July, on real road. 1.5 mi easy warm-up → 3 × 5 min at threshold effort (comfortably hard — short sentences, not paragraphs) with 2–3 min easy jog between → easy cool-down to round out 5.5. The legs will carry Wednesday's squats — that's expected. If rep 1 feels like more than 'comfortably hard', trim the reps to 4 min and call it a full success. Controlled is the whole assignment. Log your entered miles, not the watch.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -145,7 +153,7 @@
           "warmup": "ease in, < 145 bpm",
           "main": "intervals 172–180, no higher — this is threshold, not a 5K",
           "cool": "< 140 bpm",
-          "note": "Three weeks since any speed — HR may run a touch hot on rep 1. Cue effort, let the number settle."
+          "note": "Three weeks since any speed and day-after-squat legs — HR may run a touch hot on rep 1. Cue effort, let the number settle."
         }
       },
       "stretches": [
@@ -156,8 +164,8 @@
       ]
     },
     {
-      "d": "Thu",
-      "date": "8/20",
+      "d": "Fri",
+      "date": "8/21",
       "name": "Upper — Bench + Strict OHP Calibration",
       "block": "5:00–7:00 AM",
       "dur": "~55 min work",
@@ -191,7 +199,7 @@
           "n": "Barbell Row",
           "s": 3,
           "r": "8",
-          "note": "Ramp to ~135 — back to the barbell after a block of chest-supported. Strict torso angle, no heaving.",
+          "note": "Ramp to ~135 — back to the barbell after a block of chest-supported. Strict torso angle, no heaving — save the lower back for tomorrow's deadlifts.",
           "focus": "Hinge held constant, pull to the lower ribs, squeeze.",
           "target": "135"
         },
@@ -234,7 +242,7 @@
           "run": {
             "title": "Easy Finishing Jog — 1.5 mi",
             "dist": "1.5 mi",
-            "detail": "Short flush after the lift. Optional if time is tight — Friday carries the easy volume.",
+            "detail": "Short flush after the lift — legs stay easy today, deadlifts tomorrow.",
             "fields": [
               "Distance (mi)",
               "Time",
@@ -249,66 +257,6 @@
             }
           }
         }
-      ]
-    },
-    {
-      "d": "Fri",
-      "date": "8/21",
-      "name": "Easy Run — 5 mi",
-      "block": "5:00–7:00 AM",
-      "dur": "~50 min",
-      "type": "run",
-      "warmup": [
-        "5 min brisk walk → easy jog",
-        "Leg swings — 10 each direction / leg",
-        "Walking lunge with reach — 8/leg",
-        "Ankle circles + 15 calf raises"
-      ],
-      "run": {
-        "title": "Easy Run — 5 mi, strict Z2",
-        "dist": "5 mi",
-        "detail": "The chiller one. Boringly easy on purpose — Wednesday was the withdrawal, this is the deposit. Optional 4×20s relaxed strides at the very end if the legs feel good. Log your entered miles.",
-        "fields": [
-          "Distance (mi)",
-          "Time",
-          "Avg HR"
-        ],
-        "hr": {
-          "zone": "Zone 2 · easy aerobic (your Strava Z2 = 126–156)",
-          "warmup": "ease in, < 145 bpm",
-          "main": "135–150 bpm",
-          "cool": "< 140 bpm",
-          "note": "If HR drifts over 150 at easy pace, slow down — tomorrow's deadlifts want fresh legs anyway."
-        }
-      },
-      "strength": [
-        {
-          "n": "Bodyweight Good Mornings",
-          "s": 2,
-          "r": "10",
-          "noWeight": true,
-          "focus": "Slow hinge, flat back — greasing the pattern for tomorrow's deadlift."
-        },
-        {
-          "n": "Glute Bridge",
-          "s": 2,
-          "r": "15",
-          "noWeight": true,
-          "focus": "Drive through heels, squeeze hard at the top."
-        },
-        {
-          "n": "Bird Dog",
-          "s": 2,
-          "r": "10/side",
-          "noWeight": true,
-          "focus": "Slow, opposite arm/leg, hips stay level."
-        }
-      ],
-      "stretches": [
-        "Standing quad stretch — 30s each side",
-        "Hamstring stretch — 30s each side",
-        "Calf stretch — 30s each side",
-        "Hip flexor / pigeon — 30s each side"
       ]
     },
     {
@@ -330,7 +278,7 @@
           "n": "Deadlift",
           "s": 4,
           "r": "4",
-          "note": "Ramp 135/185/225/250 — conventional returns after a block of paused work. Top set at ~2 RIR; 250×4 is the placeholder off your 275. Full back protocol: perfect setup every rep, controlled down, ZERO grind. Back talks → cap at 225 and move on.",
+          "note": "Ramp 135/185/225/250 — conventional returns after a block of paused work, with two easy leg days behind you by design. Top set at ~2 RIR; 250×4 is the placeholder off your 275. Full back protocol: perfect setup every rep, controlled down, ZERO grind. Back talks → cap at 225 and move on.",
           "focus": "Bar over midfoot, brace hard, push the floor away.",
           "warmupSet": true,
           "target": "250"
@@ -339,7 +287,7 @@
           "n": "Incline DB Press",
           "s": 3,
           "r": "10",
-          "note": "55s–60s — smooth tens after Thursday's barbell work.",
+          "note": "55s–60s — smooth tens after Friday's barbell work.",
           "focus": "Control the descent, press up and slightly together.",
           "target": "60s"
         },
@@ -348,7 +296,7 @@
           "s": 1,
           "r": "max",
           "repsIn": true,
-          "note": "THE benchmark returns — one all-out set, fresh, strict. Block 2 exit was 18. This is the week's one to-failure set; everything else stays submax.",
+          "note": "THE benchmark returns — one all-out set, fresh, strict. Block 2 exit was 18. This is the week's one to-failure set; everything else stays submax. (Friday's pulling was rows and pulldowns, so the lats come in ready.)",
           "focus": "Full hang to chin clearly over, no kipping, fight for the last clean rep."
         },
         {
@@ -404,14 +352,14 @@
       "block": "Morning, ~30–40 min, zero pressure",
       "dur": "~35 min",
       "type": "run",
-      "desc": "Recovery day: easy 2-mile jog OR a long walk (a walk with your fiancée counts fully — say that out loud, it's fun), then the flow. Waist measurement in the morning, fasted, per protocol. Week 2 pushes off whatever the calibration sets said.",
+      "desc": "Recovery day: easy 2.5-mile jog OR a long walk (a walk with your fiancée counts fully — say that out loud, it's fun), then the flow. Waist measurement in the morning, fasted, per protocol. Week 2 pushes off whatever the calibration sets said.",
       "warmup": [
         "Easy walk to start — nothing formal"
       ],
       "run": {
-        "title": "Easy Jog or Walk — 2 mi",
-        "dist": "2 mi",
-        "detail": "Fully optional and fully easy — jog it, walk it, or split it. This closes a ~20-mile week either way.",
+        "title": "Easy Jog or Walk — 2.5 mi",
+        "dist": "2.5 mi",
+        "detail": "Fully optional and fully easy — jog it, walk it, or split it. This closes a ~17.5-mile week; week 2 sits back at the block's ~20.",
         "fields": [
           "Distance (mi)",
           "Time",
