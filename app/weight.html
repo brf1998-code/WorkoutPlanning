@@ -246,22 +246,29 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const KEY = 'weight-log';
+const PROFILE = ((new URLSearchParams(location.search).get('p')||'brendan').toLowerCase().replace(/[^a-z0-9]/g,''))||'brendan';
+const KEY = PROFILE==='brendan' ? 'weight-log' : 'weight-'+PROFILE;   // brendan stays on his existing key
+// Per-profile nutrition defaults. Smart goal = BMR + active burn − deficit; deficit 0 = maintenance.
+const PDEF = {
+  brendan: { pin:'2020', unlockKey:'weight-unlocked',      bmr:1895, neat:450, deficit:700, goal:2200, pgoal:180, goalDelta:-8, title:'Weight' },
+  emma:    { pin:'2024', unlockKey:'weight-unlocked-emma', bmr:1375, neat:450, deficit:0,   goal:2100, pgoal:120, goalDelta:0,  title:'Weight · Emma' }
+};
+const D = PDEF[PROFILE] || { pin:'2020', unlockKey:'weight-unlocked-'+PROFILE, bmr:1500, neat:400, deficit:0, goal:2000, pgoal:120, goalDelta:0, title:'Weight' };
 let entries = [];          // [{date, weight}]
 let goal = null;           // {weight, date, startDate, startWeight}
-let cal = { goal: 2200, pgoal: 180, days: {}, foods: {}, smart: true, deficit: 700, bmr: 1895, neat: 450 };  // smart goal = BMR + active burn − deficit
-let healthDays = {};  // from /api/health-brendan (activeCalories + Strava workouts per day)
+let cal = { goal: D.goal, pgoal: D.pgoal, days: {}, foods: {}, smart: true, deficit: D.deficit, bmr: D.bmr, neat: D.neat };  // smart goal = BMR + active burn − deficit
+let healthDays = {};  // from /api/health-<profile> (activeCalories + Strava workouts per day)
 let chart, gschart, activeRange = 30, syncTimer, editingGoal = false;
 
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- persistence (store both entries + goal) ----
-function normalizeCal(){ if(!cal||typeof cal!=='object') cal={}; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=2200; if(cal.pgoal==null) cal.pgoal=180; if(cal.smart==null) cal.smart=true; if(!(cal.deficit>0)) cal.deficit=700; if(!(cal.bmr>0)) cal.bmr=1895; if(!(cal.neat>=0)) cal.neat=450; }
+function normalizeCal(){ if(!cal||typeof cal!=='object') cal={}; cal.days=cal.days||{}; cal.foods=cal.foods||{}; if(cal.goal==null) cal.goal=D.goal; if(cal.pgoal==null) cal.pgoal=D.pgoal; if(cal.smart==null) cal.smart=true; if(!(cal.deficit>=0)) cal.deficit=D.deficit; if(!(cal.bmr>0)) cal.bmr=D.bmr; if(!(cal.neat>=0)) cal.neat=D.neat; }
 function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSON.parse(s); if(Array.isArray(o)){ entries=o; } else { entries=o.entries||[]; goal=o.goal||null; if(o.cal) cal=o.cal; } } }catch(e){} normalizeCal(); }
-async function loadHealth(){ try{ const r=await fetch('/api/health-brendan'); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
-async function refreshBurn(){ const b=document.getElementById('refreshBtn'); if(b) b.textContent='↻ …'; toast('Syncing burn…'); try{ await fetch('/api/strava/sync/brendan?cb='+Date.now()); }catch(e){} await loadHealth(); if(b) b.textContent='↻ Refresh'; toast('Burn updated ✓'); }
+async function loadHealth(){ try{ const r=await fetch('/api/health-'+PROFILE); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
+async function refreshBurn(){ const b=document.getElementById('refreshBtn'); if(b) b.textContent='↻ …'; toast('Syncing burn…'); try{ await fetch('/api/strava/sync/'+PROFILE+'?cb='+Date.now()); }catch(e){} await loadHealth(); if(b) b.textContent='↻ Refresh'; toast('Burn updated ✓'); }
 function dateMinus(dateStr,n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function tdeeForDate(date){ const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:450); const hd=healthDays[date];
+function tdeeForDate(date){ const BMR=cal.bmr||D.bmr, NEAT=(cal.neat>=0?cal.neat:D.neat); const hd=healthDays[date];
   if(hd && hd.activeCalories!=null) return { tdee: BMR + (+hd.activeCalories||0), src:'Health' };
   const wc = hd ? (hd.workouts||[]).reduce((a,w)=>a+(+w.calories||0),0) : 0;
   if(wc>0) return { tdee: BMR + NEAT + wc, src:'Strava' };
@@ -270,8 +277,8 @@ function tdeeForDate(date){ const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:
   const avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
   return { tdee: BMR + NEAT + avg, src:'est' };
 }
-function smartGoalFor(date){ return Math.round(tdeeForDate(date).tdee - (cal.deficit||700)); }
-function effGoal(date){ return cal.smart ? smartGoalFor(date) : (cal.goal||2200); }
+function smartGoalFor(date){ return Math.round(tdeeForDate(date).tdee - (cal.deficit>=0?cal.deficit:D.deficit)); }
+function effGoal(date){ return cal.smart ? smartGoalFor(date) : (cal.goal||D.goal); }
 function saveLocal(){ try{ localStorage.setItem(KEY, JSON.stringify({entries, goal, cal})); }catch(e){} }
 async function syncDown(){
   try{ const r=await fetch('/api/'+KEY); if(!r.ok) return; const remote=await r.json();
@@ -331,7 +338,7 @@ function renderCal(){
   const list=calToday();
   const total=list.reduce((a,b)=>a+(+b.kcal||0),0);
   const ptotal=list.reduce((a,b)=>a+(+b.protein||0),0);
-  const g=effGoal(calDate||today()), pg=cal.pgoal||180;
+  const g=effGoal(calDate||today()), pg=cal.pgoal||D.pgoal;
   const rem=g-total, prem=pg-ptotal;
   document.getElementById('calTotal').textContent=total.toLocaleString();
   document.getElementById('calGoalShow').textContent=g;
@@ -339,14 +346,14 @@ function renderCal(){
   document.getElementById('proGoalShow').textContent=pg;
   document.getElementById('calGoalBtn').textContent=(cal.smart?'Smart':'Goal')+' · '+g+' · '+pg+'g';
   const sn=document.getElementById('calSmartNote');
-  if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); const srcLabel=t.src==='Health'?'measured · Apple Health':t.src==='Strava'?'measured · Strava':'predicted from recent days'; sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burn − ${cal.deficit} deficit <span style="color:var(--faint)">(${srcLabel})</span>`; } else sn.style.display='none'; }
+  if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); const srcLabel=t.src==='Health'?'measured · Apple Health':t.src==='Strava'?'measured · Strava':'predicted from recent days'; const defTxt=(cal.deficit>0)?`− ${cal.deficit} deficit`:`(maintenance — eat what you burn)`; sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burn ${defTxt} <span style="color:var(--faint)">(${srcLabel})</span>`; } else sn.style.display='none'; }
   const remEl=document.getElementById('calRem'); { const pct=g>0?Math.round(total/g*100):0; const onT=Math.abs(pct-100)<=3; remEl.textContent = onT ? ('on target ✓ · '+pct+'%') : (rem>=0 ? (rem.toLocaleString()+' left · '+pct+'%') : (Math.abs(rem).toLocaleString()+' over · '+pct+'%')); remEl.className='calrem'+(onT?' done':(rem<0?' over':' low')); }
   const premEl=document.getElementById('proRem'); premEl.textContent = prem>0 ? prem+'g to go' : 'goal hit ✓'; premEl.className='calrem'+(prem>0?'':' done');
   const cbar=document.getElementById('calBarFill'); cbar.style.width=(g>0?Math.min(100,Math.round(total/g*100)):0)+'%'; cbar.parentElement.className='calbar'+(total>g?' over':'');
   const pbar=document.getElementById('proBarFill'); pbar.style.width=(pg>0?Math.min(100,Math.round(ptotal/pg*100)):0)+'%';
   document.getElementById('calList').innerHTML = list.map((e,i)=>`<div class="calitem"><span class="cl">${esc(e.label||'Entry')}</span><span class="ck">${(+e.kcal||0).toLocaleString()} kcal${e.protein?` · ${+e.protein}g`:''}</span><button class="cx" onclick="deleteCal(${i})">×</button></div>`).join('');
   const days=[]; for(let i=1;i<=7;i++){ const d=new Date(today()); d.setDate(d.getDate()-i); const ds=d.toISOString().slice(0,10); const arr=cal.days[ds]||[]; const t=arr.reduce((a,b)=>a+(+b.kcal||0),0); const pt=arr.reduce((a,b)=>a+(+b.protein||0),0); if(t>0||pt>0) days.push({ds,t,pt}); }
-  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>{ const gl=effGoal(x.ds); const pct=gl>0?Math.round(x.t/gl*100):0; const cls=Math.abs(pct-100)<=3?'ontarget':(pct<100?'undertgt':'overtgt'); const pOk=x.pt>=(cal.pgoal||180); return `<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${cls}" title="${x.t.toLocaleString()} / ${gl.toLocaleString()} kcal">${pct}%</div><div class="dd dp${pOk?' pok':''}" style="margin-top:2px">${x.pt}g</div></div>`; }).join('')+`</div>` : '';
+  document.getElementById('calRecent').innerHTML = days.length ? `<div class="calrecent">`+days.reverse().map(x=>{ const gl=effGoal(x.ds); const pct=gl>0?Math.round(x.t/gl*100):0; const cls=Math.abs(pct-100)<=3?'ontarget':(pct<100?'undertgt':'overtgt'); const pOk=x.pt>=(cal.pgoal||D.pgoal); return `<div class="cd" style="cursor:pointer" onclick="setCalDate('${x.ds}')"><div class="dd">${fmtDate(x.ds)}</div><div class="dv ${cls}" title="${x.t.toLocaleString()} / ${gl.toLocaleString()} kcal">${pct}%</div><div class="dd dp${pOk?' pok':''}" style="margin-top:2px">${x.pt}g</div></div>`; }).join('')+`</div>` : '';
   const di=document.getElementById('calDateIn'); if(di) di.value=calDate;
   const tb=document.getElementById('calTodayBtn'); if(tb) tb.style.display = (calDate===today())?'none':'inline-block';
   const dl=document.getElementById('calDateLabel'); if(dl) dl.textContent=calDateFriendly(calDate||today());
@@ -385,10 +392,10 @@ function addCal(){
 }
 function deleteCal(i){ const t=calDate||today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
 function editGoals(){
-  cal.smart = confirm('Use SMART adaptive calorie goal?\n\nOK = Smart (targets a deficit off what you actually burn each day)\nCancel = Fixed daily number');
-  if(cal.smart){ const d=prompt('Daily deficit target (calories below what you burn)', cal.deficit||700); if(d!==null){ const dn=parseInt(d); if(dn>0) cal.deficit=dn; } }
-  else { const c=prompt('Fixed daily calorie goal', cal.goal||2200); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; } }
-  const p=prompt('Daily protein goal (grams)', cal.pgoal||180); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }
+  cal.smart = confirm('Use SMART adaptive calorie goal?\n\nOK = Smart (targets a deficit off what you actually burn each day; 0 = maintenance)\nCancel = Fixed daily number');
+  if(cal.smart){ const d=prompt('Daily deficit target (calories below what you burn; 0 = maintenance)', cal.deficit>=0?cal.deficit:D.deficit); if(d!==null){ const dn=parseInt(d); if(dn>=0) cal.deficit=dn; } }
+  else { const c=prompt('Fixed daily calorie goal', cal.goal||D.goal); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; } }
+  const p=prompt('Daily protein goal (grams)', cal.pgoal||D.pgoal); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }
   save(); renderCal();
 }
 
@@ -472,7 +479,7 @@ function renderGoal(){
   if(!goal || editingGoal){
     editBtn.style.display='none';
     const latest = sortedDesc()[0];
-    const defW = goal? goal.weight : (latest? (latest.weight-8).toFixed(1) : '');
+    const defW = goal? goal.weight : (latest? (latest.weight+D.goalDelta).toFixed(1) : '');
     const defD = goal? goal.date : new Date(Date.now()+56*DAY).toISOString().slice(0,10);
     if(!latest){ body.innerHTML=`<div class="muted">Log at least one weight first, then set a goal to start your glideslope.</div>`; return; }
     body.innerHTML = `<div class="goalset">
@@ -616,9 +623,11 @@ function updateHistory(){
 function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
 
 document.getElementById('dateIn').value=today();
-// ---- PIN lock (soft, per-device; shared with workout page) ----
-const WPIN="2020";
-function wUnlocked(){ try{ return localStorage.getItem('weight-unlocked')==='1'; }catch(e){ return false; } }
+// ---- PIN lock (soft, per-device, per-profile; shared with workout page) ----
+const WPIN=D.pin;
+document.querySelector('.topbar h1').textContent=D.title;
+document.querySelector('.topbar a').href = PROFILE==='brendan' ? '/' : '/?p='+PROFILE;
+function wUnlocked(){ try{ return localStorage.getItem(D.unlockKey)==='1'; }catch(e){ return false; } }
 function applyLock(){
   const locked=!wUnlocked();
   document.getElementById('lockGate').style.display = locked?'flex':'none';
@@ -628,10 +637,10 @@ function applyLock(){
 }
 function tryUnlock(){
   const v=document.getElementById('pinIn').value.trim();
-  if(v===WPIN){ try{ localStorage.setItem('weight-unlocked','1'); }catch(e){} document.getElementById('pinErr').style.display='none'; applyLock(); }
+  if(v===WPIN){ try{ localStorage.setItem(D.unlockKey,'1'); }catch(e){} document.getElementById('pinErr').style.display='none'; applyLock(); }
   else { document.getElementById('pinErr').style.display='block'; document.getElementById('pinIn').value=''; }
 }
-function lockWeight(){ try{ localStorage.removeItem('weight-unlocked'); }catch(e){} applyLock(); }
+function lockWeight(){ try{ localStorage.removeItem(D.unlockKey); }catch(e){} applyLock(); }
 document.getElementById('pinIn').addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
 
 applyLock();

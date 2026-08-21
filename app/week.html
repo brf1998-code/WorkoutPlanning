@@ -519,6 +519,8 @@ const TEMPLATES = {
 const PROFILE = ((new URLSearchParams(location.search).get('p')||'brendan').toLowerCase().replace(/[^a-z0-9]/g,''))||'brendan';        // active profile (multi-profile-ready)
 let PLAN = DEFAULT_PLAN;           // overridden by the server plan file if present
 function pkey(){ return PROFILE==="brendan" ? PLAN.weekId : PROFILE+"-"+PLAN.weekId; }
+const WKEY = PROFILE==="brendan" ? "weight-log" : "weight-"+PROFILE;                 // per-profile weight/calorie store
+const WUNLOCK = PROFILE==="brendan" ? "weight-unlocked" : "weight-unlocked-"+PROFILE; // per-profile weight PIN unlock
 let KEY = "wlog-" + pkey();
 let mem = {days:{}};
 let syncTimer, picking=false, menuOpen=false, mode="week", subPicker=null;
@@ -639,12 +641,13 @@ let stravaByDate = {};
 async function loadStrava(){ try{ const r=await fetch('/api/health-'+PROFILE); if(r.ok){ const d=await r.json(); stravaByDate={}; Object.entries((d&&d.days)||{}).forEach(([dt,v])=>{ if(v.workouts&&v.workouts.length) stravaByDate[dt]=v.workouts; }); } }catch(e){} }
 async function syncStrava(){ try{ await fetch('/api/strava/sync/'+PROFILE); }catch(e){} }
 let dietWL=null, dietHealth={};
-async function loadDiet(){ try{ const r=await fetch('/api/weight-log'); if(r.ok) dietWL=await r.json(); const h=await fetch('/api/health-'+PROFILE); if(h.ok){ const d=await h.json(); dietHealth=(d&&d.days)||{}; } }catch(e){} }
-function dietTdee(date){ const cal=(dietWL&&dietWL.cal)||{}; const BMR=cal.bmr||1895, NEAT=(cal.neat>=0?cal.neat:450); const hd=dietHealth[date]; if(hd && hd.activeCalories!=null) return BMR+(+hd.activeCalories||0); const wc=(hd&&hd.workouts)?hd.workouts.reduce((a,x)=>a+(+x.calories||0),0):0; if(wc>0) return BMR+NEAT+wc; return BMR+NEAT; }
-function dietGoal(date){ const cal=(dietWL&&dietWL.cal)||{}; if(cal.smart===false) return cal.goal||2200; return Math.round(dietTdee(date)-(cal.deficit||700)); }
+const WDEF = PROFILE==='emma' ? {bmr:1375, neat:450, deficit:0, goal:2100, pgoal:120} : {bmr:1895, neat:450, deficit:700, goal:2200, pgoal:180};  // per-profile nutrition fallbacks (weight.html PDEF is the source of truth)
+async function loadDiet(){ try{ const r=await fetch('/api/'+WKEY); if(r.ok) dietWL=await r.json(); const h=await fetch('/api/health-'+PROFILE); if(h.ok){ const d=await h.json(); dietHealth=(d&&d.days)||{}; } }catch(e){} }
+function dietTdee(date){ const cal=(dietWL&&dietWL.cal)||{}; const BMR=cal.bmr||WDEF.bmr, NEAT=(cal.neat>=0?cal.neat:WDEF.neat); const hd=dietHealth[date]; if(hd && hd.activeCalories!=null) return BMR+(+hd.activeCalories||0); const wc=(hd&&hd.workouts)?hd.workouts.reduce((a,x)=>a+(+x.calories||0),0):0; if(wc>0) return BMR+NEAT+wc; return BMR+NEAT; }
+function dietGoal(date){ const cal=(dietWL&&dietWL.cal)||{}; if(cal.smart===false) return cal.goal||WDEF.goal; return Math.round(dietTdee(date)-(cal.deficit>=0?cal.deficit:WDEF.deficit)); }
 function buildDietSection(){
   if(!dietWL) return "";
-  const cal=dietWL.cal||{}, pg=cal.pgoal||180;
+  const cal=dietWL.cal||{}, pg=cal.pgoal||WDEF.pgoal;
   let md="\n---\n\n# Diet & Nutrition\n\n";
   const ents=(dietWL.entries||[]).slice().sort((a,b)=> a.date<b.date?-1:1);
   if(ents.length){ const last=ents[ents.length-1]; const wk=ents.filter(e=> e.date>=PLAN.start);
@@ -1195,8 +1198,8 @@ function dayProgressWeekPct(){ let t=0,d=0; for(let i=0;i<7;i++){ const p=dayPro
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
 
 // ---- weight chip ----
-async function loadWeight(){ let entries=[]; try{ const s=localStorage.getItem('weight-log'); if(s){ const o=JSON.parse(s); entries=Array.isArray(o)?o:(o.entries||[]); } }catch(e){}
-  try{ const r=await fetch('/api/weight-log'); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.entries)&&d.entries.length) entries=d.entries; } }catch(e){} renderWeightChip(entries); }
+async function loadWeight(){ let entries=[]; try{ const s=localStorage.getItem(WKEY); if(s){ const o=JSON.parse(s); entries=Array.isArray(o)?o:(o.entries||[]); } }catch(e){}
+  try{ const r=await fetch('/api/'+WKEY); if(r.ok){ const d=await r.json(); if(d&&Array.isArray(d.entries)&&d.entries.length) entries=d.entries; } }catch(e){} renderWeightChip(entries); }
 function renderWeightChip(entries){ const valEl=document.getElementById('wval'), trEl=document.getElementById('wtrend'), spEl=document.getElementById('wspark');
   if(!entries.length){ valEl.textContent="—"; trEl.textContent="Log weight"; trEl.className="wtrend flat"; spEl.innerHTML=""; return; }
   const sorted=[...entries].sort((a,b)=>a.date.localeCompare(b.date)); const latest=sorted[sorted.length-1];
@@ -1338,10 +1341,11 @@ function themeGet(){ try{ return localStorage.getItem('theme')||"auto"; }catch(e
 function themeApply(){ const t=themeGet(); if(t==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",t); const b=document.getElementById("themeBtn"); if(b) b.textContent = t==="auto"?"🌗 Theme: Auto":(t==="light"?"☀️ Theme: Light":"🌙 Theme: Dark"); }
 document.getElementById("themeBtn").onclick=()=>{ const t=themeGet(); const n=t==="auto"?"light":(t==="light"?"dark":"auto"); try{ localStorage.setItem('theme',n); }catch(e){} themeApply(); closeMenu(); render(); toast(n==="auto"?"Theme: Auto (follows phone)":n==="light"?"Day mode on":"Night mode on"); };
 
-// ---- Weight PIN lock (soft, per-device) ----
-const WPIN="2020";
-function weightUnlocked(){ try{ return localStorage.getItem('weight-unlocked')==='1'; }catch(e){ return false; } }
-function setWeightUnlocked(v){ try{ if(v) localStorage.setItem('weight-unlocked','1'); else localStorage.removeItem('weight-unlocked'); }catch(e){} updateWeightLockUI(); }
+// ---- Weight PIN lock (soft, per-device, per-profile) ----
+const WPIN = PROFILE==='emma' ? '2024' : '2020';   // matches each profile's PIN on the weight page (and Emma's kitchen-dashboard PIN)
+try{ document.getElementById('wchip').href = PROFILE==='brendan' ? '/weight' : '/weight?p='+PROFILE; }catch(e){}
+function weightUnlocked(){ try{ return localStorage.getItem(WUNLOCK)==='1'; }catch(e){ return false; } }
+function setWeightUnlocked(v){ try{ if(v) localStorage.setItem(WUNLOCK,'1'); else localStorage.removeItem(WUNLOCK); }catch(e){} updateWeightLockUI(); }
 function updateWeightLockUI(){
   const u=weightUnlocked();
   document.getElementById('wchip').style.display = u?'flex':'none';
