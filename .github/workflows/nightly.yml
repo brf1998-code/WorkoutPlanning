@@ -1,39 +1,39 @@
-name: Nightly sync + backup
+name: Sync + backup
 
 on:
   schedule:
-    - cron: '0 6 * * *'      # 06:00 UTC nightly (~2am ET). Adjust as you like.
-  workflow_dispatch: {}        # lets you run it manually from the Actions tab
+    - cron: '0 6 * * *'              # nightly: Strava sync + full backup (~2am ET)
+    - cron: '0 12,15,18,21 * * *'    # daytime Strava syncs (~8am, 11am, 2pm, 5pm ET)
+  workflow_dispatch: {}               # manual run from the Actions tab
 
 permissions:
   contents: write
 
 jobs:
-  sync-and-backup:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull new Strava activities
+        run: |
+          curl -fsS "https://workoutplanning-production.up.railway.app/api/strava/sync/brendan?cb=$(date +%s)" || echo "brendan sync failed (non-fatal)"
+          curl -fsS "https://workoutplanning-production.up.railway.app/api/strava/sync/emma?cb=$(date +%s)" || echo "emma sync failed (non-fatal)"
+
+  backup:
+    if: ${{ github.event.schedule == '0 6 * * *' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Pull new Strava activities
-        run: |
-          curl -fsS "https://workoutplanning-production.up.railway.app/api/strava/sync/brendan?cb=$(date +%s)" || echo "strava sync call failed (non-fatal)"
-
       - name: Export full data backup
         run: |
           mkdir -p backups
           FILE="backups/backup-$(date -u +%F).json"
           curl -fsS "https://workoutplanning-production.up.railway.app/api/_export?cb=$(date +%s)" -o "$FILE" || { echo "export failed"; exit 0; }
-          # safety: don't keep an empty/too-small backup
-          if [ ! -s "$FILE" ] || [ "$(wc -c < "$FILE")" -lt 800 ]; then
-            echo "export looked empty — discarding"; rm -f "$FILE"; exit 0;
-          fi
-          # keep only the 30 most recent backups
+          if [ ! -s "$FILE" ] || [ "$(wc -c < "$FILE")" -lt 800 ]; then echo "export empty — discarding"; rm -f "$FILE"; exit 0; fi
           ls -1t backups/backup-*.json 2>/dev/null | tail -n +31 | xargs -r rm -f
-
       - name: Commit backup
         run: |
           git config user.name "nightly-bot"
           git config user.email "bot@users.noreply.github.com"
           git add backups/
-          git commit -m "Nightly backup $(date -u +%F)" || echo "no changes to commit"
+          git commit -m "Backup $(date -u +%F)" || echo "no changes to commit"
           git push
