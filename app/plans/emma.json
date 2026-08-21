@@ -1,0 +1,185 @@
+{
+  "weekId": "2026-08-17",
+  "start": "2026-08-17",
+  "title": "Week of Aug 17–23 · Emma's Kickoff",
+  "subtitle": "Welcome, Emma! You kicked things off today with a 4-mile run. Log it below, then your first strength session is Saturday.",
+  "goals": [
+    "Log today's 4-mile run (time, effort, and how the IT band felt). Day 1 is in the books",
+    "One strength session Saturday. Start light, form first: Back Squat at your 65 lb, RPE 6–7, a couple reps in the tank",
+    "Start the hip + glute work. Small moves now are what keep the IT band happy as your running builds",
+    "Sunday easy: gentle yoga or stretch. Your first full 5-day week starts Monday",
+    "One-time setup: connect Strava at workoutplanning-production.up.railway.app/api/strava/connect/emma so your runs and heart rate show up here automatically"
+  ],
+  "review": "Welcome to your plan! Your 8 weeks point at two things: getting stronger and becoming a better runner, with Yoga Sculpt staying in the mix because you love it. This weekend is a kickoff, and your first full week (Mon/Tue/Wed/Thu/Sat evenings, ~60 min) starts Monday. One honest note on today: 4 miles is a big day against a ~6 mile week, so the next couple of runs stay short and easy on purpose. Because the IT band aches during and after runs right now, the first 2–3 weeks keep runs short (1.5–2.5 mi), lean on the bike for extra cardio (every run card has a 🚴 swap), and put a heavy dose of glute and hip strength on every lifting day. Stronger hips + patient volume is the standard fix for IT band trouble, and your Yoga Sculpt classes count as plan days, so total volume stays sane. Lifting starts from what you know: Back Squat at 65 lb, RPE 6–7, and we progress from whatever you log. On the 138 → 135 goal: muscle first, scale second. Light nutrition tip to start: since snacking is the main pattern, anchor a protein source at each meal (aim roughly 100g+ per day) and keep easy snacks visible, e.g. Greek yogurt, fruit, jerky. Log everything, even one line on how it felt. Next week builds from what you actually did.",
+  "days": [
+    {
+      "d": "Mon",
+      "date": "8/17",
+      "name": "Before Your Plan",
+      "block": "—",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Your plan hadn't started yet. If you did a Sculpt class or anything else, jot it here so the week's story is complete. Otherwise nothing to log.",
+      "fields": [
+        "Notes (optional)"
+      ]
+    },
+    {
+      "d": "Tue",
+      "date": "8/18",
+      "name": "Before Your Plan",
+      "block": "—",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Pre-plan day. Log anything you did if you want it counted, or skip.",
+      "fields": [
+        "Notes (optional)"
+      ]
+    },
+    {
+      "d": "Wed",
+      "date": "8/19",
+      "name": "Before Your Plan",
+      "block": "—",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Pre-plan day. Log anything you did if you want it counted, or skip.",
+      "fields": [
+        "Notes (optional)"
+      ]
+    },
+    {
+      "d": "Thu",
+      "date": "8/20",
+      "name": "Before Your Plan",
+      "block": "—",
+      "dur": "—",
+      "type": "cardio",
+      "desc": "Pre-plan day. Log anything you did if you want it counted, or skip.",
+      "fields": [
+        "Notes (optional)"
+      ]
+    },
+    {
+      "d": "Fri",
+      "date": "8/21",
+      "name": "4-Mile Run · Day 1 ✓",
+      "block": "Done today",
+      "dur": "~48 min",
+      "type": "run",
+      "warmup": [
+        "Already done! Nothing to prep, just log it below"
+      ],
+      "run": {
+        "title": "4-Mile Run (completed — log it!)",
+        "dist": "4 mi",
+        "detail": "You already ran this one, so today is just about capturing it. Log your time, how hard it felt (RPE 1–10), and especially how the IT band and hips felt during and after. That last note matters most: it sets how fast we build your mileage. For context, 4 miles is a strong day against your usual ~6 miles per week, so the next runs will be shorter and easy on purpose.",
+        "fields": [
+          "Time",
+          "How it felt (RPE 1–10)",
+          "IT band / knees — during & after?"
+        ],
+        "hr": {
+          "zone": "Effort-based (RPE) — no HR data yet",
+          "warmup": "n/a — already run",
+          "main": "Whatever it was, it counts",
+          "cool": "5–10 min of easy walking or stretching tonight helps tomorrow",
+          "note": "If the IT band is barking tonight, ice it 10–15 min and note it in the journal. That changes what we do next week."
+        }
+      },
+      "stretches": [
+        "Figure-4 glute stretch — 45s each side",
+        "Standing quad stretch — 30s each side",
+        "Kneeling hip flexor stretch — 45s each side",
+        "Calf stretch — 30s each side"
+      ]
+    },
+    {
+      "d": "Sat",
+      "date": "8/22",
+      "name": "Full-Body Strength A + Hips",
+      "block": "Evening",
+      "dur": "~60 min",
+      "type": "lift",
+      "warmup": [
+        "5 min easy cardio (bike, row, or brisk walk)",
+        "Leg swings — 10 each direction / leg",
+        "Glute bridges — 1×12",
+        "Bodyweight squats — 1×10",
+        "Banded lateral walks (or side steps) — 10 each way"
+      ],
+      "items": [
+        {
+          "n": "Back Squat",
+          "s": 3,
+          "r": "8",
+          "note": "Start at your 65 lb, RPE 6–7. If it moves well, a small bump next week.",
+          "focus": "Brace, chest tall, knees track over toes, squat to a depth you control. Leave 2–3 reps in the tank.",
+          "warmupSet": true
+        },
+        {
+          "n": "Dumbbell Bench Press (or Push-up)",
+          "s": 3,
+          "r": "10",
+          "note": "Pick a weight that's RPE 6–7. Push-ups any time as a sub.",
+          "focus": "Shoulder blades set, lower under control, press up and slightly together."
+        },
+        {
+          "n": "Dumbbell Romanian Deadlift",
+          "s": 3,
+          "r": "10",
+          "note": "Light to start. This is a hinge, not a squat.",
+          "focus": "Soft knees, hips back, feel the hamstrings, flat back the whole way."
+        },
+        {
+          "n": "One-Arm Dumbbell Row",
+          "s": 3,
+          "r": "10/arm",
+          "focus": "Flat back, pull to your hip, squeeze the shoulder blade."
+        },
+        {
+          "n": "Side-Lying Hip Abduction (or Banded Clamshell)",
+          "s": 2,
+          "r": "12/side",
+          "noWeight": true,
+          "focus": "Slow and controlled, toes forward, don't let the hip roll back. This is your IT band insurance."
+        },
+        {
+          "n": "Single-Leg Glute Bridge",
+          "s": 2,
+          "r": "10/side",
+          "noWeight": true,
+          "focus": "Drive through the heel, hips level, squeeze at the top."
+        },
+        {
+          "n": "Plank",
+          "s": 3,
+          "r": "30s",
+          "noWeight": true,
+          "coreStart": true,
+          "focus": "Straight line head to heels, glutes tight, breathe."
+        }
+      ],
+      "stretches": [
+        "Kneeling hip flexor stretch — 45s each side",
+        "Figure-4 / pigeon — 45s each side",
+        "Hamstring stretch — 30s each side",
+        "Child's pose — 45s"
+      ]
+    },
+    {
+      "d": "Sun",
+      "date": "8/23",
+      "name": "Recovery — Gentle Yoga / Stretch",
+      "block": "Anytime",
+      "dur": "~30 min",
+      "type": "cardio",
+      "desc": "Easy day. A gentle yoga flow or full-body stretch, extra time on hips, hip flexors, and the outside of the thigh (figure-4, pigeon, side-lying quad stretch). An easy walk or casual bike ride also counts. Tomorrow your first full week begins.",
+      "fields": [
+        "What did you do?",
+        "Duration",
+        "How do the legs feel after Friday's run?"
+      ]
+    }
+  ]
+}
