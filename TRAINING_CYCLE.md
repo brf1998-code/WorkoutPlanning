@@ -16,6 +16,7 @@ Last updated: **2026-08-12** (road trip Aug 8–11 extended the Block-2 deload; 
   - **Variation blocks = ENDURANCE-led** → mileage builds 10–15%, lifts are technique/variation work at submaximal loads (which is what a variation block already is).
   - Net effect: running volume only rises every *other* block, so the real build rate is ~half of what a within-block ramp implies. That is deliberate. Never push mileage and lift PRs in the same block.
 - **Standing design rules still apply** (runs are always run modules; per-set ramp targets; unspotted bench → 1–2 RIR, never grind; max one to-failure day, Fri pull-ups stay submax; post-lift jog HR runs hot — cue effort, not number).
+- **Lift-day density floor (Brendan, 2026-08-22).** Every lift day carries: **at least 4 distinct exercises** (main lift + accessories; a benchmark set and its back-off sets count as one), **one superset of 2–3 exercises** (`superset:[...]` item, e.g. Lateral Raise + Face Pull, Pushdown + Curl), and **at least 6 core sets across 2–3 different core movements**, written as a `station:true` circuit under `coreStart`. Three exercises plus one core movement is too little. **Rotate the core movements** through the pool below week to week within a block (don't repeat the same 2–3 every day); keep it spine-friendly on deadlift days (side plank, hollow hold, dead bug over loaded flexion).
 
 ## Block calendar
 
@@ -40,7 +41,7 @@ Last updated: **2026-08-12** (road trip Aug 8–11 extended the Block-2 deload; 
 - **Vertical pull:** Lat Pulldown (wide/neutral) · Pull-up variations
 - **Press accessory:** Incline DB · Flat DB · Dips (weighted later)
 - **Shoulders/arms:** Lateral Raise + Face Pull · Pushdown + Curl supersets
-- **Core (2–3 new per block):** Plank · Side Plank · Ab Wheel · Hollow Hold · Hanging Leg Raise · Bird Dog · Dead Bug · Pallof · Woodchopper · Suitcase Carry
+- **Core (2–3 new per block; ≥6 sets per lift day across 2–3 movements, rotated within the week):** Plank · Side Plank · Ab Wheel · Hollow Hold · Hanging Leg Raise · Bird Dog · Dead Bug · Pallof · Woodchopper · Suitcase Carry
 
 ## Running rules
 

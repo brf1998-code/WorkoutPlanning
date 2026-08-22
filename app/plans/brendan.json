@@ -9,7 +9,8 @@
     "The rebuilt frame protects what matters most: squats today on fresh legs, and Saturday's deadlift calibration with two easy days for the legs in between (Friday is upper only). The cost is Thursday's quality run landing the day after squats — it's threshold, not a race, and there's built-in permission to trim it.",
     "Mileage: Tue 4 (done), Thu 5.5 with the quality work, Fri 1.5 post-lift, Sat 2 post-lift, Sun 2.5 easy — ~17.5 for the week. A touch under the block's ~20 because Monday and Tuesday both went to celebrating; that's the right trade and week 2 sits back at 20.",
     "Strict OHP retests this block (form broke down at 125 back in June — that's why Block 2 ran push press). Friday is strict only: no leg drive, no layback. And the back-care protocol stays on every hinge: extra warm-up, controlled eccentrics, zero grind.",
-    "Food: maintenance, full stop. Band is 189–191 and the waist is the arbiter. You're fueling PR attempts for the next three weeks — eat to the SMART goal at deficit 0 and don't react to day-to-day scale noise after a restaurant-heavy celebration stretch."
+    "Food: maintenance, full stop. Band is 189–191 and the waist is the arbiter. You're fueling PR attempts for the next three weeks — eat to the SMART goal at deficit 0 and don't react to day-to-day scale noise after a restaurant-heavy celebration stretch.",
+    "Saturday update (8/22): a 4th movement (lateral raise + face pull superset) and a 6-set core circuit (hanging leg raise, ab wheel, side plank). That is the new floor for every lift day from here: at least 6 core sets across 2–3 movements, one superset of 2–3 exercises, and core movements rotating through the block's pool instead of repeating."
   ],
   "review": "The bridge week did its job: ~13 easy miles, two moderate re-entry lifts, short cabin weekend, sleep re-regulated. Block 2 stays banked — Front Squat 145, Incline 155, Push Press 145, Paused DL 225, pull-up benchmark 18, first 20+ mile week of the rebuild. Then the best possible reason to slide the start: an engagement. Monday and Tuesday went to celebrating (plus a 4-miler), and the barbell work starts today. Three lifting days in the next four set the baselines the whole block progresses from — ramp honestly to 2 RIR, log it, and let weeks 2–3 do the chasing.",
   "days": [
@@ -264,7 +265,7 @@
       "date": "8/22",
       "name": "Full Body — Deadlift Calibration + Pull-up Benchmark",
       "block": "Morning",
-      "dur": "~60 min work",
+      "dur": "~70 min work",
       "type": "lift",
       "warmup": [
         "3 min on rower, stairmaster, or erg — easy pace",
@@ -308,12 +309,46 @@
           "focus": "Same strict standard, smooth tempo."
         },
         {
+          "n": "Lateral Raise + Face Pull superset",
+          "s": 3,
+          "r": "12 / 15",
+          "superset": [
+            "DB Lateral Raise",
+            "Face Pull"
+          ],
+          "rest": "60s",
+          "note": "The 4th move, and the one gap in this week: no side or rear delt work anywhere yet. 12 lateral raises (15s, strict, no swing) straight into 15 face pulls (rope at face height, pull to the ears, pause), then 60s rest. 3 rounds, 2–3 in reserve. Nothing here loads the low back.",
+          "focus": "Lead with the elbows on the raise; elbows high and pull the rope apart on the face pull."
+        },
+        {
           "n": "Hanging Leg Raise",
           "s": 2,
           "r": "10",
           "noWeight": true,
           "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core finisher is a 3-move circuit, 6 sets total: leg raise → ab wheel → side plank, twice through, ~20s between moves.",
           "focus": "Control the lower, no swinging."
+        },
+        {
+          "n": "Ab Wheel Rollout",
+          "s": 2,
+          "r": "8",
+          "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Rotated in from the block's core pool. Brace like the top of a deadlift and roll out only as far as the hips stay tucked. If the low back is talking after the deadlifts, use the substitute button: Hollow Body Hold, 2×30s.",
+          "focus": "Ribs down, hips tucked, no sag in the back."
+        },
+        {
+          "n": "Side Plank",
+          "s": 2,
+          "r": "30s/side",
+          "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "focus": "Stack the hips, straight line head to feet, push the floor away."
         }
       ],
       "stretches": [
