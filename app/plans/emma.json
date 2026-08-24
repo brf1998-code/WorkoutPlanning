@@ -1,91 +1,21 @@
 {
-  "weekId": "2026-08-17",
-  "start": "2026-08-17",
-  "title": "Week of Aug 17–23 · Emma's Kickoff",
-  "subtitle": "Welcome, Emma! You kicked things off with Thursday's 4-mile run. Log it below, then Day 1 proper is tonight's strength session.",
+  "weekId": "2026-08-24",
+  "start": "2026-08-24",
+  "title": "Week of Aug 24–30 · Foundations: 4 Lifts, 2 Runs",
+  "subtitle": "New structure this week: four strength nights built around hip flexor and core strength, two short easy runs. Light weights on purpose — this week is about the movements, not the numbers.",
   "goals": [
-    "Log Thursday's 4-mile run (time, effort, and how the IT band felt). That note drives next week",
-    "First strength session tonight (Fri). Start light, form first: Back Squat at your 65 lb, RPE 6–7, a couple reps in the tank",
-    "Start the hip + glute work. Small moves now are what keep the IT band happy as your running builds",
-    "Saturday: short and easy — a 1.5–2 mi easy run, a bike ride, or a Sculpt class all count. Sunday: gentle stretch",
-    "One-time setup: connect Strava at workoutplanning-production.up.railway.app/api/strava/connect/emma so your runs and heart rate show up here automatically"
+    "Make all four lifts. Weights stay light (RPE 6, ~3 reps in the tank) — after a year away, week 1 is practice, not a test",
+    "Hip flexor and core work is the main event, not the add-on. Do those sets as carefully as the squats",
+    "Both runs short and easy (RPE 3–4, walk breaks fine). Note how the knee feels during and after each one — that note from your 4-miler is steering this plan",
+    "Log every session, even one line. Weights you log this week become next week's starting points",
+    "Still on the list: connect Strava at workoutplanning-production.up.railway.app/api/strava/connect/emma so runs and heart rate show up automatically"
   ],
-  "review": "Welcome to your plan! Your 8 weeks point at two things: getting stronger and becoming a better runner, with Yoga Sculpt staying in the mix because you love it. This weekend is a kickoff, and your first full week (Mon/Tue/Wed/Thu/Sat evenings, ~60 min) starts Monday. One honest note on Thursday: 4 miles is a big day against a ~6 mile week, so the next couple of runs stay short and easy on purpose. Because the IT band aches during and after runs right now, the first 2–3 weeks keep runs short (1.5–2.5 mi), lean on the bike for extra cardio (every run card has a 🚴 swap), and put a heavy dose of glute and hip strength on every lifting day. Stronger hips + patient volume is the standard fix for IT band trouble, and your Yoga Sculpt classes count as plan days, so total volume stays sane. Lifting starts from what you know: Back Squat at 65 lb, RPE 6–7, and we progress from whatever you log. On weight: the goal is maintaining ~138 while adding muscle — your Weight page has your own calorie and protein targets. Light nutrition tip to start: since snacking is the main pattern, anchor a protein source at each meal and keep easy snacks visible, e.g. Greek yogurt, fruit, jerky. Log everything, even one line on how it felt. Next week builds from what you actually did.",
+  "review": "Your new week, built the way you asked: four lifting days with the focus on hip flexor strength and core, plus two runs. Since it's been about a year since you lifted regularly, everything starts back at basics — Back Squat at your 65 lb, light dumbbells everywhere else, and form cues on every card. The plan of attack: each lift day has 2–3 basic strength moves, then a hips block, then a core block. That hips-and-core emphasis is also exactly what your knee wants — you logged 'my knee hurts' after the 4-miler, and stronger hips (especially the outside-hip and hip flexor muscles) plus patient run volume is the standard fix. So runs this week are 2 miles or less, genuinely easy, with a 🚴 bike swap on every run card if the knee complains at all. Expect some soreness after Monday and Tuesday — that's normal after a layoff. If it piles up, drop the last set of each exercise and carry on. Log it all, and next week builds from what you actually did.",
   "days": [
     {
       "d": "Mon",
-      "date": "8/17",
-      "name": "Before Your Plan",
-      "block": "—",
-      "dur": "—",
-      "type": "cardio",
-      "desc": "Your plan hadn't started yet. If you did a Sculpt class or anything else, jot it here so the week's story is complete. Otherwise nothing to log.",
-      "fields": [
-        "Notes (optional)"
-      ]
-    },
-    {
-      "d": "Tue",
-      "date": "8/18",
-      "name": "Before Your Plan",
-      "block": "—",
-      "dur": "—",
-      "type": "cardio",
-      "desc": "Pre-plan day. Log anything you did if you want it counted, or skip.",
-      "fields": [
-        "Notes (optional)"
-      ]
-    },
-    {
-      "d": "Wed",
-      "date": "8/19",
-      "name": "Before Your Plan",
-      "block": "—",
-      "dur": "—",
-      "type": "cardio",
-      "desc": "Pre-plan day. Log anything you did if you want it counted, or skip.",
-      "fields": [
-        "Notes (optional)"
-      ]
-    },
-    {
-      "d": "Thu",
-      "date": "8/20",
-      "name": "4-Mile Run ✓",
-      "block": "Done",
-      "dur": "~48 min",
-      "type": "run",
-      "warmup": [
-        "Already done! Nothing to prep, just log it below"
-      ],
-      "run": {
-        "title": "4-Mile Run (completed — log it!)",
-        "dist": "4 mi",
-        "detail": "You already ran this one, so this card is just about capturing it. Log your time, how hard it felt (RPE 1–10), and especially how the IT band and hips felt during and after. That last note matters most: it sets how fast we build your mileage. For context, 4 miles is a strong day against your usual ~6 miles per week, so the next runs will be shorter and easy on purpose.",
-        "fields": [
-          "Time",
-          "How it felt (RPE 1–10)",
-          "IT band / knees — during & after?"
-        ],
-        "hr": {
-          "zone": "Effort-based (RPE) — connect Strava and future runs get HR zones",
-          "warmup": "n/a — already run",
-          "main": "Whatever it was, it counts",
-          "cool": "Easy walking or stretching tonight helps tomorrow",
-          "note": "If the IT band is sore today, ice it 10–15 min and note it in the journal. That changes what we do next week."
-        }
-      },
-      "stretches": [
-        "Figure-4 glute stretch — 45s each side",
-        "Standing quad stretch — 30s each side",
-        "Kneeling hip flexor stretch — 45s each side",
-        "Calf stretch — 30s each side"
-      ]
-    },
-    {
-      "d": "Fri",
-      "date": "8/21",
-      "name": "Full-Body Strength A + Hips · Day 1",
+      "date": "8/24",
+      "name": "Foundation A · Squat + Hip Flexors",
       "block": "Evening",
       "dur": "~60 min",
       "type": "lift",
@@ -94,58 +24,256 @@
         "Leg swings — 10 each direction / leg",
         "Glute bridges — 1×12",
         "Bodyweight squats — 1×10",
-        "Banded lateral walks (or side steps) — 10 each way"
+        "Standing knee drives — 10 each side"
       ],
       "items": [
         {
           "n": "Back Squat",
           "s": 3,
           "r": "8",
-          "note": "Start at your 65 lb, RPE 6–7. If it moves well, a small bump next week.",
-          "focus": "Brace, chest tall, knees track over toes, squat to a depth you control. Leave 2–3 reps in the tank.",
-          "warmupSet": true
+          "note": "Start back at your 65 lb, RPE 6 — about 3 reps in the tank. After a year away the goal is 24 smooth reps, not a heavy bar. If it moves well all week, small bump next week.",
+          "focus": "Brace, chest tall, knees track over toes, squat to a depth you control.",
+          "warmupSet": true,
+          "target": "65"
         },
         {
           "n": "Dumbbell Bench Press (or Push-up)",
           "s": 3,
           "r": "10",
-          "note": "Pick a weight that's RPE 6–7. Push-ups any time as a sub.",
-          "focus": "Shoulder blades set, lower under control, press up and slightly together."
-        },
-        {
-          "n": "Dumbbell Romanian Deadlift",
-          "s": 3,
-          "r": "10",
-          "note": "Light to start. This is a hinge, not a squat.",
-          "focus": "Soft knees, hips back, feel the hamstrings, flat back the whole way."
+          "note": "Pick a weight that's RPE 6–7. Push-ups from the floor or an incline are a full substitute.",
+          "focus": "Shoulder blades set, lower under control, press up and slightly together.",
+          "warmupSet": true
         },
         {
           "n": "One-Arm Dumbbell Row",
           "s": 3,
           "r": "10/arm",
+          "note": "Light and strict beats heavy and swingy.",
           "focus": "Flat back, pull to your hip, squeeze the shoulder blade."
         },
         {
-          "n": "Side-Lying Hip Abduction (or Banded Clamshell)",
-          "s": 2,
-          "r": "12/side",
-          "noWeight": true,
-          "focus": "Slow and controlled, toes forward, don't let the hip roll back. This is your IT band insurance."
+          "n": "Psoas March + Hip Abduction superset",
+          "s": 3,
+          "r": "10/side / 12/side",
+          "superset": [
+            "Banded Psoas March",
+            "Side-Lying Hip Abduction"
+          ],
+          "rest": "45s",
+          "note": "The hips block. Psoas march: on your back, band around both feet, drive one knee toward your chest against the band, slow and controlled — this is the actual hip flexor strength work. Straight into side-lying leg lifts, then 45s rest, 3 rounds. No band? March slowly in place driving each knee above hip height with a 1s hold.",
+          "focus": "Low back stays glued to the floor on the march; toes forward and hip stacked on the leg lifts."
         },
         {
-          "n": "Single-Leg Glute Bridge",
-          "s": 2,
-          "r": "10/side",
+          "n": "Dead Bug",
+          "s": 3,
+          "r": "8/side",
           "noWeight": true,
-          "focus": "Drive through the heel, hips level, squeeze at the top."
+          "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core block, 6 sets: dead bug → plank, three rounds, ~20s between moves.",
+          "focus": "Ribs down, low back pressed into the floor, opposite arm and leg reach long."
         },
         {
           "n": "Plank",
           "s": 3,
           "r": "30s",
           "noWeight": true,
+          "station": true,
+          "rest": "45s → back to dead bug",
+          "focus": "Straight line head to heels, glutes tight, breathe — don't hold your breath."
+        }
+      ],
+      "stretches": [
+        "Kneeling hip flexor stretch — 45s each side",
+        "Figure-4 glute stretch — 45s each side",
+        "Hamstring stretch — 30s each side",
+        "Child's pose — 45s"
+      ]
+    },
+    {
+      "d": "Tue",
+      "date": "8/25",
+      "name": "Foundation B · Hinge + Glutes",
+      "block": "Evening",
+      "dur": "~60 min",
+      "type": "lift",
+      "warmup": [
+        "5 min easy cardio (bike, row, or brisk walk)",
+        "Leg swings — 10 each direction / leg",
+        "Cat-cow — 8 slow reps",
+        "Glute bridges — 1×12",
+        "Banded lateral walks (or side steps) — 10 each way"
+      ],
+      "items": [
+        {
+          "n": "Dumbbell Romanian Deadlift",
+          "s": 3,
+          "r": "10",
+          "note": "Light dumbbells, RPE 6. This is a hinge, not a squat — the whole point today is grooving the hip-back pattern.",
+          "focus": "Soft knees, hips back, feel the hamstrings, flat back the whole way.",
+          "warmupSet": true
+        },
+        {
+          "n": "Goblet Squat",
+          "s": 3,
+          "r": "10",
+          "note": "One light-to-medium dumbbell held at your chest. A second squat pattern in the week, deliberately lighter than Monday's.",
+          "focus": "Elbows inside the knees at the bottom, tall chest, drive up through the whole foot."
+        },
+        {
+          "n": "Dumbbell Overhead Press",
+          "s": 3,
+          "r": "10",
+          "note": "Seated or standing, light DBs, RPE 6–7.",
+          "focus": "Ribs down, press straight up, finish with biceps by your ears.",
+          "warmupSet": true
+        },
+        {
+          "n": "Glute Bridge + Clamshell superset",
+          "s": 3,
+          "r": "10/side / 12/side",
+          "superset": [
+            "Single-Leg Glute Bridge",
+            "Banded Clamshell"
+          ],
+          "rest": "45s",
+          "note": "The hips block: 10 single-leg bridges per side straight into 12 clamshells per side, 45s rest, 3 rounds. Band optional on the clamshells. This pair is your knee insurance.",
+          "focus": "Bridges: drive through the heel, hips level. Clamshells: slow, toes together, don't let the hip roll back."
+        },
+        {
+          "n": "Side Plank",
+          "s": 3,
+          "r": "20–30s/side",
+          "noWeight": true,
           "coreStart": true,
-          "focus": "Straight line head to heels, glutes tight, breathe."
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core block, 6 sets: side plank → bird dog, three rounds. From the knees is a fine starting version.",
+          "focus": "Hips stacked and lifted, straight line shoulder to feet."
+        },
+        {
+          "n": "Bird Dog",
+          "s": 3,
+          "r": "8/side",
+          "noWeight": true,
+          "station": true,
+          "rest": "45s → back to side plank",
+          "focus": "Slow reach, hips square to the floor, pause 2s at full stretch."
+        }
+      ],
+      "stretches": [
+        "Kneeling hip flexor stretch — 45s each side",
+        "Figure-4 / pigeon — 45s each side",
+        "Hamstring stretch — 30s each side",
+        "Standing quad stretch — 30s each side"
+      ]
+    },
+    {
+      "d": "Wed",
+      "date": "8/26",
+      "name": "Easy Run · 2 mi (or Bike)",
+      "block": "Evening",
+      "dur": "~30–40 min",
+      "type": "run",
+      "warmup": [
+        "5 min easy walk to start",
+        "Leg swings — 10 each / leg",
+        "Ankle circles + a few walking lunges"
+      ],
+      "run": {
+        "title": "Easy conversational run — knee is the headline",
+        "dist": "2 mi",
+        "detail": "Two easy miles at a pace where you could chat the whole way; walk breaks are completely fine and don't make it not-count. You logged 'my knee hurts' after the 4-miler, so this run is also a test read: note whether the knee says anything during or after. A little awareness that fades is okay; actual pain, or anything that changes your stride — stop, tap the 🚴 toggle next time, and ride easy instead. Legs may feel heavy from Mon/Tue lifting; that's expected, go slower.",
+        "fields": [
+          "Time",
+          "How it felt (RPE 1–10)",
+          "Knee — during & after?"
+        ],
+        "hr": {
+          "zone": "Easy / conversational (RPE 3–4) — connect Strava and future runs get HR zones",
+          "warmup": "5 min walk",
+          "main": "RPE 3–4 — full sentences the whole way",
+          "cool": "5 min walk",
+          "note": "The lifting is what's pushing this week. Runs are practice moving, nothing more."
+        }
+      },
+      "stretches": [
+        "Kneeling hip flexor stretch — 45s each side",
+        "Figure-4 glute stretch — 45s each side",
+        "Calf stretch — 30s each side",
+        "Standing quad stretch — 30s each side"
+      ]
+    },
+    {
+      "d": "Thu",
+      "date": "8/27",
+      "name": "Foundation C · Squat 2 + Hip Flexors",
+      "block": "Evening",
+      "dur": "~60 min",
+      "type": "lift",
+      "warmup": [
+        "5 min easy cardio (bike, row, or brisk walk)",
+        "Leg swings — 10 each direction / leg",
+        "Glute bridges — 1×12",
+        "Bodyweight squats — 1×10",
+        "Standing knee drives — 10 each side"
+      ],
+      "items": [
+        {
+          "n": "Back Squat",
+          "s": 3,
+          "r": "8",
+          "note": "Second exposure. Same 65 lb unless Monday felt easy (RPE ≤6 on every set) — then 70 is earned.",
+          "focus": "Same cues as Monday: brace, chest tall, controlled depth. Aim for these to look identical to Monday's.",
+          "warmupSet": true,
+          "target": "65"
+        },
+        {
+          "n": "Lat Pulldown (or One-Arm Row)",
+          "s": 3,
+          "r": "10",
+          "note": "RPE 6–7. If the gym's busy, one-arm rows cover it.",
+          "focus": "Chest up, pull the bar to your collarbone, elbows down and back — no leaning way back."
+        },
+        {
+          "n": "Reverse Lunge",
+          "s": 2,
+          "r": "8/side",
+          "note": "Bodyweight first — add light DBs only if it feels solid and the knee is quiet. Reverse (stepping back) is the knee-friendly version, which is why it's this and not forward lunges.",
+          "focus": "Long stride back, tall torso, drive through the front heel to stand."
+        },
+        {
+          "n": "Hip Flexor Raise + Leg Raise superset",
+          "s": 3,
+          "r": "8/side / 10",
+          "superset": [
+            "Standing Hip Flexor Raise",
+            "Lying Straight-Leg Raise"
+          ],
+          "rest": "45s",
+          "note": "The hips block, rotated from Monday. Standing raise: drive one knee above hip height and hold 2s at the top (hold a wall for balance; add a light ankle weight or band when 8 gets easy). Then lie down for 10 slow straight-leg raises. 45s rest, 3 rounds.",
+          "focus": "Stand tall — no leaning back to cheat the knee up. On leg raises, low back stays pressed to the floor."
+        },
+        {
+          "n": "Hollow Hold",
+          "s": 3,
+          "r": "15–20s",
+          "noWeight": true,
+          "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core block, 6 sets: hollow hold → shoulder taps, three rounds. Bend the knees to shorten the lever if your low back arches.",
+          "focus": "Low back pressed down, ribs pulled in, arms and legs only as long as you can control."
+        },
+        {
+          "n": "Plank Shoulder Taps",
+          "s": 3,
+          "r": "8/side",
+          "noWeight": true,
+          "station": true,
+          "rest": "45s → back to hollow hold",
+          "focus": "Feet a bit wider, hips dead still — the tap is the easy part, the not-rocking is the exercise."
         }
       ],
       "stretches": [
@@ -156,11 +284,102 @@
       ]
     },
     {
+      "d": "Fri",
+      "date": "8/28",
+      "name": "Rest Day",
+      "block": "—",
+      "dur": "Optional 20–30 min",
+      "type": "cardio",
+      "desc": "Full rest, and you've earned it — three lifts and a run in four days. If you want to move, a gentle walk or easy stretch (hips and hip flexors especially) is plenty. A Sculpt class fits here too if you're feeling good — just log it. Otherwise, nothing to do but eat and sleep.",
+      "fields": [
+        "What did you do? (fine if nothing)",
+        "How sore are you, 1–10, and where?"
+      ]
+    },
+    {
       "d": "Sat",
-      "date": "8/22",
-      "name": "Short Easy Run · Bike · or Sculpt",
+      "date": "8/29",
+      "name": "Foundation D · Press + Glutes",
+      "block": "Evening",
+      "dur": "~60 min",
+      "type": "lift",
+      "warmup": [
+        "5 min easy cardio (bike, row, or brisk walk)",
+        "Arm circles + band pull-aparts (or wall slides) — 10 each",
+        "Glute bridges — 1×12",
+        "Bodyweight squats — 1×10",
+        "Banded lateral walks (or side steps) — 10 each way"
+      ],
+      "items": [
+        {
+          "n": "Dumbbell Bench Press (or Push-up)",
+          "s": 3,
+          "r": "10",
+          "note": "Second exposure this week. Same weight as Monday unless it was easy — then one DB size up.",
+          "focus": "Shoulder blades set, controlled lowering, press up and slightly together.",
+          "warmupSet": true
+        },
+        {
+          "n": "Dumbbell Romanian Deadlift",
+          "s": 3,
+          "r": "10",
+          "note": "Second hinge of the week. Same weight as Tuesday, aim for smoother reps.",
+          "focus": "Soft knees, hips back, hamstrings load, flat back.",
+          "warmupSet": true
+        },
+        {
+          "n": "Weighted Glute Bridge",
+          "s": 3,
+          "r": "10",
+          "note": "A dumbbell across your hips (a folded towel makes it comfortable). Pause 1s at the top of every rep.",
+          "focus": "Drive through the heels, squeeze the glutes to lift, ribs down at the top — no low-back arch."
+        },
+        {
+          "n": "Lateral Walk + Psoas March superset",
+          "s": 3,
+          "r": "10/way / 10/side",
+          "superset": [
+            "Lateral Band Walk",
+            "Banded Psoas March"
+          ],
+          "rest": "45s",
+          "note": "The hips block: 10 banded side-steps each way straight into the psoas march from Monday, 45s rest, 3 rounds. Third hip flexor touch of the week — this is the muscle you asked to build, so it gets frequency.",
+          "focus": "Stay low in a quarter-squat on the walks; slow controlled knee drives on the march."
+        },
+        {
+          "n": "Plank",
+          "s": 3,
+          "r": "30–40s",
+          "noWeight": true,
+          "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core block, 6 sets: plank → side plank, three rounds. Add ~5–10s to Monday's plank time if it was solid.",
+          "focus": "Straight line head to heels, glutes tight, breathe."
+        },
+        {
+          "n": "Side Plank",
+          "s": 3,
+          "r": "20–30s/side",
+          "noWeight": true,
+          "station": true,
+          "rest": "45s → back to plank",
+          "focus": "Hips stacked and lifted the whole time; from the knees is fine."
+        }
+      ],
+      "stretches": [
+        "Kneeling hip flexor stretch — 45s each side",
+        "Figure-4 glute stretch — 45s each side",
+        "Chest / doorway stretch — 30s each side",
+        "Child's pose — 45s"
+      ]
+    },
+    {
+      "d": "Sun",
+      "date": "8/30",
+      "name": "Short Easy Run · 1.5–2 mi (or Bike / Walk)",
       "block": "Anytime",
-      "dur": "~30–60 min",
+      "dur": "~25–35 min",
       "type": "run",
       "warmup": [
         "5 min easy walk to start",
@@ -168,40 +387,27 @@
         "Ankle circles + a few walking lunges"
       ],
       "run": {
-        "title": "Easy shakeout — keep it genuinely easy",
+        "title": "Easy shakeout to close the week",
         "dist": "1.5–2 mi",
-        "detail": "Two days after a 4-miler with a cranky IT band, this is deliberately small: 1.5–2 miles at a pace where you could chat the whole way (walk breaks totally fine). If the IT band complains at all, tap the 🚴 toggle and ride easy instead — the bike gives the cardio without the impact. A Sculpt class also counts as today's session; just log it in the notes. Whatever you pick, note how the IT band responded.",
+        "detail": "Run number two: 1.5–2 miles, genuinely easy, daylight instead of evening if you like. Same knee rule as Wednesday — note how it behaves during and after, and if it complains, the 🚴 bike or even a long walk closes the week just as well. Then look back: four lifts and two runs on the new plan. Whatever got logged, next week starts from there.",
         "fields": [
           "Time",
           "How it felt (RPE 1–10)",
-          "IT band — any complaints?"
+          "Knee — during & after?"
         ],
         "hr": {
           "zone": "Easy / conversational (RPE 3–4)",
           "warmup": "5 min walk",
           "main": "RPE 3–4 — you should be able to talk in full sentences",
-          "cool": "5 min walk",
-          "note": "Easy means easy. The strength work is what's pushing this week; the run is just practice moving."
+          "cool": "5 min walk, then stretch while warm",
+          "note": "After a 4-lift week your legs will be tired. Slower than feels necessary is exactly right."
         }
       },
       "stretches": [
-        "Figure-4 glute stretch — 45s each side",
-        "Kneeling hip flexor stretch — 45s each side",
-        "Calf stretch — 30s each side"
-      ]
-    },
-    {
-      "d": "Sun",
-      "date": "8/23",
-      "name": "Recovery — Gentle Yoga / Stretch",
-      "block": "Anytime",
-      "dur": "~30 min",
-      "type": "cardio",
-      "desc": "Easy day. A gentle yoga flow or full-body stretch, extra time on hips, hip flexors, and the outside of the thigh (figure-4, pigeon, side-lying quad stretch). An easy walk also counts. Tomorrow your first full week begins.",
-      "fields": [
-        "What did you do?",
-        "Duration",
-        "How do the legs feel after this week?"
+        "Kneeling hip flexor stretch — 60s each side",
+        "Figure-4 / pigeon — 45s each side",
+        "Calf stretch — 30s each side",
+        "Hamstring stretch — 30s each side"
       ]
     }
   ]

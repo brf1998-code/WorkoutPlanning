@@ -147,15 +147,27 @@ const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const PUBLIC_URL = process.env.PUBLIC_URL || 'https://workoutplanning-production.up.railway.app';
 const stravaTok = {}; // profile -> { access, exp }
 
+// Strava caps every API app at 1 connected athlete, so each profile can bring its own app.
+// Set STRAVA_CLIENT_ID_EMMA / STRAVA_CLIENT_SECRET_EMMA (etc.) to use a per-profile app;
+// profiles without their own vars fall back to the default app (brendan's).
+function stravaCreds(profile){
+  const suf = (profile||'').toUpperCase().replace(/[^A-Z0-9]/g,'_');
+  const id = process.env['STRAVA_CLIENT_ID_'+suf];
+  const secret = process.env['STRAVA_CLIENT_SECRET_'+suf];
+  if (id && secret) return { id, secret };
+  return { id: STRAVA_CLIENT_ID, secret: STRAVA_CLIENT_SECRET };
+}
+
 async function kvRead(key){ if(pool){ const r=await pool.query('SELECT data FROM workout_state WHERE week_id=$1',[key]); return r.rows[0]?r.rows[0].data:null; } return mem[key]||null; }
 async function kvWrite(key,data){ if(pool){ await pool.query('INSERT INTO workout_state (week_id,data) VALUES ($1,$2) ON CONFLICT (week_id) DO UPDATE SET data=$2, updated_at=NOW()',[key,JSON.stringify(data)]); } else { mem[key]=data; } }
 
 // Step 1: start OAuth — open this link in a browser to connect Strava
 app.get('/api/strava/connect/:profile', (req,res)=>{
-  if(!STRAVA_CLIENT_ID) return res.status(500).send('Strava not configured (set STRAVA_CLIENT_ID / STRAVA_CLIENT_SECRET).');
   const profile=(req.params.profile||'brendan').replace(/[^a-z0-9_-]/gi,'');
+  const creds=stravaCreds(profile);
+  if(!creds.id) return res.status(500).send('Strava not configured (set STRAVA_CLIENT_ID / STRAVA_CLIENT_SECRET, or per-profile STRAVA_CLIENT_ID_'+profile.toUpperCase()+').');
   const redirect=encodeURIComponent(PUBLIC_URL+'/api/strava/callback');
-  const url=`https://www.strava.com/oauth/authorize?client_id=${STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${redirect}&approval_prompt=auto&scope=activity:read_all&state=${profile}`;
+  const url=`https://www.strava.com/oauth/authorize?client_id=${creds.id}&response_type=code&redirect_uri=${redirect}&approval_prompt=auto&scope=activity:read_all&state=${profile}`;
   res.redirect(url);
 });
 
@@ -166,7 +178,8 @@ app.get('/api/strava/callback', async (req,res)=>{
     if(error) return res.status(400).send('Strava error: '+error);
     if(!code) return res.status(400).send('No authorization code.');
     const profile=(state||'brendan').replace(/[^a-z0-9_-]/gi,'');
-    const r=await fetch('https://www.strava.com/oauth/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:STRAVA_CLIENT_ID,client_secret:STRAVA_CLIENT_SECRET,code,grant_type:'authorization_code'})});
+    const creds=stravaCreds(profile);
+    const r=await fetch('https://www.strava.com/oauth/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:creds.id,client_secret:creds.secret,code,grant_type:'authorization_code'})});
     const tok=await r.json();
     if(!tok.refresh_token) return res.status(500).send('Auth failed: '+JSON.stringify(tok));
     const meta=(await kvRead('strava-'+profile))||{};
@@ -181,7 +194,8 @@ async function stravaAccess(profile){
   if(stravaTok[profile] && stravaTok[profile].exp>now+60000) return stravaTok[profile].access;
   const meta=await kvRead('strava-'+profile);
   if(!meta||!meta.refresh_token) throw new Error('Strava not connected for '+profile);
-  const r=await fetch('https://www.strava.com/oauth/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:STRAVA_CLIENT_ID,client_secret:STRAVA_CLIENT_SECRET,grant_type:'refresh_token',refresh_token:meta.refresh_token})});
+  const creds=stravaCreds(profile);
+  const r=await fetch('https://www.strava.com/oauth/token',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({client_id:creds.id,client_secret:creds.secret,grant_type:'refresh_token',refresh_token:meta.refresh_token})});
   const tok=await r.json();
   if(!tok.access_token) throw new Error('token refresh failed');
   if(tok.refresh_token && tok.refresh_token!==meta.refresh_token){ meta.refresh_token=tok.refresh_token; await kvWrite('strava-'+profile, meta); }
@@ -275,8 +289,8 @@ app.put('/api/:weekId', async (req, res) => {
   }
 });
 
-// App icons (home-screen / favicon)
-app.get(/^\/(icon-\d+\.png|favicon\.ico)$/, (req, res) => {
+// App icons (home-screen / favicon) — supports per-profile sets like icon-emma-180.png
+app.get(/^\/(icon-[a-z0-9-]+\.png|favicon\.ico)$/, (req, res) => {
   const f = path.join(APP_DIR, path.basename(req.path));
   if (fs.existsSync(f)) return res.sendFile(f);
   res.status(404).end();

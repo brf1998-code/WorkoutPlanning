@@ -9,6 +9,19 @@
 <title>This Week</title>
 <link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<script>
+/* Per-profile home-screen icons: profiles listed here get /icon-<profile>-<size>.png (add a profile here only after its PNGs exist in app/). Brendan keeps the default icons. */
+(function(){
+  try{
+    var p=((new URLSearchParams(location.search).get('p')||'').toLowerCase().replace(/[^a-z0-9]/g,''));
+    if(['emma'].indexOf(p)===-1) return;
+    document.querySelectorAll('link[rel="apple-touch-icon"],link[rel="icon"]').forEach(function(l){
+      var m=(l.getAttribute('href')||'').match(/^\/icon-(\d+)\.png$/);
+      if(m) l.setAttribute('href','/icon-'+p+'-'+m[1]+'.png');
+    });
+  }catch(e){}
+})();
+</script>
 <meta name="apple-mobile-web-app-title" content="Training">
 <meta name="mobile-web-app-capable" content="yes">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
