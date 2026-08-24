@@ -1152,7 +1152,7 @@ function renderProgress(){
     </div></div>`;
 
   h += renderTrends();
-  h += `<div class="pgcard"><h3>Lifting volume · by day</h3><div class="ch"><canvas id="volCh"></canvas></div></div>`;
+  h += `<div class="pgcard"><h3>Lifting volume · weekly</h3><div class="ch"><canvas id="wkVolCh"></canvas></div><div class="proj" id="wkVolNote" style="margin-top:6px;color:var(--dim)">Loading past weeks…</div></div>`;
   h += `<div class="pgcard"><h3>Running mileage · by day</h3><div class="ch"><canvas id="mileCh"></canvas></div></div>`;
   h += renderStravaProgress();
 
@@ -1184,15 +1184,54 @@ function renderProgress(){
     if(zEl){ const zd=zoneDist(14); progCharts.push(new Chart(zEl,{ type:'doughnut',
       data:{ labels:['Z1','Z2','Z3','Z4','Z5'], datasets:[{ data:[zd.Z1,zd.Z2,zd.Z3,zd.Z4,zd.Z5].map(s=>Math.round(s/60)), backgroundColor:[cssVar('--faint')||'#aaa', cssVar('--green')||'#1aa463', teal, orange, cssVar('--red')||'#e0392f'], borderWidth:0 }] },
       options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{position:'right', labels:{color:tick, font:{size:11}, boxWidth:12}}, tooltip:{callbacks:{label:c=>c.label+' · '+c.parsed+' min'}} } } })); }
-    progCharts.push(new Chart(document.getElementById('volCh'),{ type:'bar',
-      data:{ labels, datasets:[{ data:a.volByDay, backgroundColor:orange, borderRadius:6, maxBarThickness:34 }] },
-      options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' lb'}}},
-        scales:{ x:{grid:{display:false}, ticks:{color:tick, font:{size:11}}}, y:{grid:{color:grid}, ticks:{color:tick, font:{size:11}, callback:v=>v>=1000?(v/1000)+'k':v}, beginAtZero:true} } } }));
+    fillWeeklyVolChart(a.totalVol, {grid, tick, orange});
     progCharts.push(new Chart(document.getElementById('mileCh'),{ type:'bar',
       data:{ labels, datasets:[{ data:a.mileByDay, backgroundColor:teal, borderRadius:6, maxBarThickness:34 }] },
       options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y+' mi'}}},
         scales:{ x:{grid:{display:false}, ticks:{color:tick, font:{size:11}}}, y:{grid:{color:grid}, ticks:{color:tick, font:{size:11}, callback:v=>v+' mi'}, beginAtZero:true} } } }));
   }
+}
+// ---- weekly lifting volume (across weeks, from archived plans + logs) ----
+let wkVolPastCache=null; // computed once per page load; past weeks don't change
+function liftVolForWeek(plan, logs){
+  let v=0; const ld=(logs&&logs.days)||{};
+  const norm=s=>({sets:(s&&s.sets)||{}, subs:(s&&s.subs)||{}, custom:(s&&s.custom)||[]});
+  (plan.days||[]).forEach((day,i)=>{
+    const dlog=ld[i]||ld[String(i)]||{};
+    try{ if(day.type==='lift'&&(day.items||[]).length) v+=volume(day, norm(dlog)); }catch(e){}
+    (day.addons||[]).forEach((ad,ai)=>{ try{ if(ad.type==='lift'&&(ad.items||[]).length) v+=volume(ad, norm((dlog.mods||{})[ai])); }catch(e){} });
+    (dlog.extra||[]).forEach(ex=>{ try{ if(ex.type==='lift') v+=volume(ex, norm(ex.st)); }catch(e){} });
+  });
+  return Math.round(v);
+}
+async function pastWeeklyVols(n){
+  if(wkVolPastCache) return wkVolPastCache;
+  let list=weekNav.list;
+  if(!list){ try{ const r=await fetch('/api/_weeks?profile='+PROFILE); if(r.ok){ list=await r.json(); if(!weekNav.list) weekNav.list=list; } }catch(e){} }
+  const pasts=(list||[]).filter(x=>x.start<PLAN.start).sort((a,b)=>a.start<b.start?-1:1);
+  const rows=[];
+  for(const w of pasts){
+    try{
+      if(!weekNav.cache[w.key]) await fetchPastWeek(w);
+      const c=weekNav.cache[w.key]||{};
+      rows.push({start:w.start, vol: c.plan? liftVolForWeek(c.plan, c.logs):0});
+    }catch(e){ rows.push({start:w.start, vol:0}); }
+  }
+  const byStart={}; rows.forEach(r=>{ if(!(r.start in byStart)||r.vol>byStart[r.start]) byStart[r.start]=r.vol; }); // revised weeks (e.g. "…b") share a start — keep the fuller record
+  wkVolPastCache=Object.keys(byStart).sort().slice(-n).map(s=>({start:s, label:mdOf(s), vol:byStart[s]}));
+  return wkVolPastCache;
+}
+async function fillWeeklyVolChart(curVol, th){
+  let past=[]; try{ past=await pastWeeklyVols(7); }catch(e){}
+  const el=document.getElementById('wkVolCh'); if(el===null || typeof Chart!=="function") return; // navigated away
+  try{ if(Chart.getChart && Chart.getChart(el)) return; }catch(e){} // a newer render already drew this canvas
+  const rows=[...past, {start:PLAN.start, label:mdOf(PLAN.start), vol:Math.round(curVol), cur:true}];
+  const note=document.getElementById('wkVolNote');
+  if(note) note.textContent = past.length ? 'Logged volume per week — the current week fills in as you log sets.' : 'No archived weeks found yet — the current week fills in as you log sets.';
+  progCharts.push(new Chart(el,{ type:'bar',
+    data:{ labels:rows.map(r=>r.label), datasets:[{ data:rows.map(r=>r.vol), backgroundColor:rows.map(r=>r.cur?th.orange:(cssVar('--faint')||'#c9b8a8')), borderRadius:6, maxBarThickness:30 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' lb'}}},
+      scales:{ x:{grid:{display:false}, ticks:{color:th.tick, font:{size:10}}}, y:{grid:{color:th.grid}, ticks:{color:th.tick, font:{size:11}, callback:v=>v>=1000?(v/1000)+'k':v}, beginAtZero:true} } } }));
 }
 function dayProgressWeekPct(){ let t=0,d=0; for(let i=0;i<7;i++){ const p=dayProgress(i); t+=p.total; d+=p.done; } return t?Math.round(d/t*100):0; }
 function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
