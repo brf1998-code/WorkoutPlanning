@@ -2,12 +2,12 @@
   "weekId": "2026-08-24",
   "start": "2026-08-24",
   "title": "Week of Aug 24–30",
-  "subtitle": "Block 3, Big-4 retest — Week 2 (first push week). Calibration is banked; now the bar moves. Ride Wednesday, ≥17 running miles, and the volume floor is back on every lift day.",
+  "subtitle": "Block 3, Big-4 retest — Week 2 (first push week). Calibration is banked; now the bar moves. Ride Wednesday with tempo, ≥17 running miles with two quality touches, and the volume floor is back on every lift day.",
   "goals": [
     "The volume question, answered with the log: last week you did ~48 working sets and ~26k lb — Block 1's calibration week was 65 sets and ~37k lb, and its build weeks ran 86–87 sets and 45–48k. So yes, you were down about 30%, and your journals called it correctly (2-set accessories, thin core). This week is rebuilt to ~73 planned sets: back-off sets on the main lifts, 3-set accessories everywhere, a superset every lift day, and 6+ core sets every lift day. The only volume you're 'missing' vs Block 1 is the fourth barbell day — and that slot is deliberately your 25–30 mile ride.",
     "Push week targets, straight off calibration: Squat 195×5 (was 185, felt easy — Block 1 best is 200×5, week 3 takes it), Bench 180×5 (was 175×5 solid, best 190), Strict OHP 110×5 (you beat the 100 placeholder with 105s), Deadlift 265×4 (was 255×4, best 275). Top sets at ~2 RIR, unspotted bench rules as always, full back protocol on every hinge.",
-    "Aerobic reality check: you're not in the worst shape of your life, you're three weeks past a road trip, a bridge week, and a calibration week at 15 miles — and your easy runs have been drifting to ~152 avg HR, which is Z3 pretending to be easy. Detraining plus junk-easy pace is exactly what 'kicked my butt' intervals feel like. The fix is boring: this week holds ~17.5 running miles where easy actually means ≤150, one controlled threshold session Tuesday, and Wednesday's ride as a 2-hour aerobic base session. Strength stays the block's focus — this is the not-atrophying floor, and Block 4 (Sep 14) is where mileage builds for real.",
-    "Wednesday is the ride: 25–30 miles, steady Z2 spin, eat before and during. It replaces the Wednesday barbell slot this week, and it's logged under its own distance field so it doesn't inflate the run-mileage stat. Thursday's upper session slides in behind it — arms don't care about bike miles.",
+    "Intensity distribution, recalibrated per your point: you're right that the hard-aerobic share has been too small, with one correction to the ledger — lifting doesn't belong in EITHER bucket. HR drifting through Z2 between sets isn't continuous aerobic work, so it doesn't count as easy volume any more than it counts as intensity; the 80/20 math should run over aerobic minutes only (runs + rides). By that ledger last week you did ~4.2 aerobic hours and about 18 hard minutes — roughly 7% hard, not 20%. So the diagnosis isn't 'too much Z2', it's that BOTH ends shrank: total aerobic minutes fell off and the hard minutes nearly vanished. While running volume sits this low, the rule is ~70/30 on aerobic minutes with TWO quality touches, converging back to 80/20 when Block 4 rebuilds volume. This week's hard ledger: ~20 min threshold Tue, ~30 min bike tempo Wed, ~18 min steady Fri, strides Sun — about 65–70 hard minutes on ~5 aerobic hours, ~23%.",
+    "Wednesday is the ride, and it carries the week's second quality touch: 25–30 miles with 2×15 min at tempo in the middle, steady Z2 everywhere else. Tempo on the bike is the cheapest intensity you can buy — real Z3 stimulus, zero pounding, no interference tax on Saturday's deadlifts. Eat before, fuel during, and it's logged under its own distance field so it doesn't inflate the run-mileage stat.",
     "Core, rotated per the new floor: Mon = hollow hold / bird dog / suitcase carry, Thu = ab wheel / Pallof / woodchopper, Sat (deadlift day, spine-friendly) = side plank / dead bug / hanging leg raise. Six sets minimum each day, run as 20s-transition circuits. Friday's mini-pump adds 4 more.",
     "Food: maintenance, deficit 0, band 189–191 with the waist as arbiter. You're fueling PR attempts and a 2-hour ride this week — under-eating is the one way to lose both.",
     "Progress tab note: the daily lifting volume chart is gone — it mostly showed which days you lift. In its place is an 8-week lifting volume graph, so the exact drop we just diagnosed is visible on one screen from now on."
@@ -142,7 +142,7 @@
       "run": {
         "title": "Cruise Intervals — 5.5 mi total",
         "dist": "5.5 mi",
-        "detail": "1.5 mi easy warm-up → 3 × 6 min at threshold effort (comfortably hard — short sentences, not gasps) with 2 min easy jog between → easy cool-down to round out 5.5. Last week's session kicked your butt because of day-after-squat legs and a month off speed — same legs situation today, so the assignment is CONTROL: start the first rep slower than feels right and finish each rep feeling like you could do one more. If rep 1 blows past comfortably hard, cut reps to 5 min and call it a full success. The paper will look mediocre for a few more weeks. That's detraining unwinding, not your ceiling.",
+        "detail": "1.5 mi easy warm-up → 3 × 6 min at threshold effort (comfortably hard — short sentences, not gasps) with 2 min easy jog between → easy cool-down to round out 5.5. Last week's session kicked your butt because of day-after-squat legs and a month off speed — same legs situation today, so the assignment is CONTROL: start the first rep slower than feels right and finish each rep feeling like you could do one more. Feeling strong after rep 3? Take a 4th — the week's intensity budget has room now. If rep 1 blows past comfortably hard, cut reps to 5 min instead. The paper will look mediocre for a few more weeks; that's detraining unwinding, not your ceiling.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -166,17 +166,31 @@
     {
       "d": "Wed",
       "date": "8/26",
-      "name": "Ride — 25–30 mi Aerobic Base",
+      "name": "Ride — 25–30 mi Base + Tempo",
       "block": "The week's biggest aerobic session",
       "dur": "~1:45–2:15",
-      "type": "cardio",
-      "desc": "The centerpiece of the anti-atrophy plan: 25–30 miles at a steady Z2 spin — conversational the whole way, gears you can turn smoothly, HR ideally under ~145. Two hours of pure aerobic base with zero pounding, the day before an upper (not lower) lift by design. Eat a real breakfast, bring fuel for anything past 90 minutes, and drink more than feels necessary. Saturday's ride with Morgan was 26 miles — same neighborhood of effort, just keep this one honest Z2 rather than social-surge pace. Logged under its own distance field so run mileage stays clean.",
-      "fields": [
-        "Ride Distance (mi)",
-        "Time",
-        "Avg HR",
-        "Notes (optional)"
+      "type": "run",
+      "warmup": [
+        "First 10–15 min of the ride IS the warm-up — easy gear, high cadence",
+        "Quick hip flexor + hamstring loosen before you clip in"
       ],
+      "run": {
+        "title": "Ride — 25–30 mi with 2×15 min tempo",
+        "dist": "25–30 mi",
+        "detail": "The centerpiece of the aerobic plan, now with the week's second quality touch built in: settle into a steady Z2 spin for the first ~40 min, then 2 × 15 min at tempo (brisk but sustainable — you could speak in short sentences, legs working, not burning) with ~10 min easy spinning between, then steady Z2 home. Everything outside the tempo blocks stays conversational. Eat a real breakfast, bring fuel for anything past 90 minutes, drink more than feels necessary. Saturday with Morgan was 26 miles of social-surge pace — this one is structured instead.",
+        "fields": [
+          "Ride Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
+        "hr": {
+          "zone": "Base Z2 (≤~140 on the bike) · tempo blocks ~150–162",
+          "warmup": "easy spin, high cadence, 10–15 min",
+          "main": "2×15 min at ~150–162, everything else ≤~140",
+          "cool": "easy spin home, 10+ min",
+          "note": "Bike HR runs ~5–10 bpm lower than running for the same effort — these numbers already account for that. Go by feel if the strap acts up."
+        }
+      },
       "stretches": [
         "Hip flexor stretch — 45s each side (bikes shorten them)",
         "Hamstring stretch — 30s each side",
@@ -305,7 +319,7 @@
     {
       "d": "Fri",
       "date": "8/28",
-      "name": "Easy Run — 6 mi Z2 Discipline + Mini Pump",
+      "name": "Progression Run — 6 mi + Mini Pump",
       "block": "5:00–7:00 AM",
       "dur": "~55 min run + ~20 min pump",
       "type": "run",
@@ -314,20 +328,20 @@
         "Leg swings — 10 each direction / leg"
       ],
       "run": {
-        "title": "Easy Run — 6 mi, strictly Z2",
+        "title": "Progression Run — 4 easy + 2 steady",
         "dist": "6 mi",
-        "detail": "The week's longest run, and the one that rebuilds the aerobic base — IF it stays easy. Your recent 'easy' runs have averaged ~152, which is the no-man's-land that makes everything feel worse. Cap it at 150, and if that means 10:30 miles right now, run 10:30 miles; the pace comes back to the HR within weeks, that's the whole trick. Deadlifts tomorrow — finish feeling like you did nothing.",
+        "detail": "The week's longest run, now a progression per the intensity rebalance: 4 miles genuinely easy (≤150 — your recent 'easy' has averaged ~152, which is no-man's-land; if honest Z2 means 10:30 miles right now, run 10:30 miles), then lift the last 2 miles to STEADY — Z3, comfortably brisk, ~155–165, the effort you could hold for an hour. Not threshold: deadlifts are tomorrow, and steady is the biggest stimulus that doesn't tax them. The discipline is both directions — easy miles actually easy, steady miles actually steady.",
         "fields": [
           "Distance (mi)",
           "Time",
           "Avg HR"
         ],
         "hr": {
-          "zone": "Zone 2 · ≤150, no exceptions today",
+          "zone": "Miles 1–4 ≤150 · miles 5–6 steady ~155–165",
           "warmup": "ease in, < 140",
-          "main": "≤150 — walk the hills if you must, it still counts",
-          "cool": "easy",
-          "note": "This is the single most important run of the week for the aerobic goal."
+          "main": "hold the split honest: easy IS easy, then steady, capped at 165",
+          "cool": "2–3 min walk after",
+          "note": "If the legs say no when it's time to press, finish easy — the ride carried intensity yesterday."
         }
       },
       "stretches": [
@@ -504,18 +518,18 @@
       "run": {
         "title": "Easy Jog — 3 mi",
         "dist": "3 mi",
-        "detail": "Conversational the whole way — a walk-jog split counts fully. This is the run that seals a week where every easy mile actually stayed easy.",
+        "detail": "Conversational the whole way — a walk-jog split counts fully. Then 6 × 20s relaxed strides on flat ground with full walk-back recovery: fast but smooth, ~85% effort, tall posture. Strides aren't a workout — they're free leg speed that keeps the top gear from rusting shut while the volume is low.",
         "fields": [
           "Distance (mi)",
           "Time",
           "Avg HR"
         ],
         "hr": {
-          "zone": "Zone 1–2 · easy",
+          "zone": "Zone 1–2 · easy, strides don't count",
           "warmup": "easy",
-          "main": "conversational, ≤150",
+          "main": "conversational, ≤150 · finish with 6×20s strides",
           "cool": "easy",
-          "note": "Nothing to prove today."
+          "note": "Nothing to prove today — strides are about form, not fitness."
         }
       },
       "stretches": [
