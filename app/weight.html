@@ -250,7 +250,7 @@ const PROFILE = ((new URLSearchParams(location.search).get('p')||'brendan').toLo
 const KEY = PROFILE==='brendan' ? 'weight-log' : 'weight-'+PROFILE;   // brendan stays on his existing key
 // Per-profile nutrition defaults. Smart goal = BMR + active burn − deficit; deficit 0 = maintenance.
 const PDEF = {
-  brendan: { pin:'2020', unlockKey:'weight-unlocked',      bmr:1895, neat:450, deficit:700, goal:2200, pgoal:180, goalDelta:-8, title:'Weight' },
+  brendan: { pin:'2020', unlockKey:'weight-unlocked',      bmr:1895, neat:450, deficit:600, goal:2200, pgoal:180, goalDelta:-8, title:'Weight' },
   emma:    { pin:'2024', unlockKey:'weight-unlocked-emma', bmr:1375, neat:450, deficit:0,   goal:2100, pgoal:120, goalDelta:0,  title:'Weight · Emma' }
 };
 const D = PDEF[PROFILE] || { pin:'2020', unlockKey:'weight-unlocked-'+PROFILE, bmr:1500, neat:400, deficit:0, goal:2000, pgoal:120, goalDelta:0, title:'Weight' };
@@ -268,12 +268,15 @@ function loadLocal(){ try{ const s=localStorage.getItem(KEY); if(s){ const o=JSO
 async function loadHealth(){ try{ const r=await fetch('/api/health-'+PROFILE); if(r.ok){ const d=await r.json(); healthDays=(d&&d.days)||{}; refresh(); } }catch(e){} }
 async function refreshBurn(){ const b=document.getElementById('refreshBtn'); if(b) b.textContent='↻ …'; toast('Syncing burn…'); try{ await fetch('/api/strava/sync/'+PROFILE+'?cb='+Date.now()); }catch(e){} await loadHealth(); if(b) b.textContent='↻ Refresh'; toast('Burn updated ✓'); }
 function dateMinus(dateStr,n){ const d=new Date(dateStr+'T00:00:00'); d.setDate(d.getDate()-n); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+// Casual walks (< 250 cal, ~2.5 mi) are everyday movement already covered by NEAT — don't double count them.
+// Big intentional walks (long hikes, 14-mile days) still count toward burn.
+function countedCals(w){ const c=+w.calories||0; return (w.type==='Walk' && c<250) ? 0 : c; }
 function tdeeForDate(date){ const BMR=cal.bmr||D.bmr, NEAT=(cal.neat>=0?cal.neat:D.neat); const hd=healthDays[date];
   if(hd && hd.activeCalories!=null) return { tdee: BMR + (+hd.activeCalories||0), src:'Health' };
-  const wc = hd ? (hd.workouts||[]).reduce((a,w)=>a+(+w.calories||0),0) : 0;
+  const wc = hd ? (hd.workouts||[]).reduce((a,w)=>a+countedCals(w),0) : 0;
   if(wc>0) return { tdee: BMR + NEAT + wc, src:'Strava' };
   // fallback: average of recent days' workout calories so a typical day projects sensibly
-  const vals=[]; for(let i=1;i<=7;i++){ const h=healthDays[dateMinus(date,i)]; if(h){ const w=(h.workouts||[]).reduce((a,x)=>a+(+x.calories||0),0); if(w>0) vals.push(w); } }
+  const vals=[]; for(let i=1;i<=7;i++){ const h=healthDays[dateMinus(date,i)]; if(h){ const w=(h.workouts||[]).reduce((a,x)=>a+countedCals(x),0); if(w>0) vals.push(w); } }
   const avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;
   return { tdee: BMR + NEAT + avg, src:'est' };
 }
