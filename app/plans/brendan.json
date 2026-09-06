@@ -7,9 +7,9 @@
     "Why this is a build week and not the deload: you said you weren't fatigued at the end of the sessions and the log agrees. Squat 205×5, RDL 225×8 (ten past the plan), deadlift 275×4 that 'came much easier than expected', OHP 125×5 strict, pull-up max 18 which ties the Block 2 exit. Nothing stalled, nothing hurt. So one more push: Squat 210×5 (215 if the 190 in the ramp moves like a warm-up), RDL 230×8, Deadlift 285×4, OHP 125×5 again but owned instead of strained. Top sets at ~2 RIR, full back protocol on every hinge. The deload is next week (Sep 14–20) and it is not optional after this one: five straight weeks of building since the bridge week is the limit.",
     "Bench, toward 225: this week you held 185 because it 'was feeling too heavy' and unspotted that was the right read. 185×5 puts the estimated single around 215, so 225 is about 5% away, not 2 weeks of casual progress but not far either. The plan from here is bench twice a week and heavier, lower reps: Wed ramps to the first heavy triple, 195×3 at 1–2 RIR, then three back-off fives at 170. Fri adds a second touch, paused bench 4×5 at 160, which builds the bottom position where a 225 single is won or lost. The rough road: deload week keeps bench active with crisp doubles at 185, then 205×2, then a 215 single, then the 225 attempt around the first week of October, fresh, on a Wednesday. If 205×2 flies you can pull it forward a week. One rule with no exceptions: no attempt above 200 without safety arms or pins set at chest height, or a spotter. The full attempt schedule is written into TRAINING_CYCLE.",
     "Running: 25 miles, up from 22.1 this week and 22.7 the week before. Mon 2 + Tue 7 + Wed 2 + Thu 6.5 + Fri 3 + Sun 4.5. Tuesday grows to 5×6 min at threshold; Thursday keeps the steady finish, now 2 miles. About 46 hard minutes on roughly 3.5 aerobic hours, which is the 70/30 lane. The honest flag again: this week's 'easy' Thursday averaged 158 and Sunday 155. At 22 miles that was tolerable. At 25 with four lift days it isn't, so the easy miles are ≤150 this week, and if that means 10:30 pace the morning after intervals, it means 10:30 pace. Tuesday's fourth rep averaged 182 with a max of 190: that is 5K effort, not threshold. Cap the reps at 178.",
-    "Lifting volume, verified against this week's log using the app's own volume math (weight × reps on every weighted set, bodyweight typed into pull-ups included): this week logged 83 sets and ~62,600 lb. The new week plans 86 sets and ~70,700 lb if targets land, up about 13%, most of it from pull-ups now being three days a week with bodyweight logged. Counting barbell, dumbbell and machine work only, it's ~54,200 vs ~53,500, flat to slightly up, which is where a fourth build week should sit. Pull-ups stay on Friday and get a second day on Wednesday (your ask), with a short 2×10 pulldown after them so Wednesday's weighted pulling doesn't drop, and Friday's paused bench runs 4 sets so pressing volume holds with incline DB out. Push-ups get 4 sets on Saturday and dips go to 3×10 since 30/20/12 left you 'super sore' and wanting more.",
+    "Lifting volume, verified against this week's log using the app's own volume math (weight × reps on every weighted set, bodyweight typed into pull-ups included): this week logged 83 sets and ~62,600 lb. The new week plans 87 sets and ~69,000 lb if targets land, up about 10%. Counting barbell, dumbbell and machine work only, it's ~57,200 vs ~53,500, up about 7%, which is where a fourth build week should sit. Pull-ups are two days: Wednesday 3×8 in place of the lat pulldown (with a short 2×10 pulldown after so weighted pulling holds) and the Saturday max. Friday gets a chest-supported DB row so the day keeps a pull, and Friday's paused bench runs 4 sets so pressing volume holds with incline DB out. Push-ups get 4 sets on Saturday and dips go to 3×10 since 30/20/12 left you 'super sore' and wanting more.",
     "Core, floor only, 6+ sets each lift day, rotated off this week: Mon = plank shoulder taps / flutter kicks / side plank, Wed = dead bug / bicycle crunch / plank, Fri (deadlift day, spine-friendly) = bird dog / hollow hold / side plank, Sat = V-up / dead bug / plank.",
-    "Food and weight: you're at 190.3 today, and the app's goal line (184.9 by Oct 10) has you about 2.5 lb behind pace after the move and two travel weekends. Your call is a 400 deficit, held consistently; the app is currently set at 600, so drop it to 400 on the weight page. Half the days since Aug 27 have partial logs (546, 890 cal days), which is the real reason the scale hasn't moved: the smart goal is only as honest as the log. Reset the goal to 185.0 by Nov 1 from 190.3 today (about 0.7 lb/week at 400). Log the whole day or don't count the day. Waist Sunday morning, fasted."
+    "Food and weight: deficit is set to 400 in the app now (it was 600) and the glide restarts from 190.3 on Sep 6 to 185.0 by Nov 1, about 0.7 lb/week. You can now edit the start anchor yourself on the weight page (Edit goal → start weight and date, or the restart-from-latest button), and the deficit is behind the 'Smart · −400 deficit' link at the top of the calorie card. Half the days since Aug 27 have partial logs (546, 890 cal days), which is the real reason the scale hasn't moved: the smart goal is only as honest as the log. Log the whole day or don't count the day. Waist Sunday morning, fasted."
   ],
   "review": "Retest week, every main lift moved. Squat 205×5 clean. RDL 225×8, ten past the plan. Bench held at 185, your call, and the right one unspotted. OHP 125×5 strict with a strain on the last rep, which is what 0.65×BW at a rep PR should feel like. Deadlift 275×4 with room, on a day you played it safe on purpose. Pull-ups: 3×10/10/9 on Friday when you decided the sixes were too light, then an 18 max on Saturday plus 8 and 6 on follow-on sets, tying the Block 2 exit while running 22 miles. Running: 22.1 miles, Tuesday's 4×6 progressed from 7:16 to 6:54 pace with the last rep at 182 avg HR. That last rep is where the fitness shows and also where the discipline goes; threshold reps should finish feeling repeatable. The week you asked for was 'building on all fronts'. This is what that costs: the easy runs have to actually be easy, and the deload after this one is real.",
   "days": [
@@ -217,7 +217,7 @@
           "s": 3,
           "r": "8",
           "repsIn": true,
-          "note": "Second pull-up day, your ask. 3×8 strict, ~2 in reserve, log bodyweight in the weight field so it counts toward volume. The road back to 20: three pull-up days a week now (Wed volume, Fri volume, Sat max), about 50 strict reps a week plus the max set. If 8s are easy on set 3, 9s next week.",
+          "note": "Second pull-up day, your ask: Wed volume, Sat max. 3×8 strict, ~2 in reserve, log bodyweight in the weight field so it counts toward volume. The road back to 20: about 24 strict reps here plus the Saturday max and its two back-offs. If 8s are easy on set 3, 9s next week.",
           "focus": "Full hang to chin clearly over, no kipping, smooth tempo."
         },
         {
@@ -370,12 +370,12 @@
           "target": "160"
         },
         {
-          "n": "Pull-ups",
+          "n": "Chest-Supported DB Row",
           "s": 3,
-          "r": "8",
-          "repsIn": true,
-          "note": "Staying on Friday, your call. 3×8 at ~2 RIR, not the 10/10/9 you pushed to this week, so Saturday's max set still has something left. Log bodyweight in the weight field. This keeps the Saturday benchmark on the same conditions as the 14, 15, 18 series (day after a pull-up day), so the trend stays comparable.",
-          "focus": "Full hang to chin clearly over, strict, smooth tempo."
+          "r": "10",
+          "note": "50s, 3×10. Pull-ups are two days a week (Wed + Sat max), so Friday's pull is a horizontal row: chest on an incline bench, no low-back load after the deadlifts, and it rounds out the week's pulling with a rowing pattern the pull-ups don't cover. Log the pair total (100) like the lunges.",
+          "focus": "Elbows back and slightly out, squeeze at the top, control down.",
+          "target": "50s"
         },
         {
           "n": "Lateral Raise + Face Pull superset",
@@ -468,7 +468,7 @@
           "s": 1,
           "r": "max",
           "repsIn": true,
-          "note": "The week's one to-failure set. 14 → 15 → 18 the last three weeks, all the day after a pull-up day, and today is the same (Friday 3×8). Same conditions, so the trend holds. Target is 20 by the end of Block 4; pull-ups are three days a week now to get there. One all-out strict set, log the reps and your bodyweight.",
+          "note": "The week's one to-failure set. 14 → 15 → 18 the last three weeks, all the day after a pull-up day. This week there are no pull-ups on Friday (your ask, two pull-up days: Wed and Sat), so this is the first fresh-day max. Expect it to read a rep or two higher than the same fitness would have; log it as the start of the new series. Target is 20 by the end of Block 4. One all-out strict set, log the reps and your bodyweight.",
           "focus": "Full hang to chin clearly over, no kipping, fight for the last clean rep."
         },
         {

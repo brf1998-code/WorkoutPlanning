@@ -347,7 +347,7 @@ function renderCal(){
   document.getElementById('calGoalShow').textContent=g;
   document.getElementById('proTotal').textContent=ptotal;
   document.getElementById('proGoalShow').textContent=pg;
-  document.getElementById('calGoalBtn').textContent=(cal.smart?'Smart':'Goal')+' · '+g+' · '+pg+'g';
+  document.getElementById('calGoalBtn').textContent=(cal.smart?('Smart · '+(cal.deficit>0?'−'+cal.deficit+' deficit':'maintenance')):('Fixed · '+g))+' · '+pg+'g ✎';
   const sn=document.getElementById('calSmartNote');
   if(sn){ if(cal.smart){ const t=tdeeForDate(calDate||today()); const srcLabel=t.src==='Health'?'measured · Apple Health':t.src==='Strava'?'measured · Strava':'predicted from recent days'; const defTxt=(cal.deficit>0)?`− ${cal.deficit} deficit`:`(maintenance — eat what you burn)`; sn.style.display='block'; sn.innerHTML=`Smart goal <b>${g.toLocaleString()}</b> = ~${Math.round(t.tdee).toLocaleString()} burn ${defTxt} <span style="color:var(--faint)">(${srcLabel})</span>`; } else sn.style.display='none'; }
   const remEl=document.getElementById('calRem'); { const pct=g>0?Math.round(total/g*100):0; const onT=Math.abs(pct-100)<=3; remEl.textContent = onT ? ('on target ✓ · '+pct+'%') : (rem>=0 ? (rem.toLocaleString()+' left · '+pct+'%') : (Math.abs(rem).toLocaleString()+' over · '+pct+'%')); remEl.className='calrem'+(onT?' done':(rem<0?' over':' low')); }
@@ -395,8 +395,8 @@ function addCal(){
 }
 function deleteCal(i){ const t=calDate||today(); if(cal.days[t]){ cal.days[t].splice(i,1); if(!cal.days[t].length) delete cal.days[t]; save(); renderCal(); } }
 function editGoals(){
-  cal.smart = confirm('Use SMART adaptive calorie goal?\n\nOK = Smart (targets a deficit off what you actually burn each day; 0 = maintenance)\nCancel = Fixed daily number');
-  if(cal.smart){ const d=prompt('Daily deficit target (calories below what you burn; 0 = maintenance)', cal.deficit>=0?cal.deficit:D.deficit); if(d!==null){ const dn=parseInt(d); if(dn>=0) cal.deficit=dn; } }
+  cal.smart = confirm('Calorie goal mode\n\nOK = SMART: a daily DEFICIT below what you actually burn (0 = maintenance)\nCancel = FIXED daily calorie number');
+  if(cal.smart){ const cur=(cal.deficit>=0?cal.deficit:D.deficit); const d=prompt('Daily deficit (calories below what you burn). 0 = maintenance.\nCurrently: '+cur, cur); if(d!==null){ const dn=parseInt(d); if(dn>=0) cal.deficit=dn; } }
   else { const c=prompt('Fixed daily calorie goal', cal.goal||D.goal); if(c!==null){ const cn=parseInt(c); if(cn>0) cal.goal=cn; } }
   const p=prompt('Daily protein goal (grams)', cal.pgoal||D.pgoal); if(p!==null){ const pn=parseInt(p); if(pn>0) cal.pgoal=pn; }
   save(); renderCal();
@@ -485,9 +485,14 @@ function renderGoal(){
     const defW = goal? goal.weight : (latest? (latest.weight+D.goalDelta).toFixed(1) : '');
     const defD = goal? goal.date : new Date(Date.now()+56*DAY).toISOString().slice(0,10);
     if(!latest){ body.innerHTML=`<div class="muted">Log at least one weight first, then set a goal to start your glideslope.</div>`; return; }
+    const defSW = (goal && goal.startWeight!=null) ? goal.startWeight : latest.weight;
+    const defSD = (goal && goal.startDate) ? goal.startDate : latest.date;
     body.innerHTML = `<div class="goalset">
       <div class="grow"><label>Goal weight</label><input type="number" step="0.1" inputmode="decimal" id="gWt" placeholder="lbs" value="${defW}"></div>
       <div class="grow"><label>Target date</label><input type="date" id="gDate" value="${defD}"></div>
+      <div class="grow"><label>Start weight (glide anchor)</label><input type="number" step="0.1" inputmode="decimal" id="gSWt" value="${defSW}"></div>
+      <div class="grow"><label>Start date</label><input type="date" id="gSDate" value="${defSD}"></div>
+      <button class="linkbtn" id="restartGoalBtn" type="button" style="width:100%;margin-top:4px">↺ Restart glide from latest entry (${latest.weight.toFixed(1)} lb on ${latest.date})</button>
       <button class="saveg" id="saveGoalBtn">${goal?'Update goal':'Set goal'}</button>
       ${goal?'<button class="linkbtn" id="clearGoalBtn" style="width:100%;margin-top:8px">Clear goal</button>':''}
     </div>`;
@@ -496,13 +501,16 @@ function renderGoal(){
       const d=document.getElementById('gDate').value;
       if(isNaN(w)||w<=0||!d) return toast('Enter a goal weight and date');
       const lt=sortedDesc()[0];
-      // keep original start anchor when just editing the target
-      const startDate = (goal && goal.startDate) ? goal.startDate : lt.date;
-      const startWeight = (goal && goal.startWeight!=null) ? goal.startWeight : lt.weight;
+      // start anchor is editable; falls back to the latest entry
+      const swIn=parseFloat(document.getElementById('gSWt').value), sdIn=document.getElementById('gSDate').value;
+      const startDate = sdIn || lt.date;
+      const startWeight = (!isNaN(swIn)&&swIn>0) ? swIn : lt.weight;
+      if(ms(startDate) >= ms(d)) return toast('Start date must be before the target date');
       goal={weight:w, date:d, startDate, startWeight};
       editingGoal=false; save(); refresh(); toast('Goal set ✓');
     };
     const cg=document.getElementById('clearGoalBtn'); if(cg) cg.onclick=()=>{ goal=null; editingGoal=false; save(); refresh(); };
+    const rb=document.getElementById('restartGoalBtn'); if(rb) rb.onclick=()=>{ document.getElementById('gSWt').value=latest.weight; document.getElementById('gSDate').value=latest.date; };
     return;
   }
 
