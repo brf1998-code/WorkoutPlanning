@@ -2,7 +2,7 @@
 
 *The standing multi-block roadmap. The Sunday coach (and anyone building a weekly plan) reads this first. Weekly plans live in `app/plans/brendan.json`; this file says what block we're in and what rotates next.*
 
-Last updated: **2026-09-06** (Brendan's call: Block 3 gets a **4th build week (Sep 7–13)** instead of deloading, since the retest week left him fresh and every main lift moved. **Deload slides to Sep 14–20, all later blocks shift +1 week.** Running steps to 25 mi that week per his call, a one-off exception to the hold-flat rule. A **bench 225 track** is added below, and the body-comp phases are reset to a slight deficit, see Phase 3.)
+Last updated: **2026-09-06** (Brendan's call: Block 3 gets a **4th build week (Sep 7–13)** instead of deloading, since the retest week left him fresh and every main lift moved. **Deload slides to Sep 14–20, all later blocks shift +1 week.** Running steps to 25 mi that week per his call, a one-off exception to the hold-flat rule. A **bench 225 track** is added below, and the body-comp phases are reset to a 400 deficit, see Phase 3.)
 
 Previous update 2026-08-12 (road trip Aug 8–11 extended the Block-2 deload; **Block 3 delayed one week → starts Aug 17**, all later blocks shift +1 week. Week of Aug 10–16 is a bridge/re-regulation week: ~13 easy miles, moderate re-entry lifts, short Sat/Sun at the Maine cabin).
 
@@ -69,7 +69,7 @@ Mileage rises in Variation blocks and **holds flat in Big-4 blocks**. That halve
 | Block | Window | Mileage | Notes |
 |---|---|---|---|
 | 3 (strength) | Aug 17 – Sep 20 | **~20 flat, 25 in wk 4** | Held 20–22 for three weeks; wk 4 (Sep 7) steps to 25 per Brendan's call. **5K TT in the deload week (w/o Sep 14), deload ~17 mi.** |
-| 4 (endurance) | Sep 21 – Oct 18 | 25 → 26 → 28, deload ~19 | **Sat long run debuts (~6–8 mi).** Slight (300) deficit running per the Sep 6 reset, tripwires apply |
+| 4 (endurance) | Sep 21 – Oct 18 | 25 → 26 → 28, deload ~19 | **Sat long run debuts (~6–8 mi).** 400 deficit running per the Sep 6 reset, tripwires apply |
 | 5 (strength) | Oct 19 – Nov 15 | Hold ~28 | Lift PRs |
 | 6 (endurance) | Nov 16 – Dec 13 | 28 → 30 → 31 | Long run ~9–10 mi |
 | 7 (strength) | Dec 14 – Jan 10 | Hold ~31 | Lift PRs |
@@ -115,8 +115,8 @@ Mileage rises in Variation blocks and **holds flat in Big-4 blocks**. That halve
 |---|---|---|---|---|
 | **1 — Glide in** | Jul 28 – Aug 9 (rest of Block 2 + deload) | **400** (down from 700) | 190.4 → **~189.2** | ✅ Done — deficit phase closed with the block. (The 189.9-by-Aug-14 target is retired with it; road-trip scale noise Aug 8–11 doesn't count against anything.) |
 | **2 — Maintenance (as written)** | Aug 10 – Sep 6 | **0** planned, **600** actually set in the app | 189–191 planned; actual 190.3 on Sep 6 after a 193 creatine/travel bump | The app never got switched to 0, and logging was partial through the move and two travel weekends, so the real deficit is unknown. Retired 2026-09-06. |
-| **3 — Slight deficit reset (Brendan, 2026-09-06)** | Sep 7 → ~Nov 29 | **300** | 190.3 → **185.0 by Nov 29** (~0.5 lb/wk) | His call: 'a slight deficit to maintain good training but still leaning out.' 300 is the ceiling, not a floor. Judge on the 7-day MA and the waist; a fully logged day or nothing. |
-| **4 — Steady state** | ~Nov 30 → onward | **100** | ~185 → ~183, then hold | The permanent setting. Slow enough to be invisible, small enough that it never compromises a PR or a long run |
+| **3 — Slight deficit reset (Brendan, 2026-09-06)** | Sep 7 → ~Nov 1 | **400** | 190.3 → **185.0 by Nov 1** (~0.7 lb/wk) | His call: a 400 deficit held consistently, 'I haven't really lost any weight in a couple weeks but consistency will probably bring that back together.' 400 is the ceiling, not a floor. Judge on the 7-day MA and the waist; a fully logged day or nothing. |
+| **4 — Steady state** | ~Nov 2 → onward | **100** | ~185 → ~183, then hold | The permanent setting. Slow enough to be invisible, small enough that it never compromises a PR or a long run |
 
 - **Expect +1 to +2 lb in the first week of Phase 2.** That is glycogen and water from eating more at higher mileage — it is the point, not a failure. Do not react to it. Judge Phase 2 on the *waist* and the *bar*.
 - Phase 3 is indefinite. There is no end date and no target weight to "arrive" at — reassess the band once a year.
@@ -127,7 +127,7 @@ Mileage rises in Variation blocks and **holds flat in Big-4 blocks**. That halve
 - **Hard stop:** if the 7-day MA goes below **180**, eat at maintenance until it comes back. Below that at 5'11" with this training load, the cost is lean mass — and lean mass is what runs the half.
 - **The endurance goal barely moves the weight, and that's the point.** 190 → 182 is worth ~13 sec/mi, about **2.8 min** over a half. Real, but it's the last 3 minutes, not the first 15 — the other ~90% of sub-90 is aerobic development, not scale weight. **Never diet harder in service of the running goal.** Under-fueling is what caused both prior running burnouts.
 - **Watch for unintentional overshoot.** At 30–35 mi/wk the maintenance number climbs several hundred kcal, and the SMART goal can lag a step behind a rising mileage week. **If the 7-day MA drops faster than ~1 lb/month, drop the deficit to 0** — the mileage is already doing the work. Never widen the deficit to speed this up.
-- **Standing constraint (Brendan, 2026-07-28): no meaningful deficit while run volume is building.** The 300 reset (2026-09-06) is a deliberate, small exception he chose while running 25 and building bench. The tripwires that drop it to 0 immediately: easy-run HR drifting up at the same pace, a top set regressing two weeks running, or the 7-day MA falling faster than ~1 lb/2 wk. Never widen it.
+- **Standing constraint (Brendan, 2026-07-28): no meaningful deficit while run volume is building.** The 400 reset (2026-09-06) is a deliberate exception he chose while running 25 and building bench. The tripwires that drop it to 0 immediately: easy-run HR drifting up at the same pace, a top set regressing two weeks running, or the 7-day MA falling faster than ~1 lb/2 wk. Never widen it.
 - **"Great fitness all around" markers** (the real goal — these define the physique, the weight just follows):
   - Squat 1.5× BW (~275) · Bench 1.15× (~210) · Deadlift 2× (~365) · strict OHP 0.65× (~120) · 8–10 strict pull-ups
   - 30–35 mi/week sustained, easy pace comfortably in Z2, **sub-90 half capability standing** (see Endurance goal)
