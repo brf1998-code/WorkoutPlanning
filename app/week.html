@@ -30,9 +30,9 @@
   :root{
     --bg:#f1f2f4; --card:#ffffff; --card2:#f4f5f7; --line:#e4e6ea;
     --text:#1b1d22; --dim:#73767e; --faint:#a6a9b0;
-    --orange:#fc4c02; --orange-soft:rgba(252,76,2,.10);
+    --accent:#1e3a8a; --accent-soft:rgba(30,58,138,.10); --accent-2:#3b5fc4;
     --green:#1aa463; --green-soft:rgba(26,164,99,.12);
-    --amber:#e08a00; --purple:#6d56e0; --blue:#2f6fed; --teal:#0f9d9d;
+    --amber:#e08a00; --purple:#6d56e0; --blue:#0284c7; --teal:#0f9d9d;
     --shadow:0 1px 2px rgba(20,22,28,.06), 0 1px 8px rgba(20,22,28,.04);
     --shadow-lg:0 4px 18px rgba(20,22,28,.10);
   }
@@ -40,18 +40,18 @@
     :root:not([data-theme=light]){
       --bg:#0e1116; --card:#171b22; --card2:#1f242e; --line:#2a313d;
       --text:#eaeef3; --dim:#8b95a5; --faint:#5b6473;
-      --orange:#ff5b1f; --orange-soft:rgba(255,91,31,.16);
+      --accent:#5b82d8; --accent-soft:rgba(91,130,216,.18); --accent-2:#86a6ec;
       --green:#3ecf8e; --green-soft:rgba(62,207,142,.16);
-      --amber:#f5b14d; --purple:#a78bfa; --blue:#5b9bff; --teal:#33c2c2;
+      --amber:#f5b14d; --purple:#a78bfa; --blue:#4cc2ff; --teal:#33c2c2;
       --shadow:none; --shadow-lg:0 6px 22px rgba(0,0,0,.45);
     }
   }
 :root[data-theme=dark]{
     --bg:#0e1116; --card:#171b22; --card2:#1f242e; --line:#2a313d;
     --text:#eaeef3; --dim:#8b95a5; --faint:#5b6473;
-    --orange:#ff5b1f; --orange-soft:rgba(255,91,31,.16);
+    --accent:#5b82d8; --accent-soft:rgba(91,130,216,.18); --accent-2:#86a6ec;
     --green:#3ecf8e; --green-soft:rgba(62,207,142,.16);
-    --amber:#f5b14d; --purple:#a78bfa; --blue:#5b9bff; --teal:#33c2c2;
+    --amber:#f5b14d; --purple:#a78bfa; --blue:#4cc2ff; --teal:#33c2c2;
     --shadow:none; --shadow-lg:0 6px 22px rgba(0,0,0,.45);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
@@ -62,7 +62,7 @@
     padding:9px 12px; display:flex; align-items:center; gap:10px}
   .seg{display:inline-flex; background:var(--card2); border:1px solid var(--line); border-radius:11px; padding:3px; flex:0 0 auto}
   .seg button{border:none; background:none; color:var(--dim); font-size:13px; font-weight:800; padding:7px 13px; border-radius:9px}
-  .seg button.on{background:var(--orange); color:#fff}
+  .seg button.on{background:var(--accent); color:#fff}
   .spacer{flex:1}
   .wchip{display:flex; align-items:center; gap:8px; background:var(--card2); border:1px solid var(--line);
     border-radius:11px; padding:6px 9px; text-decoration:none; color:var(--text); min-width:0}
@@ -92,7 +92,7 @@
     border:1px solid var(--line); color:var(--dim); text-align:center; box-shadow:var(--shadow)}
   .tab .dn{font-weight:800; font-size:13px; display:block; letter-spacing:.02em}
   .tab .dt{font-size:10px; color:var(--faint)}
-  .tab.active{background:var(--orange); border-color:var(--orange); color:#fff}
+  .tab.active{background:var(--accent); border-color:var(--accent); color:#fff}
   .tab.active .dt{color:rgba(255,255,255,.85)}
   .tab .ring{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--line); margin-top:3px}
   .tab.done .ring{background:var(--green)}
@@ -103,10 +103,10 @@
     border-radius:13px; box-shadow:var(--shadow); padding:9px 13px 11px; margin:0 0 12px}
   .hud-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
   .hud-title{font-size:13px; font-weight:800; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .hud-phase{font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--orange); white-space:nowrap}
+  .hud-phase{font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); white-space:nowrap}
   .hud-nums{font-size:12px; font-weight:800; color:var(--dim); white-space:nowrap}
   .hud-bar{height:5px; background:var(--card2); border-radius:99px; overflow:hidden; margin-top:8px}
-  .hud-bar > span{display:block; height:100%; background:linear-gradient(90deg,var(--orange),#ff7a3c); border-radius:99px; transition:width .35s}
+  .hud-bar > span{display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border-radius:99px; transition:width .35s}
   .hud-bar.full > span{background:linear-gradient(90deg,var(--green),#46d99b)}
 
   .wrap{padding:0 14px}
@@ -114,8 +114,8 @@
   .ahead{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow);
     padding:16px; margin-bottom:12px; position:relative; overflow:hidden}
   .ahead .kind{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800;
-    letter-spacing:.08em; text-transform:uppercase; color:var(--orange)}
-  .ahead .kind .ico{width:18px; height:18px; border-radius:6px; background:var(--orange-soft);
+    letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+  .ahead .kind .ico{width:18px; height:18px; border-radius:6px; background:var(--accent-soft);
     display:flex; align-items:center; justify-content:center; font-size:12px}
   .ahead h1{margin:6px 0 2px; font-size:23px; font-weight:800; letter-spacing:-.02em; line-height:1.1}
   .ahead .when{font-size:13px; color:var(--dim)}
@@ -131,13 +131,13 @@
   .flow .step{flex:1; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:9px 6px; box-shadow:var(--shadow); text-align:center}
   .flow .step .ph{font-size:9.5px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--dim)}
   .flow .step .ct{font-size:13px; font-weight:800; margin-top:2px; color:var(--text)}
-  .flow .step.active{border-color:var(--orange)} .flow .step.active .ph{color:var(--orange)}
+  .flow .step.active{border-color:var(--accent)} .flow .step.active .ph{color:var(--accent)}
   .flow .step.done{border-color:var(--green); background:var(--green-soft)} .flow .step.done .ph{color:var(--green)} .flow .step.done .ct::after{content:" ✓"}
 
   .seclabel{display:flex; align-items:center; gap:8px; margin:18px 2px 8px}
   .seclabel .txt{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase}
   .seclabel .cnt{font-size:11px; color:var(--dim); font-weight:700}
-  .seclabel.warm .txt{color:var(--amber)} .seclabel.work .txt{color:var(--orange)} .seclabel.run .txt{color:var(--teal)}
+  .seclabel.warm .txt{color:var(--amber)} .seclabel.work .txt{color:var(--accent)} .seclabel.run .txt{color:var(--teal)}
   .seclabel.core .txt{color:var(--purple)} .seclabel.cool .txt{color:var(--blue)}
   .seclabel .bar{flex:1; height:1px; background:var(--line)}
 
@@ -151,7 +151,7 @@
   .ex .top{display:flex; align-items:flex-start; justify-content:space-between; gap:8px}
   .ex .name{font-weight:800; font-size:16px; letter-spacing:-.01em}
   .ex .topright{display:flex; align-items:center; gap:8px; flex:0 0 auto}
-  .ex .scheme{font-size:12px; color:var(--orange); font-weight:800; white-space:nowrap}
+  .ex .scheme{font-size:12px; color:var(--accent); font-weight:800; white-space:nowrap}
   .subbtn{font-size:15px; line-height:1; color:var(--dim); background:var(--card2); border:1px solid var(--line); border-radius:8px; padding:5px 8px}
   .ex .focus{display:flex; gap:5px; font-size:12.5px; color:var(--dim); margin-top:5px; line-height:1.4}
   .ex .focus .fi{flex:0 0 auto}
@@ -203,7 +203,7 @@
   .setrow .ilbl.dim{color:var(--dim)}
   input[type=text],input[type=number]{background:var(--card2); border:1px solid var(--line); border-radius:9px;
     color:var(--text); padding:8px 10px; font-size:16px; width:100%; outline:none}
-  input:focus{border-color:var(--orange)}
+  input:focus{border-color:var(--accent)}
   .setrow .ni{width:74px; flex:0 0 74px} .unit{font-size:11px; color:var(--dim); font-weight:700}
   .restlbl{margin-left:auto; font-size:11px; font-weight:800; color:var(--dim); white-space:nowrap}
   .restlbl.long{color:var(--amber)}
@@ -214,7 +214,7 @@
   .ssrow .sslbl{font-size:12.5px; color:var(--text); flex:1; font-weight:600}
   .setminis{display:flex; gap:8px; margin-top:9px}
   .minibtn{font-size:12px; font-weight:700; color:var(--dim); background:var(--card2); border:1px solid var(--line); border-radius:8px; padding:6px 10px}
-  .minibtn.warn{color:var(--orange)}
+  .minibtn.warn{color:var(--accent)}
 
   .fieldrow{display:flex; align-items:center; gap:10px; margin-top:9px}
   .fieldrow .flbl{font-size:13px; color:var(--dim); width:108px; flex:0 0 108px; font-weight:600}
@@ -225,13 +225,13 @@
   .altnote{font-size:12px; color:var(--sub); margin:-4px 0 8px; line-height:1.4}
   .bigdone.on{background:var(--green); color:#fff}
   .addex{width:100%; margin-top:4px; padding:11px; border-radius:12px; border:1.5px dashed var(--line); background:transparent; color:var(--dim); font-size:14px; font-weight:700}
-  .addex:active{border-color:var(--orange); color:var(--orange)}
+  .addex:active{border-color:var(--accent); color:var(--accent)}
 
   .extra-head{display:flex; align-items:center; justify-content:space-between; margin:22px 2px 4px}
   .extra-head .et{font-size:13px; font-weight:800; color:var(--text)}
   .extra-head .rm{font-size:12px; font-weight:700; color:var(--dim); background:none; border:none; padding:4px 6px}
   .addworkout-wrap{margin:8px 0 4px}
-  .addworkout{width:100%; padding:13px; border-radius:13px; border:1.5px dashed var(--line); background:var(--card); color:var(--orange); font-size:14.5px; font-weight:800; box-shadow:var(--shadow)}
+  .addworkout{width:100%; padding:13px; border-radius:13px; border:1.5px dashed var(--line); background:var(--card); color:var(--accent); font-size:14.5px; font-weight:800; box-shadow:var(--shadow)}
   .picker{display:flex; gap:8px; margin-top:8px}
   .picker button{flex:1; padding:13px 8px; border-radius:13px; border:1px solid var(--line); background:var(--card); color:var(--text); font-size:14px; font-weight:800; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; gap:4px}
   .picker button .pi{font-size:20px}
@@ -240,13 +240,13 @@
   .jr{margin-top:18px}
   .feel{display:flex; gap:7px; margin-top:8px}
   .feel button{flex:1; padding:11px 0; border-radius:11px; border:1px solid var(--line); background:var(--card); color:var(--dim); font-size:13px; font-weight:700; box-shadow:var(--shadow)}
-  .feel button.on{background:var(--orange); color:#fff; border-color:var(--orange)}
+  .feel button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
   textarea{margin-top:9px; min-height:80px; resize:vertical; background:var(--card); border:1px solid var(--line); border-radius:12px; color:var(--text); padding:11px; font-size:15px; width:100%; outline:none; box-shadow:var(--shadow); font-family:inherit; line-height:1.5}
-  textarea:focus{border-color:var(--orange)}
+  textarea:focus{border-color:var(--accent)}
 
   /* Progress view */
   .pgsum{background:var(--card); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:16px; margin-bottom:12px}
-  .pgsum .lab{font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange)}
+  .pgsum .lab{font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
   .pgsum h2{margin:4px 0 0; font-size:22px; font-weight:800; letter-spacing:-.02em}
   .pgstats{display:flex; margin-top:14px; border-top:1px solid var(--line); padding-top:14px; flex-wrap:wrap}
   .pgstats .st{flex:1 0 33%; padding:6px 0}
@@ -258,9 +258,9 @@
   .pgcard .ch{position:relative; height:150px; margin-top:8px}
   .pgnote{font-size:14px; line-height:1.55; color:var(--text)}
   .pgnote + .pgnote{margin-top:10px; border-top:1px solid var(--line); padding-top:10px}
-  .pgnote .d{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--orange)}
+  .pgnote .d{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--accent)}
   .goal-li{display:flex; gap:9px; font-size:14px; line-height:1.45; margin-top:9px}
-  .goal-li .b{color:var(--orange); font-weight:800}
+  .goal-li .b{color:var(--accent); font-weight:800}
   .dayprog{display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line)}
   .dayprog:first-of-type{border-top:none}
   .dayprog .dd{font-size:13px; font-weight:800; width:78px; flex:0 0 78px}
@@ -271,7 +271,7 @@
   .timerbar{position:fixed; left:50%; transform:translateX(-50%); bottom:calc(16px + env(safe-area-inset-bottom));
     background:var(--text); color:var(--card); border-radius:999px; padding:9px 8px 9px 18px; display:none; gap:14px; align-items:center; box-shadow:var(--shadow-lg); z-index:25}
   .timerbar.done{background:var(--green)}
-  .timerbar.go{background:var(--orange); color:#fff}
+  .timerbar.go{background:var(--accent); color:#fff}
   .timerbar .tcol{display:flex; flex-direction:column; align-items:flex-start; line-height:1}
   .timerbar .tlabel{font-size:9px; text-transform:uppercase; letter-spacing:.08em; opacity:.65; font-weight:800; margin-bottom:3px}
   .timerbar .tval{font-size:17px; font-weight:800; font-variant-numeric:tabular-nums}
@@ -287,16 +287,16 @@
   .fochead .fnav{width:38px; height:38px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--dim); font-size:17px; font-weight:800; box-shadow:var(--shadow)}
   .fochead .fnav:disabled{opacity:.3}
   .fochead .focinfo{flex:1; text-align:center; min-width:0}
-  .fochead .foclbl{font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange)}
+  .fochead .foclbl{font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
   .fochead .focpos{font-size:12px; font-weight:700; color:var(--dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .foccard{border-color:var(--orange); box-shadow:0 0 0 2px var(--orange-soft), var(--shadow-lg); scroll-margin-top:215px}
-  .setrow.curset{background:var(--orange-soft); border-radius:10px; margin-left:-6px; padding:4px 6px 4px 6px}
+  .foccard{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-soft), var(--shadow-lg); scroll-margin-top:215px}
+  .setrow.curset{background:var(--accent-soft); border-radius:10px; margin-left:-6px; padding:4px 6px 4px 6px}
   .upnext{display:flex; align-items:center; gap:7px; margin:2px 0 12px; padding:10px 13px; border-radius:12px; background:var(--card2); border:1px dashed var(--line); font-size:13px; font-weight:700; color:var(--dim)}
   .upnext b{color:var(--text)}
   .fochidden{text-align:center; font-size:12px; color:var(--faint); font-weight:700; margin:10px 0}
-  .linkbtn{background:none; border:none; color:var(--orange); font-weight:800; font-size:12px; padding:0; text-decoration:underline}
+  .linkbtn{background:none; border:none; color:var(--accent); font-weight:800; font-size:12px; padding:0; text-decoration:underline}
   .focmode{font-size:11px; font-weight:800; color:var(--dim); background:var(--card2); border:1px solid var(--line); border-radius:8px; padding:5px 9px; white-space:nowrap; flex:0 0 auto}
-  .focmode.on{color:var(--orange); border-color:var(--orange); background:var(--orange-soft)}
+  .focmode.on{color:var(--accent); border-color:var(--accent); background:var(--accent-soft)}
 
   /* Intake overlay */
   .overlay{position:fixed; inset:0; background:rgba(10,12,16,.5); z-index:60; display:none; overflow-y:auto}
@@ -314,16 +314,16 @@
   .pend .pi .del{background:none; border:none; color:var(--faint); font-size:18px; padding:4px 8px}
   .fld{margin-bottom:14px}
   .fld label{display:block; font-size:13px; font-weight:700; color:var(--text); margin-bottom:7px; line-height:1.4}
-  .fld .req{color:var(--orange)}
+  .fld .req{color:var(--accent)}
   .fld input[type=text], .fld select, .fld textarea{width:100%; background:var(--card); border:1px solid var(--line); border-radius:11px; color:var(--text); padding:12px; font-size:16px; outline:none; box-shadow:var(--shadow); font-family:inherit}
   .fld textarea{min-height:74px; resize:vertical; line-height:1.5; font-size:15px}
-  .fld select:focus, .fld input:focus, .fld textarea:focus{border-color:var(--orange)}
+  .fld select:focus, .fld input:focus, .fld textarea:focus{border-color:var(--accent)}
   .chips{display:flex; flex-wrap:wrap; gap:8px}
   .chips .chip{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:9px 14px; font-size:13.5px; font-weight:700; color:var(--dim); box-shadow:var(--shadow)}
-  .chips .chip.on{background:var(--orange); color:#fff; border-color:var(--orange)}
-  .submitg{width:100%; padding:14px; border-radius:13px; border:none; background:var(--orange); color:#fff; font-size:16px; font-weight:800; margin-top:4px}
+  .chips .chip.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+  .submitg{width:100%; padding:14px; border-radius:13px; border:none; background:var(--accent); color:#fff; font-size:16px; font-weight:800; margin-top:4px}
   .savednote{font-size:12.5px; color:var(--green); font-weight:700; text-align:center; margin-top:12px}
-  .fld-sec{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--orange); margin:24px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line)}
+  .fld-sec{font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:24px 0 12px; padding-bottom:7px; border-bottom:1px solid var(--line)}
   .chips .rankno{display:inline-flex; align-items:center; justify-content:center; min-width:17px; height:17px; background:rgba(255,255,255,.28); border-radius:50%; font-size:11px; font-weight:800; margin-right:6px}
 </style>
 <style>
@@ -331,9 +331,9 @@
 .wn-arrow{border:1px solid var(--line);background:var(--card2);color:inherit;border-radius:9px;padding:4px 12px;font-size:14px;font-weight:800}
 .wn-arrow:disabled{opacity:.3}
 .wn-label{font-size:13px;font-weight:800;color:var(--dim);min-width:160px;text-align:center}
-.wn-today{border:none;background:var(--orange);color:#fff;border-radius:9px;padding:4px 10px;font-size:12px;font-weight:800}
+.wn-today{border:none;background:var(--accent);color:#fff;border-radius:9px;padding:4px 10px;font-size:12px;font-weight:800}
 .ro-banner{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13px;font-weight:700;color:var(--dim);margin:10px 0}
-.ro-banner.next{color:var(--orange)}
+.ro-banner.next{color:var(--accent)}
 .ro-day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:9px 0}
 .ro-dh{font-weight:800;font-size:14px;margin-bottom:7px}
 .ro-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:3px 0;border-top:1px solid var(--line)}
@@ -345,7 +345,7 @@
 .reqbox{display:flex;flex-direction:column;gap:8px}
 .reqlbl{font-weight:800;font-size:14px}
 .reqta{width:100%;min-height:80px;border:1px solid var(--line);border-radius:10px;padding:9px;font:inherit;background:var(--card2);color:inherit;box-sizing:border-box}
-.reqsave{align-self:flex-start;border:none;background:var(--orange);color:#fff;border-radius:9px;padding:7px 14px;font-weight:800}
+.reqsave{align-self:flex-start;border:none;background:var(--accent);color:#fff;border-radius:9px;padding:7px 14px;font-weight:800}
 .reqhint{font-size:12px;color:var(--dim)}
 </style>
 
@@ -686,7 +686,7 @@ function fmtShortDate(iso){ try{ return new Date(iso+"T00:00:00").toLocaleDateSt
 function paceFromWorkout(w){ if(!w.distanceMi||!w.durationSec) return ""; const per=w.durationSec/w.distanceMi; return `${Math.floor(per/60)}:${String(Math.round(per%60)).padStart(2,"0")}/mi`; }
 function hrZoneOf(hr){ if(hr>=187) return {z:5,label:"Zone 5 · max",cls:"hot"}; if(hr>=172) return {z:4,label:"Zone 4 · threshold",cls:"hot"}; if(hr>=157) return {z:3,label:"Zone 3 · moderate",cls:"warn"}; if(hr>=126) return {z:2,label:"Zone 2 · easy",cls:"ok"}; return {z:1,label:"Zone 1 · recovery",cls:"ok"}; }
 function zoneSecs(z){ return z?((z.Z1||0)+(z.Z2||0)+(z.Z3||0)+(z.Z4||0)+(z.Z5||0)):0; }
-function zoneBar(z){ const tot=zoneSecs(z)||1; const c=['var(--faint)','var(--green)','var(--teal)','var(--orange)','var(--red)']; const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div class="zbar">`+ks.map((k,i)=> (z[k]>0)?`<span style="width:${(z[k]/tot*100).toFixed(1)}%;background:${c[i]}"></span>`:"").join("")+`</div>`; }
+function zoneBar(z){ const tot=zoneSecs(z)||1; const c=['var(--faint)','var(--green)','var(--teal)','#ff7a1a','var(--red)']; const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div class="zbar">`+ks.map((k,i)=> (z[k]>0)?`<span style="width:${(z[k]/tot*100).toFixed(1)}%;background:${c[i]}"></span>`:"").join("")+`</div>`; }
 function zoneLegend(z){ const ks=['Z1','Z2','Z3','Z4','Z5']; return `<div class="zlegend">`+ks.filter(k=>z[k]>0).map(k=>`${k} ${Math.round(z[k]/60)}m`).join(" · ")+`</div>`; }
 function renderActualCard(w){
   const isRun=(w.type||'').toLowerCase().includes('run');
@@ -788,7 +788,7 @@ function renderWeek(){
     <div class="when">${esc(day.d)} ${esc(day.date)} · ${esc(day.block)}${day.dur?` · ${esc(day.dur)}`:""}</div>`;
   if(day.desc) h += `<div class="desc">${esc(day.desc)}</div>`;
   h += renderStats(primary);
-  h += `<div class="pbar" style="height:6px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:14px"><span style="display:block;height:100%;width:${prog.pct}%;background:linear-gradient(90deg,var(--orange),#ff7a3c)"></span></div></div>`;
+  h += `<div class="pbar" style="height:6px;background:var(--card2);border-radius:99px;overflow:hidden;margin-top:14px"><span style="display:block;height:100%;width:${prog.pct}%;background:linear-gradient(90deg,var(--accent),var(--accent-2))"></span></div></div>`;
 
   if(day.type==="lift"||day.type==="run") h += renderFlow(day, st);
   h += renderSessionBody(day, st, 0);
@@ -1186,18 +1186,18 @@ function renderProgress(){
 
   document.getElementById("content").innerHTML = h;
   // charts
-  const grid=cssVar('--line')||'#e4e6ea', tick=cssVar('--dim')||'#73767e', orange=cssVar('--orange')||'#fc4c02', teal=cssVar('--teal')||'#0f9d9d';
+  const grid=cssVar('--line')||'#e4e6ea', tick=cssVar('--dim')||'#73767e', accent=cssVar('--accent')||'#1e3a8a', teal=cssVar('--teal')||'#0f9d9d';
   if(typeof Chart==="function"){
     const wmEl=document.getElementById('wkMiCh');
     if(wmEl){ const wm=weeklyMiles(8); progCharts.push(new Chart(wmEl,{ type:'bar',
-      data:{ labels:wm.map(x=>x.label), datasets:[{ data:wm.map(x=>x.miles), backgroundColor:orange, borderRadius:6, maxBarThickness:30 }] },
+      data:{ labels:wm.map(x=>x.label), datasets:[{ data:wm.map(x=>x.miles), backgroundColor:accent, borderRadius:6, maxBarThickness:30 }] },
       options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y+' mi'}}},
         scales:{ x:{grid:{display:false}, ticks:{color:tick, font:{size:10}}}, y:{grid:{color:grid}, ticks:{color:tick, font:{size:11}, callback:v=>v+' mi'}, beginAtZero:true} } } })); }
     const zEl=document.getElementById('zoneCh');
     if(zEl){ const zd=zoneDist(14); progCharts.push(new Chart(zEl,{ type:'doughnut',
-      data:{ labels:['Z1','Z2','Z3','Z4','Z5'], datasets:[{ data:[zd.Z1,zd.Z2,zd.Z3,zd.Z4,zd.Z5].map(s=>Math.round(s/60)), backgroundColor:[cssVar('--faint')||'#aaa', cssVar('--green')||'#1aa463', teal, orange, cssVar('--red')||'#e0392f'], borderWidth:0 }] },
+      data:{ labels:['Z1','Z2','Z3','Z4','Z5'], datasets:[{ data:[zd.Z1,zd.Z2,zd.Z3,zd.Z4,zd.Z5].map(s=>Math.round(s/60)), backgroundColor:[cssVar('--faint')||'#aaa', cssVar('--green')||'#1aa463', teal, '#ff7a1a', cssVar('--red')||'#e0392f'], borderWidth:0 }] },
       options:{ responsive:true, maintainAspectRatio:false, cutout:'60%', plugins:{ legend:{position:'right', labels:{color:tick, font:{size:11}, boxWidth:12}}, tooltip:{callbacks:{label:c=>c.label+' · '+c.parsed+' min'}} } } })); }
-    fillWeeklyVolChart(a.totalVol, {grid, tick, orange});
+    fillWeeklyVolChart(a.totalVol, {grid, tick, accent});
     progCharts.push(new Chart(document.getElementById('mileCh'),{ type:'bar',
       data:{ labels, datasets:[{ data:a.mileByDay, backgroundColor:teal, borderRadius:6, maxBarThickness:34 }] },
       options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y+' mi'}}},
@@ -1242,7 +1242,7 @@ async function fillWeeklyVolChart(curVol, th){
   const note=document.getElementById('wkVolNote');
   if(note) note.textContent = past.length ? 'Logged volume per week — the current week fills in as you log sets.' : 'No archived weeks found yet — the current week fills in as you log sets.';
   progCharts.push(new Chart(el,{ type:'bar',
-    data:{ labels:rows.map(r=>r.label), datasets:[{ data:rows.map(r=>r.vol), backgroundColor:rows.map(r=>r.cur?th.orange:(cssVar('--faint')||'#c9b8a8')), borderRadius:6, maxBarThickness:30 }] },
+    data:{ labels:rows.map(r=>r.label), datasets:[{ data:rows.map(r=>r.vol), backgroundColor:rows.map(r=>r.cur?th.accent:(cssVar('--faint')||'#c9b8a8')), borderRadius:6, maxBarThickness:30 }] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' lb'}}},
       scales:{ x:{grid:{display:false}, ticks:{color:th.tick, font:{size:10}}}, y:{grid:{color:th.grid}, ticks:{color:th.tick, font:{size:11}, callback:v=>v>=1000?(v/1000)+'k':v}, beginAtZero:true} } } }));
 }
@@ -1347,11 +1347,11 @@ function shareCard(i){
   const hrChipHtml = hrChip? `<div style="display:inline-block;background:rgba(255,255,255,.1);color:#fff;font-size:18px;font-weight:800;padding:7px 16px;border-radius:999px;margin-top:18px">❤️ ${esc(hrChip)}</div>`:"";
   const zoneBarHtml = zones? darkZoneBar(zones)+`<div style="font-size:15px;color:rgba(255,255,255,.55);margin-top:8px;font-weight:700">${zoneLegendDark(zones)}</div>` : "";
   const weekStripHtml = `<div style="display:flex;gap:26px;margin-top:34px;border-top:1px solid rgba(255,255,255,.12);padding-top:22px">`+weekStrip.map(s=>`<div><div style="font-size:26px;font-weight:800;color:#fff">${esc(s[1])}</div><div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px">${esc(s[0])} · wk</div></div>`).join("")+`</div>`;
-  const feelTag = feel? `<span style="display:inline-block;background:#fc4c02;color:#fff;font-size:20px;font-weight:800;padding:8px 20px;border-radius:999px">Felt ${esc(feel)}</span>`:"<span></span>";
+  const feelTag = feel? `<span style="display:inline-block;background:#5b82d8;color:#fff;font-size:20px;font-weight:800;padding:8px 20px;border-radius:999px">Felt ${esc(feel)}</span>`:"<span></span>";
 
   const html=`<div style="width:1080px;background:linear-gradient(160deg,#191c22,#0a0b0e);padding:72px 70px;box-sizing:border-box;font-family:-apple-system,Helvetica,Arial,sans-serif">
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:23px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fc4c02">${km.ico} ${esc(km.label)}</div>
+      <div style="font-size:23px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#5b82d8">${km.ico} ${esc(km.label)}</div>
       <div style="font-size:22px;font-weight:700;color:rgba(255,255,255,.5)">${esc(day.d)} ${esc(day.date)}</div>
     </div>
     <div style="font-size:64px;font-weight:800;letter-spacing:-2px;color:#fff;margin-top:14px;line-height:1.05">${esc(day.name)}</div>
