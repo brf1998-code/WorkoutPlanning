@@ -1,58 +1,65 @@
 {
-  "weekId": "2026-08-31",
-  "start": "2026-08-31",
-  "title": "Week of Aug 31 – Sep 6 · Foundations Week 2: Two Real Lifts a Day",
-  "subtitle": "Same four strength nights and two easy runs — but each lift day now opens with TWO main lifts instead of one, and the back strength you asked for is officially in the program.",
+  "weekId": "2026-09-14",
+  "start": "2026-09-14",
+  "title": "Week of Sep 14 – Sep 20 · Foundations Week 3: Five Lifts a Night",
+  "subtitle": "Same four strength nights and two easy runs. Every lift night gets a fifth lift, each one picked to cover something the plan didn't have yet, and the loads step up one notch from what you logged. Sessions should run closer to 70 minutes now instead of 35 to 45.",
   "goals": [
-    "The big change: every lift day starts with two main lifts, both with warm-up sets and real targets. Last week each day had one; you earned the second one by making all your sessions and pushing the squat to 75 on your own",
-    "Back strength is in, per your journal ('I want to add more back strength'): barbell rows debut Thursday, the lat pulldown carries a heavier target, and rows stay in the rotation",
-    "Squat moves to 70 for all sets — the honest middle between the 75 you hit at your limit Monday and the 65s from Thursday. Smooth 8s at 70 beat one grinding set at 75",
-    "The runs didn't happen last week (a sculpt class stepped in Friday — logged, and it counts). Both easy runs are back this week: 2 miles max, conversational, knee report in the log. The 🚴 swap is right there if it complains",
-    "Hips and core stay the quiet main event — three hip flexor touches and 6 core sets every lift night, same as before. Your 4/10 hips-and-thighs soreness after sculpt says it's all working",
-    "Still on the list: connect Strava at workoutplanning-production.up.railway.app/api/strava/connect/emma so runs and heart rate show up automatically"
+    "The ask, in your words: 'I would like one more big lift.' Done, on every night. Monday adds dumbbell step-ups (single-leg work only lived on Thursday before). Tuesday adds a seated cable row (Tuesday had no pulling at all, and back strength was your other ask). Thursday adds push-ups (Thursday had no pressing). Saturday adds a lateral raise + face pull pair (shoulders and rear delts were the one thing nowhere in the week, and rear delts are back strength too). Nothing was removed.",
+    "Loads go up one notch from your log, nothing more, since you said the weights feel about right: squat 75 for every set (you hit 75 on set 3 last Thursday), barbell bench 65 (Saturday's number), barbell RDL 95 Tuesday then 100 Saturday, barbell row 50 (the bar twice was enough), pulldown 60, goblet 40, one-arm row 20s, glute bridge 30, reverse lunge 12s. Where a note says 'if smooth, take the next one', that's yours to decide set by set.",
+    "Why the sessions were short: two main lifts plus one accessory plus the hips and core blocks is about 35 minutes if the rest periods are honest. Five lifts plus hips plus core is the fix, not more sets of the same thing. If a night runs long, the hips superset and the core circuit are the last two blocks and can be cut to two rounds; the five lifts don't get cut.",
+    "Hips and core are unchanged: three hip flexor touches across the week (psoas march Monday and Saturday, hip flexor raises Thursday) and 6 bodyweight core sets every lift night. Rotation this week: dead bug / plank, side plank / bird dog, hollow hold / shoulder taps, plank / side plank.",
+    "Runs: Wednesday and Sunday, 2 miles easy, conversational. Knee note in the log either way. The bike swap is right there on the card if it complains. Strava is still not connected for your profile; the link is workoutplanning-production.up.railway.app/api/strava/connect/emma and it means runs and heart rate show up on their own."
   ],
-  "review": "Week 1 verdict: three of four lifts made, every logged session complete top to bottom, and a squat that went 65 → 75 because you decided it had more in it ('at my limit but good'). That's exactly the week this plan wanted. The plan of attack for week 2, built from your log: Brendan asked for a second main lift on each of your strength days, so now every session opens with two barbell-or-dumbbell lifts that get warm-up sets and targets — squat and bench Monday, RDL (now on the barbell) and overhead press Tuesday, squat and a new barbell row Thursday, bench and RDL again Saturday. Your 'more back strength' note is why the row is here. Weights all start from what you actually logged — nothing jumps more than one small step. Saturday didn't get logged and the runs got skipped, so this week the goal is simple: all four lifts AND both little runs. Soreness from sculpt plus lifting is normal; drop the last set of anything if it piles up and carry on.",
+  "review": "Last two weeks on the Foundations Week 2 plan: Monday Aug 31 squat 70/70/70 and barbell bench 55, Tuesday Sep 1 RDL 65/85/85 and DB press 15/20/20, Thursday Sep 10 squat 70/70/75, barbell row 45, pulldown 50/50/60 and reverse lunges with 10s then 12s, Saturday Sep 12 barbell bench 65, RDL 95 and glute bridges at 25. Every barbell lift moved up inside the session, and the Thursday journal said it plainly: 'I would like one more big lift.' The sessions clocked about 35 to 45 minutes of lifting. Runs went unlogged both weeks.",
   "days": [
     {
       "d": "Mon",
-      "date": "8/31",
-      "name": "Foundation A · Squat + Bench",
+      "date": "9/14",
+      "name": "Foundation A · Squat + Bench + Step-ups",
       "block": "Evening",
-      "dur": "~60 min",
+      "dur": "~70 min",
       "type": "lift",
       "warmup": [
         "5 min easy cardio (bike, row, or brisk walk)",
-        "Leg swings — 10 each direction / leg",
-        "Glute bridges — 1×12",
-        "Bodyweight squats — 1×10",
-        "Standing knee drives — 10 each side"
+        "Leg swings, 10 each direction / leg",
+        "Glute bridges, 1×12",
+        "Bodyweight squats, 1×10",
+        "Standing knee drives, 10 each side"
       ],
       "items": [
         {
           "n": "Back Squat",
           "s": 3,
           "r": "8",
-          "note": "70 for all three sets. Last Monday you went 65/65/75 and called 75 your limit — 70 across the board is the earned middle. If all three sets are smooth 8s, 75 for everything next week.",
+          "note": "75 for all three sets. You hit 75 on set 3 last Thursday, so it becomes the working weight. If all three are smooth 8s with no grinding on the last rep, 80 for set 3 on Thursday.",
           "focus": "Brace, chest tall, knees track over toes, squat to a depth you control.",
           "warmupSet": true,
-          "target": "70"
+          "target": "75"
         },
         {
           "n": "Barbell Bench Press",
           "s": 3,
           "r": "8",
-          "note": "Main lift #2, new this week: the barbell version of the press you've been doing. Start with just the bar (45) — it'll feel different from dumbbells even though you've pressed more than this. Learn the path this week, add weight next. If no rack is free, DB bench at last week's weight is a full substitute.",
+          "note": "65, where Saturday ended. Same setup every set: shoulder blades pinned, feet flat, bar to mid-chest. If every set is an easy 8, Saturday goes to 70.",
           "focus": "Shoulder blades set, feet planted, lower to mid-chest, press up and slightly back.",
           "warmupSet": true,
-          "target": "45"
+          "target": "65"
         },
         {
           "n": "One-Arm Dumbbell Row",
           "s": 3,
           "r": "10/arm",
-          "note": "15s, where you finished last week — and part of the back-strength push you asked for. If set 3 is strict and easy, grab the 20.",
+          "note": "20s for every set (you finished there two weeks ago). Strict: no torso twist, pull to the hip, 1s squeeze.",
           "focus": "Flat back, pull to your hip, squeeze the shoulder blade.",
-          "target": "15"
+          "target": "20"
+        },
+        {
+          "n": "Dumbbell Step-up",
+          "s": 3,
+          "r": "8/leg",
+          "note": "NEW, lift five. A box or bench about knee height, 10-lb dumbbells at your sides. Step up through the whole foot, stand fully tall at the top (that's the hip flexor and glute rep), step down slowly. Single-leg work was only on Thursday before this; now Monday has it too. 15s next week if 10s are easy.",
+          "focus": "Whole foot on the box, drive through the heel, no push off the back leg, control the way down.",
+          "target": "10"
         },
         {
           "n": "Psoas March + Hip Abduction superset",
@@ -63,7 +70,7 @@
             "Side-Lying Hip Abduction"
           ],
           "rest": "45s",
-          "note": "The hips block, same as last week — this is the hip flexor strength work. No band? March slowly in place driving each knee above hip height with a 1s hold.",
+          "note": "The hips block, unchanged. No band? March slowly in place driving each knee above hip height with a 1s hold.",
           "focus": "Low back stays glued to the floor on the march; toes forward and hip stacked on the leg lifts."
         },
         {
@@ -80,61 +87,69 @@
         {
           "n": "Plank",
           "s": 3,
-          "r": "30–40s",
+          "r": "40s",
           "noWeight": true,
           "station": true,
           "rest": "45s → back to dead bug",
-          "note": "Add ~5–10s over last week's holds if they were solid.",
-          "focus": "Straight line head to heels, glutes tight, breathe — don't hold your breath."
+          "note": "40s holds this week, up from 30 to 40.",
+          "focus": "Straight line head to heels, glutes tight, breathe."
         }
       ],
       "stretches": [
-        "Kneeling hip flexor stretch — 45s each side",
-        "Figure-4 glute stretch — 45s each side",
-        "Hamstring stretch — 30s each side",
-        "Child's pose — 45s"
+        "Kneeling hip flexor stretch, 45s each side",
+        "Figure-4 glute stretch, 45s each side",
+        "Hamstring stretch, 30s each side",
+        "Child's pose, 45s"
       ]
     },
     {
       "d": "Tue",
-      "date": "9/1",
-      "name": "Foundation B · Barbell RDL + Press",
+      "date": "9/15",
+      "name": "Foundation B · RDL + Press + Cable Row",
       "block": "Evening",
-      "dur": "~60 min",
+      "dur": "~70 min",
       "type": "lift",
       "warmup": [
         "5 min easy cardio (bike, row, or brisk walk)",
-        "Leg swings — 10 each direction / leg",
-        "Cat-cow — 8 slow reps",
-        "Glute bridges — 1×12",
-        "Empty-bar RDLs — 1×8, groove the hinge"
+        "Cat-cow, 8 slow reps",
+        "Bodyweight good mornings, 1×10 (practice the hinge)",
+        "Glute bridges, 1×12",
+        "Arm circles + band pull-aparts, 10 each"
       ],
       "items": [
         {
           "n": "Barbell Romanian Deadlift",
           "s": 3,
           "r": "10",
-          "note": "Graduation: last week's dumbbell RDLs (you worked up to 25s) move to the barbell. Start at 65 — bar plus small plates. The hinge is the same one you practiced; the bar just sits closer and feels more stable. RPE 6–7, hamstrings talking, back never.",
-          "focus": "Soft knees, hips back, bar sliding down the thighs, flat back the whole way.",
+          "note": "95 for all three sets, the weight you finished at on Saturday. Slow 2–3s lowering, bar dragging the thighs, stop when the hamstrings say so. Saturday goes to 100.",
+          "focus": "Hips back, flat back, bar close, feel the hamstrings load.",
           "warmupSet": true,
-          "target": "65"
+          "target": "95"
         },
         {
           "n": "Dumbbell Overhead Press",
           "s": 3,
           "r": "10",
-          "note": "Main lift #2 tonight, promoted to a real slot: 15s like last week, and if set 1 is an easy 10, take the next size up for sets 2–3.",
-          "focus": "Ribs down, press straight up, finish with biceps by your ears.",
+          "note": "20s for all three (you moved to 20 on sets 2 and 3 two weeks ago). Strict: no leg drive, ribs down. 25s next week if set 3 is clean.",
+          "focus": "Squeeze glutes, ribs down, press to lockout over the ears.",
           "warmupSet": true,
-          "target": "15"
+          "target": "20"
         },
         {
           "n": "Goblet Squat",
           "s": 3,
           "r": "10",
-          "note": "35 — one small step up from last week's 30, deliberately lighter than Monday's barbell work.",
-          "focus": "Elbows inside the knees at the bottom, tall chest, drive up through the whole foot.",
-          "target": "35"
+          "note": "40, one step up from 35. Deliberately lighter than Monday's barbell work; this is depth and posture practice.",
+          "focus": "Elbows inside the knees at the bottom, chest tall, heels down.",
+          "target": "40"
+        },
+        {
+          "n": "Seated Cable Row",
+          "s": 3,
+          "r": "10",
+          "note": "NEW, lift five. Tuesday had no pulling before this. Start at 40 on the stack, sit tall, pull the handle to the belly button with the elbows close, 1s squeeze, then let the shoulder blades slide forward under control. If 10 is easy on set 1, go up one plate for sets 2 and 3. This plus Monday's rows and Thursday's barbell rows is the back-strength answer.",
+          "focus": "Chest up, no leaning back to finish the rep, squeeze the shoulder blades together.",
+          "target": "40"
         },
         {
           "n": "Glute Bridge + Clamshell superset",
@@ -145,19 +160,19 @@
             "Banded Clamshell"
           ],
           "rest": "45s",
-          "note": "The hips block — your knee insurance, same as last week. Band optional on the clamshells.",
-          "focus": "Bridges: drive through the heel, hips level. Clamshells: slow, toes together, don't let the hip roll back."
+          "note": "The hips block, your knee insurance. Same as before, band optional on the clamshells.",
+          "focus": "Squeeze the glute at the top of every bridge; keep the hips stacked on the clamshells."
         },
         {
           "n": "Side Plank",
           "s": 3,
-          "r": "20–30s/side",
+          "r": "30s/side",
           "noWeight": true,
           "coreStart": true,
           "station": true,
           "rest": "20s → next move",
           "note": "Core block, 6 sets: side plank → bird dog, three rounds. From the knees is still a fine version.",
-          "focus": "Hips stacked and lifted, straight line shoulder to feet."
+          "focus": "Hips stacked and lifted, straight line from head to feet."
         },
         {
           "n": "Bird Dog",
@@ -166,100 +181,109 @@
           "noWeight": true,
           "station": true,
           "rest": "45s → back to side plank",
-          "focus": "Slow reach, hips square to the floor, pause 2s at full stretch."
+          "focus": "Slow and square, hips level, reach long, pause 2s each rep."
         }
       ],
       "stretches": [
-        "Kneeling hip flexor stretch — 45s each side",
-        "Figure-4 / pigeon — 45s each side",
-        "Hamstring stretch — 30s each side",
-        "Standing quad stretch — 30s each side"
+        "Hamstring stretch, 45s each side",
+        "Kneeling hip flexor stretch, 45s each side",
+        "Chest doorway stretch, 30s each side",
+        "Child's pose, 45s"
       ]
     },
     {
       "d": "Wed",
-      "date": "9/2",
+      "date": "9/16",
       "name": "Easy Run · 2 mi (or Bike)",
       "block": "Evening",
       "dur": "~30–40 min",
       "type": "run",
       "warmup": [
         "5 min easy walk to start",
-        "Leg swings — 10 each / leg",
+        "Leg swings, 10 each / leg",
         "Ankle circles + a few walking lunges"
       ],
       "run": {
-        "title": "Easy conversational run — take two",
+        "title": "Easy conversational run, 2 mi",
         "dist": "2 mi",
-        "detail": "This one slipped last week, so it's the week's honest goal: two easy miles at full-sentence pace, walk breaks completely fine. It's also still the knee test read — note how it feels during and after. A little awareness that fades is okay; real pain or a changed stride means stop and tap the 🚴 toggle instead. Legs will carry Monday and Tuesday's lifting; slower is correct.",
+        "detail": "Two easy miles at full-sentence pace, walk breaks completely fine. Still the knee read: note how it feels during and after. A little awareness that fades is okay; real pain or a changed stride means stop and tap the 🚴 toggle instead. Legs will carry Monday and Tuesday's lifting; slower is correct.",
         "fields": [
           "Time",
           "How it felt (RPE 1–10)",
-          "Knee — during & after?"
+          "Knee, during & after?"
         ],
         "hr": {
-          "zone": "Easy / conversational (RPE 3–4) — connect Strava and future runs get HR zones",
+          "zone": "Easy / conversational (RPE 3–4). Connect Strava and future runs get HR zones",
           "warmup": "5 min walk",
-          "main": "RPE 3–4 — full sentences the whole way",
+          "main": "RPE 3–4, full sentences the whole way",
           "cool": "5 min walk",
           "note": "The lifting is what's pushing this week. Runs are practice moving, nothing more."
         }
       },
       "stretches": [
-        "Kneeling hip flexor stretch — 45s each side",
-        "Figure-4 glute stretch — 45s each side",
-        "Calf stretch — 30s each side",
-        "Standing quad stretch — 30s each side"
+        "Kneeling hip flexor stretch, 45s each side",
+        "Figure-4 glute stretch, 45s each side",
+        "Calf stretch, 30s each side",
+        "Standing quad stretch, 30s each side"
       ]
     },
     {
       "d": "Thu",
-      "date": "9/3",
-      "name": "Foundation C · Squat + Barbell Row",
+      "date": "9/17",
+      "name": "Foundation C · Squat + Row + Push-ups",
       "block": "Evening",
-      "dur": "~60 min",
+      "dur": "~75 min",
       "type": "lift",
       "warmup": [
         "5 min easy cardio (bike, row, or brisk walk)",
-        "Leg swings — 10 each direction / leg",
-        "Glute bridges — 1×12",
-        "Bodyweight squats — 1×10",
-        "Band pull-aparts (or arm swings) — 1×15"
+        "Leg swings, 10 each direction / leg",
+        "Bodyweight squats, 1×10",
+        "Band pull-aparts, 1×15",
+        "Standing knee drives, 10 each side"
       ],
       "items": [
         {
           "n": "Back Squat",
           "s": 3,
           "r": "8",
-          "note": "Second exposure: 70 again, aiming for these to look identical to Monday's. Last Thursday you kept it at 65 — if Monday's 70s were smooth, these should feel familiar, not scary.",
-          "focus": "Same cues as Monday: brace, chest tall, controlled depth.",
+          "note": "75 again, and if Monday's three sets were smooth, 80 on set 3 tonight. That would be a new best.",
+          "focus": "Brace, chest tall, knees track over toes, squat to a depth you control.",
           "warmupSet": true,
-          "target": "70"
+          "target": "75"
         },
         {
           "n": "Barbell Row",
           "s": 3,
           "r": "8",
-          "note": "Main lift #2 and the headline answer to your 'more back strength' note. Start with just the bar (45): hinge like your RDL, hold that angle, and pull the bar to your lower ribs. This plus pulldowns plus rows is a real back program now.",
-          "focus": "Flat back held still, pull with the elbows, squeeze the shoulder blades, no heaving.",
+          "note": "50, up from the bar. Hinge like your RDL, hold that angle, pull to the lower ribs, no heaving. Small plates on the bar for the first time on this lift.",
+          "focus": "Torso angle held constant, pull to the lower ribs, squeeze.",
           "warmupSet": true,
-          "target": "45"
+          "target": "50"
         },
         {
           "n": "Lat Pulldown",
           "s": 3,
           "r": "10",
-          "note": "50 — you finished there last week, so it's the working weight now. 55 if the last rep of set 1 is smooth.",
-          "focus": "Chest up, pull the bar to your collarbone, elbows down and back — no leaning way back.",
-          "target": "50"
+          "note": "60 for every set, the weight you finished on. 65 for set 3 if the last rep of set 2 is smooth.",
+          "focus": "Lead with the elbows, chest up to the bar, no leaning back.",
+          "target": "60"
         },
         {
           "n": "Reverse Lunge",
-          "s": 2,
+          "s": 3,
           "r": "8/side",
-          "note": "You added 5s last week — keep them, or 10s if the knee stays quiet. Still the knee-friendly lunge.",
-          "focus": "Long stride back, tall torso, drive through the front heel to stand.",
-          "target": "5"
+          "note": "12s, three sets now (you did 10s then 12s). Still the knee-friendly lunge: long step back, front shin vertical.",
+          "focus": "Tall torso, front heel down, knee tracks over the toes.",
+          "target": "12"
+        },
+        {
+          "n": "Push-ups",
+          "s": 3,
+          "r": "AMRAP−2",
+          "repsIn": true,
+          "noWeight": true,
+          "note": "NEW, lift five. Thursday had no pressing until now. Three sets, stopping 2 reps before form breaks, 90s rest. Hands on a bench or the smith bar if floor push-ups aren't 6+ clean reps yet; from the knees also counts. Log the reps, this one is a reps goal and the number should climb week to week.",
+          "focus": "Rigid line from head to heels, chest to an inch off the surface, full lockout."
         },
         {
           "n": "Hip Flexor Raise + Leg Raise superset",
@@ -270,19 +294,19 @@
             "Lying Straight-Leg Raise"
           ],
           "rest": "45s",
-          "note": "The hips block: standing knee drives with a 2s hold (add a light ankle weight or band when 8 gets easy), then 10 slow straight-leg raises. 3 rounds.",
-          "focus": "Stand tall — no leaning back to cheat the knee up. On leg raises, low back stays pressed to the floor."
+          "note": "The hips block: standing knee drives with a 2s hold at the top (add a light ankle weight or band when 8 gets easy), then 10 slow straight-leg raises.",
+          "focus": "Tall on the standing leg, knee above hip height; on the leg raises, low back stays down."
         },
         {
           "n": "Hollow Hold",
           "s": 3,
-          "r": "15–20s",
+          "r": "20s",
           "noWeight": true,
           "coreStart": true,
           "station": true,
           "rest": "20s → next move",
           "note": "Core block, 6 sets: hollow hold → shoulder taps, three rounds. Bend the knees to shorten the lever if your low back arches.",
-          "focus": "Low back pressed down, ribs pulled in, arms and legs only as long as you can control."
+          "focus": "Low back pressed down, ribs in, arms and legs long."
         },
         {
           "n": "Plank Shoulder Taps",
@@ -291,24 +315,24 @@
           "noWeight": true,
           "station": true,
           "rest": "45s → back to hollow hold",
-          "focus": "Feet a bit wider, hips dead still — the tap is the easy part, the not-rocking is the exercise."
+          "focus": "Feet wide, hips dead still, tap slowly."
         }
       ],
       "stretches": [
-        "Kneeling hip flexor stretch — 45s each side",
-        "Figure-4 / pigeon — 45s each side",
-        "Hamstring stretch — 30s each side",
-        "Child's pose — 45s"
+        "Kneeling hip flexor stretch, 45s each side",
+        "Figure-4 glute stretch, 45s each side",
+        "Overhead lat stretch, 30s each side",
+        "Child's pose, 45s"
       ]
     },
     {
       "d": "Fri",
-      "date": "9/4",
+      "date": "9/18",
       "name": "Rest Day (Sculpt Counts)",
       "block": "—",
       "dur": "Optional 20–30 min",
       "type": "cardio",
-      "desc": "Rest, earned again. Last Friday's sculpt class was a great use of this slot — 4/10 sore in exactly the muscles this plan is building — so same deal: sculpt, a gentle walk, or easy hip stretching all fit here, or nothing at all. Just log whatever happens.",
+      "desc": "Rest. Sculpt, a gentle walk, or easy hip stretching all fit here, or nothing at all. Just log whatever happens.",
       "fields": [
         "What did you do? (fine if nothing)",
         "How sore are you, 1–10, and where?"
@@ -316,43 +340,57 @@
     },
     {
       "d": "Sat",
-      "date": "9/5",
-      "name": "Foundation D · Bench + RDL, Round Two",
+      "date": "9/19",
+      "name": "Foundation D · Bench + RDL + Shoulders",
       "block": "Evening",
-      "dur": "~60 min",
+      "dur": "~70 min",
       "type": "lift",
       "warmup": [
         "5 min easy cardio (bike, row, or brisk walk)",
-        "Arm circles + band pull-aparts (or wall slides) — 10 each",
-        "Glute bridges — 1×12",
-        "Empty-bar RDLs — 1×8",
-        "Banded lateral walks (or side steps) — 10 each way"
+        "Cat-cow, 8 slow reps",
+        "Bodyweight good mornings, 1×10",
+        "Arm circles + band pull-aparts, 10 each",
+        "Glute bridges, 1×12"
       ],
       "items": [
         {
           "n": "Barbell Bench Press",
           "s": 3,
           "r": "8",
-          "note": "Second exposure to the bar. Same 45 as Monday unless every set was an easy 8 — then 50. This Saturday didn't get logged last week; make this the one that does.",
-          "focus": "Shoulder blades set, controlled lowering, press up and slightly back.",
+          "note": "65, or 70 if Monday's three sets were easy 8s. Second exposure of the week, same setup.",
+          "focus": "Shoulder blades set, feet planted, lower to mid-chest, press up and slightly back.",
           "warmupSet": true,
-          "target": "45"
+          "target": "65"
         },
         {
           "n": "Barbell Romanian Deadlift",
           "s": 3,
           "r": "10",
-          "note": "Second hinge of the week: same 65 as Tuesday, aim for smoother reps. Two exposures a week is how the pattern sticks.",
-          "focus": "Soft knees, hips back, bar close, hamstrings load, flat back.",
+          "note": "100 for all three, up from 95 on Tuesday. Same slow lowering; if the back rounds or the bar drifts away, drop to 95 and finish clean.",
+          "focus": "Hips back, flat back, bar close, feel the hamstrings load.",
           "warmupSet": true,
-          "target": "65"
+          "target": "100"
         },
         {
           "n": "Weighted Glute Bridge",
           "s": 3,
           "r": "10",
-          "note": "A dumbbell across your hips (folded towel for comfort), pause 1s at the top of every rep.",
-          "focus": "Drive through the heels, squeeze the glutes to lift, ribs down at the top — no low-back arch."
+          "note": "30 across the hips (folded towel), pause 1s at the top of every rep. Up from 25.",
+          "focus": "Ribs down, squeeze the glutes to lift, don't arch the low back.",
+          "target": "30"
+        },
+        {
+          "n": "Lateral Raise + Face Pull superset",
+          "s": 3,
+          "r": "12 / 15",
+          "superset": [
+            "DB Lateral Raise",
+            "Face Pull"
+          ],
+          "rest": "45s",
+          "note": "NEW, lift five. Shoulders and rear delts were the one thing nowhere in the week. 8-lb dumbbells for the raises (slight bend in the elbows, lead with the elbows, stop at shoulder height), then 15 face pulls on the cable rope at 20, pulling the rope apart toward the ears. Three rounds. Rear delts are posture and back strength, so this belongs with the rows.",
+          "focus": "Raises: lead with the elbows, no shrug. Face pulls: elbows high, rope apart, squeeze the back of the shoulders.",
+          "target": "8 / 20"
         },
         {
           "n": "Lateral Walk + Psoas March superset",
@@ -363,13 +401,13 @@
             "Banded Psoas March"
           ],
           "rest": "45s",
-          "note": "The hips block: banded side-steps into the psoas march. Third hip flexor touch of the week — the muscle you asked to build still gets its frequency.",
-          "focus": "Stay low in a quarter-squat on the walks; slow controlled knee drives on the march."
+          "note": "The hips block: banded side-steps into the psoas march. Third hip flexor touch of the week.",
+          "focus": "Stay low on the walks, toes forward; slow controlled knee drives on the march."
         },
         {
           "n": "Plank",
           "s": 3,
-          "r": "30–40s",
+          "r": "40s",
           "noWeight": true,
           "coreStart": true,
           "station": true,
@@ -380,54 +418,53 @@
         {
           "n": "Side Plank",
           "s": 3,
-          "r": "20–30s/side",
+          "r": "30s/side",
           "noWeight": true,
           "station": true,
           "rest": "45s → back to plank",
-          "focus": "Hips stacked and lifted the whole time; from the knees is fine."
+          "focus": "Hips stacked and lifted, straight line from head to feet."
         }
       ],
       "stretches": [
-        "Kneeling hip flexor stretch — 45s each side",
-        "Figure-4 glute stretch — 45s each side",
-        "Chest / doorway stretch — 30s each side",
-        "Child's pose — 45s"
+        "Kneeling hip flexor stretch, 45s each side",
+        "Hamstring stretch, 45s each side",
+        "Chest doorway stretch, 30s each side",
+        "Child's pose, 45s"
       ]
     },
     {
       "d": "Sun",
-      "date": "9/6",
+      "date": "9/20",
       "name": "Short Easy Run · 1.5–2 mi (or Bike / Walk)",
       "block": "Anytime",
       "dur": "~25–35 min",
       "type": "run",
       "warmup": [
         "5 min easy walk to start",
-        "Leg swings — 10 each / leg",
-        "Ankle circles + a few walking lunges"
+        "Leg swings, 10 each / leg"
       ],
       "run": {
         "title": "Easy shakeout to close the week",
-        "dist": "1.5–2 mi",
-        "detail": "Run number two: 1.5–2 miles, genuinely easy, daylight if you like. Same knee rule as Wednesday — note how it behaves during and after, and the 🚴 bike or a long walk closes the week just as well. Then look back: if both runs and all four lifts happened, that's the first full week of the new plan in the books, with two real lifts a night.",
+        "dist": "2 mi",
+        "detail": "Run number two: 1.5 to 2 miles, easy, daylight if you like. Same knee rule as Wednesday, note how it behaves during and after. The 🚴 bike or a long walk closes the week just as well. Then a few minutes of hip stretching and you're done.",
         "fields": [
           "Time",
           "How it felt (RPE 1–10)",
-          "Knee — during & after?"
+          "Knee, during & after?"
         ],
         "hr": {
           "zone": "Easy / conversational (RPE 3–4)",
           "warmup": "5 min walk",
-          "main": "RPE 3–4 — you should be able to talk in full sentences",
-          "cool": "5 min walk, then stretch while warm",
-          "note": "After a 4-lift week your legs will be tired. Slower than feels necessary is exactly right."
+          "main": "RPE 3–4, full sentences the whole way",
+          "cool": "5 min walk",
+          "note": "Four lift nights with five lifts each is the week's work. This is the cool-down."
         }
       },
       "stretches": [
-        "Kneeling hip flexor stretch — 60s each side",
-        "Figure-4 / pigeon — 45s each side",
-        "Calf stretch — 30s each side",
-        "Hamstring stretch — 30s each side"
+        "Kneeling hip flexor stretch, 60s each side",
+        "Figure-4 glute stretch, 45s each side",
+        "Hamstring stretch, 45s each side",
+        "Child's pose, 60s"
       ]
     }
   ]

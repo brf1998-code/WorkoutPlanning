@@ -2,7 +2,9 @@
 
 *The standing multi-block roadmap. The Sunday coach (and anyone building a weekly plan) reads this first. Weekly plans live in `app/plans/brendan.json`; this file says what block we're in and what rotates next.*
 
-Last updated: **2026-09-06** (Brendan's call: Block 3 gets a **4th build week (Sep 7–13)** instead of deloading, since the retest week left him fresh and every main lift moved. **Deload slides to Sep 14–20, all later blocks shift +1 week.** Running steps to 25 mi that week per his call, a one-off exception to the hold-flat rule. A **bench 225 track** is added below, and the body-comp phases are reset to a 400 deficit, see Phase 3.)
+Last updated: **2026-09-14** (Block 3 build wk 4 closed: Squat 215×5 (3+2), RDL 235×8, Bench 195×3 + 3×5@170, DL **300×4** 'felt manageable', paused bench 165×5, OHP 115 strict (125 became push press), pull-up max **19** on a fresh day; 25 mi planned / 20.1 logged through Fri, easy runs 147–154. **Deload week Sep 14–20 as planned: 20 mi (Brendan's number, −20%), tops −10–15%, 73 planned sets (−16%), bench 185 doubles + paused 3×3@150 per the track, 5K TT Tuesday Sep 15.** Block 4 starts Sep 21.)
+
+Previous update **2026-09-06** (Brendan's call: Block 3 gets a **4th build week (Sep 7–13)** instead of deloading, since the retest week left him fresh and every main lift moved. **Deload slides to Sep 14–20, all later blocks shift +1 week.** Running steps to 25 mi that week per his call, a one-off exception to the hold-flat rule. A **bench 225 track** is added below, and the body-comp phases are reset to a 400 deficit, see Phase 3.)
 
 Previous update 2026-08-12 (road trip Aug 8–11 extended the Block-2 deload; **Block 3 delayed one week → starts Aug 17**, all later blocks shift +1 week. Week of Aug 10–16 is a bridge/re-regulation week: ~13 easy miles, moderate re-entry lifts, short Sat/Sun at the Maine cabin).
 
@@ -27,7 +29,7 @@ Previous update 2026-08-12 (road trip Aug 8–11 extended the Block-2 deload; **
 | **1 — Big 4** | Jun 15 – Jul 12 | Strength | Back Squat, Bench, Deadlift, OHP | 10 → 14 mi, deload ~11.5 | ✅ Done. Bests: Squat 200×5, Bench 190, DL 275, OHP ~115 strict, RDL 205 |
 | **2 — Variation A** | Jul 13 – Aug 9 | Endurance | Front Squat, Incline Barbell Bench, Paused Deadlift, Push Press | 14 → 17 → 20 mi, deload ~14 | ✅ Done. Bests: Front Squat 145, Incline 155, Push Press 145, Paused DL 225, pull-up benchmark 18, first 20+ mi week |
 | *Bridge* | *Aug 10 – 16* | *Re-regulation* | *Road trip Aug 8–11 (unlogged), then moderate re-entry lifts Wed/Fri* | *~13 easy mi; short Sat/Sun (Maine cabin)* | ▶ Current |
-| **3 — Big 4 retest** | **Aug 17 – Sep 20** (4 build + deload) | **Strength** | Back Squat, Bench, Deadlift, OHP — beat Block-1 bests | **~20 flat, 25 in wk 4, deload ~17** | ▶ Current. Wk 3 (retest): Squat 205×5, RDL 225×8, Bench 185×5, OHP 125×5 strict, DL 275×4 with room, pull-ups 18 |
+| **3 — Big 4 retest** | **Aug 17 – Sep 20** (4 build + deload) | **Strength** | Back Squat, Bench, Deadlift, OHP — beat Block-1 bests | **~20 flat, 25 in wk 4, deload 20** | ▶ Deload week (Sep 14–20). Block bests: Squat 215×5 (3+2), RDL 235×8, Bench 195×3, OHP 125×5 strict (wk 3), DL 300×4, pull-ups 19 fresh. Every Block-1 best beaten. 5K TT Sep 15: [result] |
 | **4 — Variation B** | Sep 21 – Oct 18 | **Endurance** | Box or Pause Squat, **flat Bench stays (225 track)**, Trap-Bar or Deficit Deadlift, Seated DB OHP | **25 → 26 → 28, deload ~19. Sat long run debuts** | Planned |
 | **5 — Big 4** | Oct 19 – Nov 15 | Strength | Back Squat, Bench, Deadlift, OHP — beat Block-3 bests | Hold ~28, deload ~19 | Planned |
 | **6 — Variation C** | Nov 16 – Dec 13 | Endurance | TBD from the pools | 28 → 30 → 31, deload ~22 | Planned |
