@@ -2,7 +2,7 @@
 
 *The standing multi-block roadmap. The Sunday coach (and anyone building a weekly plan) reads this first. Weekly plans live in `app/plans/brendan.json`; this file says what block we're in and what rotates next.*
 
-Last updated: **2026-09-14** (Block 3 build wk 4 closed: Squat 215×5 (3+2), RDL 235×8, Bench 195×3 + 3×5@170, DL **300×4** 'felt manageable', paused bench 165×5, OHP 115 strict (125 became push press), pull-up max **19** on a fresh day; 25 mi planned / 20.1 logged through Fri, easy runs 147–154. **Deload week Sep 14–20 as planned: 20 mi (Brendan's number, −20%), tops −10–15%, 73 planned sets (−16%), bench 185 doubles + paused 3×3@150 per the track, 5K TT Tuesday Sep 15.** Block 4 starts Sep 21.)
+Last updated: **2026-09-14** (Block 3 build wk 4 closed: Squat 215×5 (3+2), RDL 235×8, Bench 195×3 + 3×5@170, DL **300×4** 'felt manageable', paused bench 165×5, OHP 115 strict (125 became push press), pull-up max **19** on a fresh day; 25 mi planned / 20.1 logged through Fri, easy runs 147–154. **Deload week Sep 14–20, research-shaped per Brendan's ask: 20 mi (−20%), loads held at 90–95% of tops (squat 205×3, RDL 215×5, DL 285×2, OHP 115×3, row 140), reps and sets cut (69 planned sets, weighted 63 → 45, tonnage ~−45%), bench 185 doubles + paused 3×3@150 per the track, 5K TT Tuesday Sep 15.** Block 4 starts Sep 21.)
 
 Previous update **2026-09-06** (Brendan's call: Block 3 gets a **4th build week (Sep 7–13)** instead of deloading, since the retest week left him fresh and every main lift moved. **Deload slides to Sep 14–20, all later blocks shift +1 week.** Running steps to 25 mi that week per his call, a one-off exception to the hold-flat rule. A **bench 225 track** is added below, and the body-comp phases are reset to a 400 deficit, see Phase 3.)
 
@@ -10,7 +10,7 @@ Previous update 2026-08-12 (road trip Aug 8–11 extended the Block-2 deload; **
 
 ## Structure
 
-- **Blocks are 4 weeks: 3 build weeks + 1 deload** (lifts −10–15% off tops, mileage −30%).
+- **Blocks are 4 weeks: 3 build weeks + 1 deload.** Deload rule rewritten 2026-09-14 from the tapering research (Pritchard; Travis et al. 2020 powerlifting tapering review; Bell et al. 2022 coach interviews): **keep the bar heavy, cut the work.** Loads stay at ~90–95% of the block's tops, reps per set drop so every set is 4+ RIR (triples/doubles on mains, fives on RDL), weighted sets down ~30–40%, accessory padding out, supersets at 2 rounds, core floor unchanged. App tonnage reads ~−45% (that is the research's 30–50% 'volume' cut); sessions 30–40 min. Reduced-intensity deloads (same sets, −15% load) are the version the research rates lowest, don't build those. Mileage −20–30%.
 - **Lift rotation:** alternate **Big-4 blocks** (Back Squat / Bench / Deadlift / OHP) with **Variation blocks** (same movement patterns, different lifts). Every return to a Big-4 block starts with a light re-calibration week, then pushes past the previous block's bests.
 - **Week 1 of any new-lift block = calibration**: ramp to a top set at ~2 RIR, log it, progress from there in weeks 2–3.
 - **Weekly frame is fixed:** Mon lower · Tue quality run · Wed upper · Thu easy run · Fri full body · **Sat calisthenics** · **Sun yoga + light jog** (+ short finishing jogs after lifts). One scheduled change ahead, below.
