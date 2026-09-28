@@ -10,7 +10,7 @@
     "Running, 22 miles: Mon 1.5, Tue 5 (threshold), Wed 1.5, Thu 4, Fri 1.5, Sat 6, Sun 2.5. The only quality touch is Tuesday, 4x5 min at 170 to 178 with 2 min jogs, one notch under the 6 minute reps you ran before the time trial. Strides Sunday are free. Everything else is Zone 2.",
     "Easy HR is still a few beats high, so go by the number this week, not the pace. Thursday's 3.5 at 8:35/mi averaged 160 and Saturday's 4 at 8:40 averaged 154, while Sunday's 2.9 at a truly easy pace was 142. So easy means 150 or under even if that is 9:30 pace. The plasma volume is still refilling after the illness, and the easy-run HR is the readout for when it's done. When 8:40 pace reads 150 again, you're back.",
     "Saturday: the long run debuts at 6 miles, 27% of the week, run first. Then calisthenics condensed behind it: the pull-up max set (the series continues, but it's post-run from here on, so a rep or two under 19 is the expected reading, not a regression), push-ups 25/20/15, dips 3x6, and the inverted row + pike pair. If the weather takes out the outdoor bar again, do the calisthenics at the gym rather than dropping them.",
-    "Volume: 81 planned sets, inside the 75 to 90 build band and a bit above Block 2's calibration week (76 planned). Sessions should land around 50 to 60 minutes.",
+    "Volume, since you asked: 89 planned sets and about 64,000 lb on the app's volume graph, within about 2% of the Sep 7 build week (87 sets logged, 65,489 lb) and sits at the top of your 75 to 90 build band. What makes it up: squat day ~23k, bench day ~21k, deadlift day ~14k, Saturday ~6k. The top sets are lighter than Sep 7 because they're calibration numbers on new lifts, so the volume comes from a flatter ramp, heavier hip thrusts, and three added pieces: back extensions Monday, lat pulldowns Wednesday, a fourth paused bench set Friday. Sessions run 55 to 65 minutes. Log the seated DB press as the pair total or the graph will read about 1,300 lb low.",
     "Weight and food: deficit stays at 400, your call, steady out first and change nothing until the post-sickness noise clears. The scale read 185.6 to 187.5 last week against 189 before you got sick. Most of that is water and glycogen from a week of barely eating, and it will probably come back up a pound or two as you eat and train normally. That is not a stall. Log full days. If easy HR is still high next Sunday and the weight is still dropping fast, that's the tripwire and we revisit then."
   ],
   "review": "Bridge week. Monday you were still sick and skipped it, the right call. Tuesday 3.01 easy at 149. Wednesday back under the bar: bench 185x3 twice as planned, OHP went to 115x5 (plan said 110), rows 135x8, pull-ups 2x8, 'First weight training since I didn't feel healthy enough on Monday.' Thursday 3.5 at 160, a little quick for where the HR is right now. Friday deadlift ramped to 275x3 twice (plan said 255) and paused bench 155x4, 'Still not feeling particularly great.' Saturday 4 miles at 154, calisthenics washed out by the weather. Sunday evening 2.9 easy at 142. About 16 of 17 miles and 39 of 69 planned sets, with the easy HR coming down across the week. You called it a solid week and the log agrees.",
@@ -20,7 +20,7 @@
       "date": "9/28",
       "name": "Lower · Pause Squat + Hip Thrust (calibration)",
       "block": "5:00-7:00 AM",
-      "dur": "~55 min work",
+      "dur": "~60 min work",
       "type": "lift",
       "warmup": [
         "3 min on rower, stairmaster or erg, easy pace",
@@ -43,17 +43,25 @@
           "n": "Barbell Hip Thrust",
           "s": 4,
           "r": "8",
-          "note": "New accessory for the block (back from Block 2 in the hinge slot, RDL rests this block). Ramp 135x8, 165x8, 185x8, then 205x8 only if 185 was 3 or more in reserve, otherwise 185 again. Pad on the bar, upper back on the bench edge, 1s squeeze at the top.",
+          "note": "New accessory for the block, in the hinge slot while RDL rests. Ramp 165x8, 195x8, 215x8 → 225x8 at about 2 in reserve. Hip thrusts run well ahead of RDL numbers, so 225 after your 235x8 RDL is a fair calibration; stop the ramp early if the low back takes over. Pad on the bar, 1s squeeze at the top.",
           "focus": "Chin tucked, ribs down, shins vertical at the top, glutes do the lifting, not the low back.",
-          "target": "185"
+          "target": "225"
         },
         {
           "n": "Bulgarian Split Squat",
           "s": 3,
           "r": "8/leg",
-          "note": "30s, rear foot on a bench. Single-leg slot for the block. Weaker leg first, match the reps on the other side.",
+          "note": "35s, rear foot on a bench. Log the pair total (70) like the lunges so the volume graph stays comparable. Weaker leg first, match the reps on the other side.",
           "focus": "Front shin close to vertical, torso slightly forward, drive through the front heel.",
-          "target": "30s"
+          "target": "35s"
+        },
+        {
+          "n": "Back Extension",
+          "s": 3,
+          "r": "12",
+          "target": "25",
+          "note": "New hinge accessory for the block. 45 degree bench, a 25 plate held at the chest. Slow and controlled, squeeze the glutes to finish, no hyperextending at the top.",
+          "focus": "Hinge at the hips, flat back, glutes finish the rep."
         },
         {
           "n": "Calf Raise + Leg Curl superset",
@@ -169,7 +177,7 @@
       "date": "9/30",
       "name": "Upper · Bench 205x2 + Seated DB Press (calibration)",
       "block": "5:00-7:00 AM",
-      "dur": "~60 min work",
+      "dur": "~65 min work",
       "type": "lift",
       "warmup": [
         "3 min on rower, stairmaster or erg, easy pace",
@@ -181,18 +189,26 @@
       "items": [
         {
           "n": "Bench Press",
-          "s": 6,
-          "r": "2 / 4",
-          "note": "Bench 225 track, week 1. 135 warm-up, then 155x3, 175x2, 195x1 → 205x2 as the top set at 2 or fewer in reserve, then 2 back-off sets of 4 at 180. Log each weight as you go. If 205 moves with 2 or more left, note it: the attempt can move up a week. Unspotted rules: safety arms at chest height, no grinding.",
+          "s": 4,
+          "r": "2",
+          "note": "Bench 225 track, week 1. 135 warm-up, then 155x3, 175x2, 195x1 → 205x2 as the top set at 2 or fewer in reserve (the app counts every ramp set as 2 reps, that's fine). If 205 moves with 2 or more left, note it: the attempt can move up a week. Safety arms at chest height, no grinding.",
           "focus": "Tight upper back, controlled descent, touch and press, no bounce.",
           "warmupSet": true,
           "target": "205"
         },
         {
+          "n": "Bench Press · back-off",
+          "s": 2,
+          "r": "4",
+          "target": "180",
+          "note": "Two back-off sets of 4 at 180 right after the 205 double, same as the track.",
+          "focus": "Same setup as the top set, crisp and fast."
+        },
+        {
           "n": "Seated DB Shoulder Press",
           "s": 4,
           "r": "8",
-          "note": "New main for the block, replaces strict OHP. Seated, back supported. Ramp 35s, 40s, 45s, then 50s only if 45s were 3 or more in reserve, otherwise 45s again. Top set at about 2 in reserve is the calibration number.",
+          "note": "New main for the block, replaces strict OHP. Seated, back supported. Ramp 35s, 40s, 45s, then 45s again, or 50s if 45s were 3 or more in reserve. Log the PAIR total (70, 80, 90...) like the DB rows, otherwise the volume graph reads half of what you actually moved next to barbell OHP.",
           "focus": "Ribs down against the pad, press up and slightly in, full lockout, control the way down.",
           "warmupSet": true,
           "target": "45s"
@@ -201,9 +217,9 @@
           "n": "Seated Cable Row",
           "s": 3,
           "r": "10",
-          "note": "New horizontal pull for the block (barbell row rests). Calibrate: start around 120 on the stack and finish the third set at about 2 in reserve.",
+          "note": "New horizontal pull for the block (barbell row rests). 130, 140, 150 on the stack, finishing the third set at about 2 in reserve. Adjust to your gym's stack if those land wrong.",
           "focus": "Sit tall, elbows close, pull to the belly button, 1s squeeze, no leaning back.",
-          "target": "calibrate"
+          "target": "140"
         },
         {
           "n": "Pull-ups",
@@ -212,6 +228,14 @@
           "repsIn": true,
           "note": "Wednesday is the volume day: 3 sets of 8, submax, around 4 in reserve. Bodyweight in the weight field. Saturday is the max.",
           "focus": "Full hang, chest to the bar, controlled down."
+        },
+        {
+          "n": "Neutral-Grip Lat Pulldown",
+          "s": 3,
+          "r": "10",
+          "target": "100",
+          "note": "Back in for volume, neutral grip this block (wide grip was Block 3). Start at 100 after the pull-ups and calibrate the last set to about 2 in reserve.",
+          "focus": "Lead with the elbows, chest up to the handle, no leaning back."
         },
         {
           "n": "Pushdown + Curl superset",
@@ -346,9 +370,9 @@
         },
         {
           "n": "Paused Bench Press",
-          "s": 3,
+          "s": 4,
           "r": "5",
-          "note": "Bench 225 track, second touch. Ramp 135, then 165x5 x3 with a 2 count on the chest. You did 155 fours last Friday, so this is the next step, same as the track said.",
+          "note": "Bench 225 track, second touch. Ramp 135, then 165x5 x4 with a 2 count on the chest. Four sets like the Sep 7 week (the fourth set is the 4/4 volume slot). You did 155 fours last Friday.",
           "focus": "Dead stop on the chest, no bounce, drive with the legs planted.",
           "warmupSet": true,
           "target": "165"
@@ -357,9 +381,9 @@
           "n": "Chest-Supported DB Row",
           "s": 3,
           "r": "8",
-          "note": "60s, logged as the pair total (120) like always. Friday's pull volume, no pull-ups today so Saturday's max stays fresh.",
+          "note": "65s, logged as the pair total (130). Up 5 from last week's 60s. Friday's pull volume, no pull-ups today so Saturday's max stays fresh.",
           "focus": "Chest stays on the pad, elbows down and back, 1s squeeze.",
-          "target": "60s"
+          "target": "65s"
         },
         {
           "n": "Lateral Raise + Face Pull superset",
@@ -475,7 +499,7 @@
         },
         {
           "n": "Inverted Row + Pike Push-up superset",
-          "s": 2,
+          "s": 3,
           "r": "10 / 8",
           "superset": [
             "Inverted Row",
