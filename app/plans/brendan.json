@@ -1,77 +1,83 @@
 {
-  "weekId": "2026-09-21",
-  "start": "2026-09-21",
-  "title": "Week of Sep 21 - Sep 27",
-  "subtitle": "Bridge week, not Block 4 week 1. You lost Thursday through Sunday to an infection and just started antibiotics, so this is a graded re-entry: loads at 70 to 85% of your recent tops, every set 4 or more in reserve, 17 easy miles, no quality run, no failure sets. Block 4 slides one week to Sep 28 and the whole calendar moves with it, same as the August road trip. The research behind the shape of it is in the goals below.",
+  "weekId": "2026-09-28",
+  "start": "2026-09-28",
+  "title": "Week of Sep 28 - Oct 4",
+  "subtitle": "Block 4, build week 1 of 3. Variation B, endurance-led: running builds 22, 25, 27 while the lifts rotate to pause squat, deficit deadlift and seated dumbbell press, with flat bench staying for the 225 track. This is a calibration week for the new lifts, each one ramps to a single top set at about 2 in reserve. 22 miles with the first threshold session since the time trial and the Saturday long run debut at 6.",
   "goals": [
-    "What this week is. You logged Monday and Wednesday, ran the time trial Tuesday at 21:44 with the illness already coming on, ran 1.7 easy Thursday, then lost Friday, Saturday and Sunday. That is about four full days off and a 9.5 mile week against a planned 20. Block 4 now starts Sep 28. TRAINING_CYCLE is already updated, including the bench track dates and the mileage ramp.",
-    "What the week off actually cost, because this drives everything else. Strength: nothing worth planning around. Trained lifters hold maximal strength through two full weeks without training (Hwang 2017, JSCR), and 3 to 5 days of cessation after a hard block leaves it equal or better (Pritchard 2018, JSCR). Aerobic: small but real. VO2max falls about 7% after 10 days off and 4 to 5% after 14 (Coyle 1984, Houmard 1992), so four days is maybe 2%. What you will actually feel is blood plasma, which drops about 5% in two weeks and takes heart rate up several beats at the same pace. Expect easy runs to read 5 to 10 beats high this week at your normal effort. That is fluid, not fitness, and it refills within about a week of normal training. So the plan is not rebuilt, it restarts one notch down.",
-    "How the first two sessions are built. The IOC consensus on acute respiratory illness in athletes (Schwellnus 2022) uses a graded return with an exercise challenge at 60 to 70% of normal intensity, then checks symptoms during, right after, and 24 hours after. Monday is exactly that test: a light lower body session and 1.5 easy miles. If it holds overnight, Tuesday and Wednesday step up. The graded templates from the COVID era have the same shape (15 to 20 min under 70% max HR, then 30 min, then light lifting). Stop the session and the week for any of these: chest pain or tightness, racing or irregular heartbeat, breathlessness out of proportion to the effort, dizziness, or very dark urine.",
-    "Gates before Monday morning. No session if you have a fever now or had one in the last 24 hours, or if symptoms are below the neck (chest cough, body aches, real fatigue). Fever plus exercise is the myocarditis case and it is the one that actually matters. Fever also raises oxygen cost about 13% per degree C, so the session is garbage anyway. Any of that and Monday becomes a 20 minute walk and everything slides two days. If this was strep, CDC puts you past meaningful contagiousness after 12 hours on antibiotics with no fever, which is the gym question.",
-    "Lifting. Everything at 70 to 85% of your recent tops, one top set, 4 or more in reserve, no grinding anywhere. Monday squat 175x5 (78% of the 225 triples you actually did last Monday) and RDL 155x8. Wednesday bench ramps to 185x3 (you did 195 doubles on the 16th and called them controlled) and OHP 110x5. Friday deadlift 255x3 (85% of the 300x4) and paused bench 150x4. Saturday pull-ups are 3x8 submax, no max set anywhere this week, the fresh-day max series restarts Oct 3 from 19. 69 planned sets, the same count as the deload, at much lighter loads. Frequency and movement, not stimulus.",
-    "Running. 17 miles, all easy, no quality touch. Tue 3, Thu 3.5, Sat 4, Sun 2.5, plus short jogs after the three lifts. Cap is 145 Monday through Wednesday and 150 from Thursday, and if the number runs high at an easy effort, hold the effort and let the number be high. Saturday long run debuts next week at 6 miles. Block 4 mileage becomes 22, 25, 27 with a 19 mile deload instead of 25, 26, 28, which keeps the 7 day to 28 day load ratio under 1.4 the whole way through the block.",
-    "Bench 225 track, shifted one week, nothing else changed. Sep 28 week ramps to 205x2 with 2x4 at 180. Oct 5 week is 215x1 then 2x3 at 190. The attempt is Wednesday Oct 14, retry Oct 21. This week's Wednesday 185x3 and Friday paused 150x4 are the placeholders, well under both. Safety arms at chest height before the first set, as always.",
-    "Food and the scale. Eat at maintenance this week rather than the 400 deficit. Recovery from an infection and re-entry to training both run better fed, and your logging stopped Wednesday anyway, so restart full day logging with the deficit at zero and put it back to 400 when Block 4 starts Sep 28. The scale will read low from four days of eating almost nothing and then jump back up. Ignore both readings. Waist Sunday morning as usual.",
-    "The morning routine is the real task Monday. The habit research is on your side here: automaticity takes about 66 days to build but missing a few days does not undo it, the gains resume after a missed performance (Gardner, Lally and Wardle 2012). What carries it is the cue, so keep the same alarm, the same clothes laid out the night before, the same gym, the same start time, and make the session small enough that showing up is the only hard part. Do not try to win the week back on Monday."
+    "Block 4 in one line: only one quality gets pushed per block, and this block it is the running. Mileage builds 22, 25, 27 with a deload around 19. The lifts are variations of the same patterns at submaximal loads, which is exactly what a variation block is for. Bench stays flat bench because of the 225 track.",
+    "Calibration, lift by lift. Each new lift ramps to ONE top set at about 2 in reserve, and whatever you actually hit becomes next week's starting number. Pause squat is the barbell back squat with a 2s dead stop in the hole: no bounce, so you have to hold position, which is the direct fix for the knees caving that you noticed at 225. It runs roughly 15% lighter than a normal back squat for the same reps, so 175x5 is a real set, and you haven't squatted since Sep 14. Deficit deadlift is off a 1.5 to 2 inch plate and runs about 85 to 90% of conventional, so 255x4 after the 275 triples last Friday. Seated DB press replaces strict OHP and should land somewhere around 45s x8.",
+    "Bench, road to 225: Wednesday is the 205x2 that got pushed a week. Short ramp (155x3, 175x2, 195x1), then 205x2 at 2 or fewer in reserve, then 2x4 at 180. If 205 moves with 2 or more in reserve, the attempt can come up a week to Oct 7; otherwise Oct 5 week is 215x1 and the attempt stays Oct 14. Friday is paused bench 3x5 at 165. Last week's 185 triples and 155 paused fours say you're right where you left off. Safety arms at chest height every heavy set.",
+    "Running, 22 miles: Mon 1.5, Tue 5 (threshold), Wed 1.5, Thu 4, Fri 1.5, Sat 6, Sun 2.5. The only quality touch is Tuesday, 4x5 min at 170 to 178 with 2 min jogs, one notch under the 6 minute reps you ran before the time trial. Strides Sunday are free. Everything else is Zone 2.",
+    "Easy HR is still a few beats high, so go by the number this week, not the pace. Thursday's 3.5 at 8:35/mi averaged 160 and Saturday's 4 at 8:40 averaged 154, while Sunday's 2.9 at a truly easy pace was 142. So easy means 150 or under even if that is 9:30 pace. The plasma volume is still refilling after the illness, and the easy-run HR is the readout for when it's done. When 8:40 pace reads 150 again, you're back.",
+    "Saturday: the long run debuts at 6 miles, 27% of the week, run first. Then calisthenics condensed behind it: the pull-up max set (the series continues, but it's post-run from here on, so a rep or two under 19 is the expected reading, not a regression), push-ups 25/20/15, dips 3x6, and the inverted row + pike pair. If the weather takes out the outdoor bar again, do the calisthenics at the gym rather than dropping them.",
+    "Volume: 81 planned sets, inside the 75 to 90 build band and a bit above Block 2's calibration week (76 planned). Sessions should land around 50 to 60 minutes.",
+    "Weight and food: deficit stays at 400, your call, steady out first and change nothing until the post-sickness noise clears. The scale read 185.6 to 187.5 last week against 189 before you got sick. Most of that is water and glycogen from a week of barely eating, and it will probably come back up a pound or two as you eat and train normally. That is not a stall. Log full days. If easy HR is still high next Sunday and the weight is still dropping fast, that's the tripwire and we revisit then."
   ],
-  "review": "Deload week Sep 14 to 20, cut short by the illness. Monday you went past the deload script to 225 squats (\"collapsing a little bit and having to very intentionally hold my knees out, but it felt good to push myself like that\") and RDL 225x5. Tuesday the 5K time trial: 3.14 miles in 21:44 at 184 average, over the sub-21:00 gate, and the illness arrived the same day, so that is a floor and not a verdict. Wednesday you ramped bench to 195 doubles, \"195 didn't exactly feel easy but very controlled, way more than last week\", plus OHP 125 and pull-ups 2x10. Thursday was 1.7 easy miles at 135, and that was the end of it. Friday's deadlifts, Saturday's calisthenics and Sunday's 5 miles all gone. 36 of 69 planned sets, 9.5 of 20 miles. Block 3 still closes with every Block 1 best beaten.",
+  "review": "Bridge week. Monday you were still sick and skipped it, the right call. Tuesday 3.01 easy at 149. Wednesday back under the bar: bench 185x3 twice as planned, OHP went to 115x5 (plan said 110), rows 135x8, pull-ups 2x8, 'First weight training since I didn't feel healthy enough on Monday.' Thursday 3.5 at 160, a little quick for where the HR is right now. Friday deadlift ramped to 275x3 twice (plan said 255) and paused bench 155x4, 'Still not feeling particularly great.' Saturday 4 miles at 154, calisthenics washed out by the weather. Sunday evening 2.9 easy at 142. About 16 of 17 miles and 39 of 69 planned sets, with the easy HR coming down across the week. You called it a solid week and the log agrees.",
   "days": [
     {
       "d": "Mon",
-      "date": "9/21",
-      "name": "Re-entry · Lower, light + easy jog",
+      "date": "9/28",
+      "name": "Lower · Pause Squat + Hip Thrust (calibration)",
       "block": "5:00-7:00 AM",
-      "dur": "~35 min work",
+      "dur": "~55 min work",
       "type": "lift",
       "warmup": [
-        "3 min on rower, stairmaster or erg, easy pace. This is the first read on how you feel, take it seriously",
-        "Cat-cow + slow bodyweight good mornings, 10 reps",
-        "Bodyweight squats, 1x12, full depth",
+        "3 min on rower, stairmaster or erg, easy pace",
+        "Cat-cow + slow bodyweight good mornings, 10 reps (back care)",
+        "Bodyweight squats with a 2s pause at the bottom, 1x8",
         "Leg swings, 10 each direction / leg",
-        "Empty-bar squats, 1x8, feel the groove"
+        "Empty-bar pause squats, 1x5, find and own the bottom position"
       ],
       "items": [
         {
-          "n": "Back Squat",
+          "n": "Pause Squat",
           "s": 4,
           "r": "5",
-          "note": "95 warm-up, then 135x5, 155x5 → 175x5 x2, 2 min rest. 175 is 78% of the 225 you actually squatted last Monday, so these fives sit at 4 or more in reserve. Today is a test session, not a stimulus. If the first two sets feel wrong, rack it and go walk.",
-          "focus": "Same depth, same brace, same bar speed on every rep. Nothing grindy.",
+          "note": "Barbell back squat with a 2s dead stop at the bottom of every rep. 95 warm-up, then 135x5, 155x5, 165x5 → 175x5 as the top set at about 2 in reserve. If 175 moves with 3 or more left, write that in the journal and week 2 opens at 185. No grinding this week, it's calibration. 3 min rest before the top set.",
+          "focus": "Sit into the hole, knees shoved out, count two with tension, then drive straight up. No bounce, no relaxing at the bottom.",
           "warmupSet": true,
           "target": "175"
         },
         {
-          "n": "Romanian Deadlift",
-          "s": 3,
+          "n": "Barbell Hip Thrust",
+          "s": 4,
           "r": "8",
-          "note": "135 warm-up, then 155x8 x3. About two thirds of last Monday's 225. Slow 3s eccentrics, bar dragging the thighs.",
-          "focus": "Hips back, flat back, bar close, zero grind.",
-          "warmupSet": true,
-          "target": "155"
+          "note": "New accessory for the block (back from Block 2 in the hinge slot, RDL rests this block). Ramp 135x8, 165x8, 185x8, then 205x8 only if 185 was 3 or more in reserve, otherwise 185 again. Pad on the bar, upper back on the bench edge, 1s squeeze at the top.",
+          "focus": "Chin tucked, ribs down, shins vertical at the top, glutes do the lifting, not the low back.",
+          "target": "185"
+        },
+        {
+          "n": "Bulgarian Split Squat",
+          "s": 3,
+          "r": "8/leg",
+          "note": "30s, rear foot on a bench. Single-leg slot for the block. Weaker leg first, match the reps on the other side.",
+          "focus": "Front shin close to vertical, torso slightly forward, drive through the front heel.",
+          "target": "30s"
         },
         {
           "n": "Calf Raise + Leg Curl superset",
-          "s": 2,
+          "s": 3,
           "r": "15 / 10",
           "superset": [
             "Standing Calf Raise",
             "Leg Curl"
           ],
           "rest": "45s",
-          "note": "Two rounds at the deload weights. No lunges this week either.",
-          "focus": "Full stretch on the calves, controlled on the curls.",
-          "target": "63 / 140"
+          "note": "Three rounds at 120 / 120, the weights you logged on Sep 14.",
+          "focus": "Full stretch on the calves, don't let the leg curl stack drop.",
+          "target": "120 / 120"
         },
         {
-          "n": "Dead Bug",
+          "n": "V-Up",
           "s": 2,
-          "r": "10/side",
+          "r": "10",
           "noWeight": true,
           "coreStart": true,
           "station": true,
           "rest": "20s → next move",
-          "note": "Core circuit, 6 sets, floor only: dead bug → plank → flutter kicks, twice through, about 20s between moves.",
-          "focus": "Low back pressed into the floor, slow opposite arm and leg."
+          "note": "Core circuit, 6 sets, floor only: V-up → plank → bicycle crunch, twice through, about 20s between moves.",
+          "focus": "Reach long, lower under control, don't slam down."
         },
         {
           "n": "Plank",
@@ -81,163 +87,6 @@
           "station": true,
           "rest": "20s → next move",
           "focus": "Ribs down, glutes on, one straight line."
-        },
-        {
-          "n": "Flutter Kicks",
-          "s": 2,
-          "r": "20s",
-          "noWeight": true,
-          "station": true,
-          "rest": "20s → next move",
-          "focus": "Small and quick, low back stays glued down."
-        }
-      ],
-      "addons": [
-        {
-          "type": "run",
-          "name": "Easy Re-entry Jog",
-          "run": {
-            "title": "Easy Re-entry Jog, 1.5 mi",
-            "dist": "1.5 mi",
-            "detail": "Short and genuinely easy, the 60 to 70% of normal intensity the return to sport research asks for on day one. Walk breaks are allowed and cost nothing. Then check in tonight and again tomorrow morning: if the cough is worse, the chest feels tight, or you are wiped out 24 hours later, Tuesday drops to a walk and we slide the week.",
-            "fields": [
-              "Distance (mi)",
-              "Time",
-              "Avg HR"
-            ],
-            "hr": {
-              "zone": "Zone 1 to low 2, easy",
-              "warmup": "walk 3 min first",
-              "main": "conversational, ≤145, and expect it to read high for the effort",
-              "cool": "walk it in",
-              "note": "Plasma volume is down after four days off, so HR sits 5 to 10 beats above normal at the same pace. Cue effort, ignore the number this week."
-            }
-          }
-        }
-      ],
-      "stretches": [
-        "Standing quad stretch, 30s each side",
-        "Hamstring stretch, 30s each side",
-        "Hip flexor / pigeon, 30s each side"
-      ]
-    },
-    {
-      "d": "Tue",
-      "date": "9/22",
-      "name": "Easy Run · 3 mi, no quality",
-      "block": "5:00-7:00 AM",
-      "dur": "~30 min",
-      "type": "run",
-      "warmup": [
-        "5 min brisk walk → easy jog",
-        "Leg swings, 10 each direction / leg",
-        "No strides today"
-      ],
-      "run": {
-        "title": "Easy Run, 3 mi",
-        "dist": "3 mi",
-        "detail": "Normally your quality day. Not this week. The first quality touch is next Tuesday, Sep 29, threshold reps in Block 4 week 1. Today is three easy miles to see whether yesterday held. If you finish and feel like you could do it twice more, that is the correct feeling. If you are hanging on at mile 2, cut it to 2 and tell me.",
-        "fields": [
-          "Distance (mi)",
-          "Time",
-          "Avg HR"
-        ],
-        "hr": {
-          "zone": "Zone 2, easy",
-          "warmup": "walk to jog, no rush",
-          "main": "conversational, ≤145",
-          "cool": "easy jog to walk",
-          "note": "Second session back. Symptom check after and again 24 hours later, same as yesterday."
-        }
-      },
-      "stretches": [
-        "Standing quad stretch, 30s each side",
-        "Hamstring stretch, 30s each side",
-        "Calf stretch, 30s each side",
-        "Hip flexor stretch, 30s each side"
-      ]
-    },
-    {
-      "d": "Wed",
-      "date": "9/23",
-      "name": "Upper · Bench 185x3 + OHP 110",
-      "block": "5:00-7:00 AM",
-      "dur": "~40 min work",
-      "type": "lift",
-      "warmup": [
-        "3 min on rower, stairmaster or erg, easy pace",
-        "Scapular push-ups + wall slides, 10 each",
-        "Arm circles + shoulder dislocates, 10 each",
-        "Band pull-aparts, 1x15",
-        "Set the safety arms at chest height BEFORE the first bench set"
-      ],
-      "items": [
-        {
-          "n": "Bench Press",
-          "s": 4,
-          "r": "3",
-          "note": "135 warm-up, then 155x3, 175x3 → 185x3 x2. You did 195 doubles a week ago and called them controlled, so 185 triples are about 3 in reserve. Unspotted rules, nothing close to a grind, and the 205x2 that was supposed to be today happens Sep 30 instead.",
-          "focus": "Tight upper back, controlled descent, no bounce.",
-          "warmupSet": true,
-          "target": "185"
-        },
-        {
-          "n": "Strict Overhead Press",
-          "s": 4,
-          "r": "5",
-          "note": "45 warm-up, then 75x5, 95x5 → 110x5 x2. Strict, no leg drive, no push press. You hit 125 on the 16th, so this is the easy version on purpose.",
-          "focus": "Ribs down, glutes on, bar path past the chin then stacked overhead.",
-          "warmupSet": true,
-          "target": "110"
-        },
-        {
-          "n": "Barbell Row",
-          "s": 3,
-          "r": "8",
-          "note": "135 for all three, eights instead of sixes. Holding at 135 per your note until you decide to move it.",
-          "focus": "Chest supported by the brace, elbows to the hips, no heaving.",
-          "target": "135"
-        },
-        {
-          "n": "Pull-ups",
-          "s": 2,
-          "r": "8",
-          "repsIn": true,
-          "note": "Two easy sets of 8, nowhere near failure. Bodyweight in the weight field as usual.",
-          "focus": "Full hang, chest to the bar, controlled down."
-        },
-        {
-          "n": "Triceps Extension + Curl superset",
-          "s": 2,
-          "r": "12 each",
-          "superset": [
-            "Overhead Triceps Extension",
-            "Curl"
-          ],
-          "rest": "60s",
-          "note": "Two rounds at 60 / 50, same as the deload.",
-          "focus": "Full stretch overhead, no swing on the curls.",
-          "target": "60 / 50"
-        },
-        {
-          "n": "Side Plank",
-          "s": 2,
-          "r": "30s/side",
-          "noWeight": true,
-          "coreStart": true,
-          "station": true,
-          "rest": "20s → next move",
-          "note": "Core circuit, 6 sets, floor only: side plank → hollow hold → bicycle crunch, twice through.",
-          "focus": "Stacked hips, straight line from ear to ankle."
-        },
-        {
-          "n": "Hollow Hold",
-          "s": 2,
-          "r": "30s",
-          "noWeight": true,
-          "station": true,
-          "rest": "20s → next move",
-          "focus": "Low back pressed down, ribs in, arms and legs long."
         },
         {
           "n": "Bicycle Crunch",
@@ -256,18 +105,176 @@
           "run": {
             "title": "Easy Finishing Jog, 1.5 mi",
             "dist": "1.5 mi",
-            "detail": "Short flush after the bench. Third session back, still under the cap.",
+            "detail": "Flush after the squats. Short and easy, tomorrow is threshold.",
             "fields": [
               "Distance (mi)",
               "Time",
               "Avg HR"
             ],
             "hr": {
-              "zone": "Zone 1 to 2, easy flush",
+              "zone": "Zone 1-2 · easy flush",
               "warmup": "easy",
-              "main": "conversational, ≤145",
+              "main": "conversational effort, ≤150 once settled",
               "cool": "easy",
-              "note": "Post-lift HR always runs hot early. Cue effort, check the number after the first half mile."
+              "note": "Post-lift HR runs hot early. Cue effort, then check the number after the first half mile."
+            }
+          }
+        }
+      ],
+      "stretches": [
+        "Standing quad stretch, 30s each side",
+        "Hip flexor / pigeon, 45s each side",
+        "Hamstring stretch, 30s each side"
+      ]
+    },
+    {
+      "d": "Tue",
+      "date": "9/29",
+      "name": "Threshold · 4x5 min",
+      "block": "5:00-7:00 AM, flat route",
+      "dur": "~45 min",
+      "type": "run",
+      "warmup": [
+        "5 min brisk walk → easy jog",
+        "Leg swings, 10 each direction / leg",
+        "High knees + butt kicks, 20m each",
+        "3x20s strides at the end of the warm-up, full walk-back"
+      ],
+      "run": {
+        "title": "Threshold 4x5 min, 5 mi total",
+        "dist": "5 mi",
+        "detail": "1.25 easy with the strides → 4 x 5 min at threshold with 2 min easy jog between → about 0.75 easy to finish. Threshold is comfortably hard: you could talk in short phrases, not sentences. Before the time trial your 6 minute reps ran 6:54 to 7:15 at 170 to 178, so 7:05 to 7:20 pace is the right place to start today. First session back, so the job is four even reps with the last one the same as the first, not a fast rep 1.",
+        "fields": [
+          "Distance (mi)",
+          "Time",
+          "Avg HR"
+        ],
+        "hr": {
+          "zone": "Zone 4 on the reps (170-178), Zone 1-2 everywhere else",
+          "warmup": "easy, ≤145, strides at the end",
+          "main": "reps at 170-178; if HR is over 180 by the 4th minute of a rep, ease the pace",
+          "cool": "easy jog, ≤145",
+          "note": "HR still runs a few beats high after the illness, so if 7:15 pace pushes you past 178 early, let the pace go and hold the HR band."
+        }
+      },
+      "stretches": [
+        "Standing quad stretch, 30s each side",
+        "Hamstring stretch, 30s each side",
+        "Calf stretch, 30s each side",
+        "Hip flexor stretch, 30s each side"
+      ]
+    },
+    {
+      "d": "Wed",
+      "date": "9/30",
+      "name": "Upper · Bench 205x2 + Seated DB Press (calibration)",
+      "block": "5:00-7:00 AM",
+      "dur": "~60 min work",
+      "type": "lift",
+      "warmup": [
+        "3 min on rower, stairmaster or erg, easy pace",
+        "Scapular push-ups + wall slides, 10 each",
+        "Arm circles + shoulder dislocates, 10 each",
+        "Band pull-aparts, 1x15",
+        "Set the safety arms at chest height BEFORE the first bench set"
+      ],
+      "items": [
+        {
+          "n": "Bench Press",
+          "s": 6,
+          "r": "2 / 4",
+          "note": "Bench 225 track, week 1. 135 warm-up, then 155x3, 175x2, 195x1 → 205x2 as the top set at 2 or fewer in reserve, then 2 back-off sets of 4 at 180. Log each weight as you go. If 205 moves with 2 or more left, note it: the attempt can move up a week. Unspotted rules: safety arms at chest height, no grinding.",
+          "focus": "Tight upper back, controlled descent, touch and press, no bounce.",
+          "warmupSet": true,
+          "target": "205"
+        },
+        {
+          "n": "Seated DB Shoulder Press",
+          "s": 4,
+          "r": "8",
+          "note": "New main for the block, replaces strict OHP. Seated, back supported. Ramp 35s, 40s, 45s, then 50s only if 45s were 3 or more in reserve, otherwise 45s again. Top set at about 2 in reserve is the calibration number.",
+          "focus": "Ribs down against the pad, press up and slightly in, full lockout, control the way down.",
+          "warmupSet": true,
+          "target": "45s"
+        },
+        {
+          "n": "Seated Cable Row",
+          "s": 3,
+          "r": "10",
+          "note": "New horizontal pull for the block (barbell row rests). Calibrate: start around 120 on the stack and finish the third set at about 2 in reserve.",
+          "focus": "Sit tall, elbows close, pull to the belly button, 1s squeeze, no leaning back.",
+          "target": "calibrate"
+        },
+        {
+          "n": "Pull-ups",
+          "s": 3,
+          "r": "8",
+          "repsIn": true,
+          "note": "Wednesday is the volume day: 3 sets of 8, submax, around 4 in reserve. Bodyweight in the weight field. Saturday is the max.",
+          "focus": "Full hang, chest to the bar, controlled down."
+        },
+        {
+          "n": "Pushdown + Curl superset",
+          "s": 3,
+          "r": "12 each",
+          "superset": [
+            "Triceps Pushdown",
+            "Curl"
+          ],
+          "rest": "60s",
+          "note": "Arm pair rotates for the block: cable pushdowns instead of overhead extensions. Pushdown around 60 on the stack, curls at 50.",
+          "focus": "Elbows pinned on the pushdowns, no swing on the curls.",
+          "target": "60 / 50"
+        },
+        {
+          "n": "Dead Bug",
+          "s": 2,
+          "r": "10/side",
+          "noWeight": true,
+          "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core circuit, 6 sets, floor only: dead bug → plank shoulder taps → flutter kicks, twice through.",
+          "focus": "Low back pressed into the floor, slow opposite arm and leg."
+        },
+        {
+          "n": "Plank Shoulder Taps",
+          "s": 2,
+          "r": "10/side",
+          "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "focus": "Hips dead still, feet wide if you need them."
+        },
+        {
+          "n": "Flutter Kicks",
+          "s": 2,
+          "r": "20s",
+          "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "focus": "Small and quick, low back stays down."
+        }
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog, 1.5 mi",
+            "dist": "1.5 mi",
+            "detail": "Flush after the bench. The day after threshold, so genuinely easy.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1-2 · easy flush",
+              "warmup": "easy",
+              "main": "conversational effort, ≤150 once settled",
+              "cool": "easy",
+              "note": "Post-lift HR runs hot early. Cue effort, check the number after the first half mile."
             }
           }
         }
@@ -280,19 +287,19 @@
     },
     {
       "d": "Thu",
-      "date": "9/24",
-      "name": "Easy Run · 3.5 mi",
+      "date": "10/1",
+      "name": "Easy Run · 4 mi",
       "block": "5:00-7:00 AM",
-      "dur": "~35 min",
+      "dur": "~40 min",
       "type": "run",
       "warmup": [
         "5 min brisk walk → easy jog",
         "Leg swings, 10 each direction / leg"
       ],
       "run": {
-        "title": "Easy Run, 3.5 mi",
-        "dist": "3.5 mi",
-        "detail": "Longest run of the week so far, still strictly easy. By now you have three sessions of evidence. If all three held overnight with no backslide, Saturday goes to 4 and next week starts Block 4 on schedule. If any of them left you wrecked the next day, say so and we hold this shape another few days instead.",
+        "title": "Easy Run, 4 mi",
+        "dist": "4 mi",
+        "detail": "Four easy miles by heart rate, not pace. Last Thursday's 3.5 at 8:35 averaged 160, which is Zone 3, not easy. Start at 9:30 pace and let it come down only if the HR stays under 150. No steady finish this week.",
         "fields": [
           "Distance (mi)",
           "Time",
@@ -301,9 +308,9 @@
         "hr": {
           "zone": "Zone 2, easy",
           "warmup": "walk to jog",
-          "main": "conversational, ≤150",
+          "main": "conversational, ≤150, pace is whatever that gives you",
           "cool": "easy jog to walk",
-          "note": "No steady finish, no progression. This is the week that earns next week."
+          "note": "This run is the week's plasma volume check. Log the pace and HR honestly, it tells us when the illness is fully behind you."
         }
       },
       "stretches": [
@@ -315,10 +322,10 @@
     },
     {
       "d": "Fri",
-      "date": "9/25",
-      "name": "Full Body · Deadlift 255x3 + Paused Bench 150",
+      "date": "10/2",
+      "name": "Full Body · Deficit Deadlift + Paused Bench 165",
       "block": "5:00-7:00 AM",
-      "dur": "~40 min work",
+      "dur": "~50 min work",
       "type": "lift",
       "warmup": [
         "3 min on rower, stairmaster or erg, easy pace",
@@ -329,54 +336,164 @@
       ],
       "items": [
         {
-          "n": "Deadlift",
+          "n": "Deficit Deadlift",
           "s": 4,
-          "r": "3",
-          "note": "135 warm-up, then 185x3, 225x3 → 255x3 x2. 255 is 85% of the 300x4 from Sep 11 and the first heavy hinge in two weeks, so triples with plenty left. Reset every rep, no touch and go.",
-          "focus": "Slack out of the bar, flat back, push the floor away.",
+          "r": "4",
+          "note": "New main for the block. Stand on a 1.5 to 2 inch plate or platform, same one every week so the number is comparable. 135 warm-up, then 185x4, 225x4, 245x4 → 255x4 as the top set at about 2 in reserve. Deficit pulls run about 85 to 90% of conventional, and you pulled 275x3 last Friday. If 255 moves with 3 or more left, week 2 opens at 265. Reset every rep. Lower back watch item still applies: if it talks, stop the ramp there.",
+          "focus": "Hips lower than conventional, slack out of the bar, flat back, push the floor away off the plate.",
           "warmupSet": true,
           "target": "255"
         },
         {
           "n": "Paused Bench Press",
           "s": 3,
-          "r": "4",
-          "note": "Ramp 95, 135, then 150x4 x3 with a 2 count on the chest. Track placeholder, same weight as the deload and one rep more.",
+          "r": "5",
+          "note": "Bench 225 track, second touch. Ramp 135, then 165x5 x3 with a 2 count on the chest. You did 155 fours last Friday, so this is the next step, same as the track said.",
           "focus": "Dead stop on the chest, no bounce, drive with the legs planted.",
           "warmupSet": true,
-          "target": "150"
+          "target": "165"
         },
         {
           "n": "Chest-Supported DB Row",
           "s": 3,
           "r": "8",
-          "note": "60s, logged as the pair total like always. Friday's pull volume, and the reason there are no pull-ups today.",
-          "focus": "Chest stays on the pad, elbows down and back.",
+          "note": "60s, logged as the pair total (120) like always. Friday's pull volume, no pull-ups today so Saturday's max stays fresh.",
+          "focus": "Chest stays on the pad, elbows down and back, 1s squeeze.",
           "target": "60s"
         },
         {
           "n": "Lateral Raise + Face Pull superset",
-          "s": 2,
+          "s": 3,
           "r": "12 / 15",
           "superset": [
             "DB Lateral Raise",
             "Face Pull"
           ],
           "rest": "60s",
-          "note": "Two rounds at 30s / 70.",
-          "focus": "Lead with the elbows, pause at the top of the face pull.",
-          "target": "30s / 70"
+          "note": "Three rounds at 30s / 80, what you used last Friday.",
+          "focus": "Lead with the elbows on the raises, pause at the top of the face pull.",
+          "target": "30s / 80"
+        },
+        {
+          "n": "Side Plank",
+          "s": 2,
+          "r": "30s/side",
+          "noWeight": true,
+          "coreStart": true,
+          "station": true,
+          "rest": "20s → next move",
+          "note": "Core circuit, 6 sets, spine-friendly on deadlift day: side plank → hollow hold → bird dog, twice through.",
+          "focus": "Stacked hips, straight line from ear to ankle."
+        },
+        {
+          "n": "Hollow Hold",
+          "s": 2,
+          "r": "30s",
+          "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "focus": "Low back pressed down, ribs in, arms and legs long."
         },
         {
           "n": "Bird Dog",
           "s": 2,
           "r": "8/side",
           "noWeight": true,
+          "station": true,
+          "rest": "20s → next move",
+          "focus": "Slow and square, hips level, 2s pause each rep."
+        }
+      ],
+      "addons": [
+        {
+          "type": "run",
+          "name": "Easy Finishing Jog",
+          "run": {
+            "title": "Easy Finishing Jog, 1.5 mi",
+            "dist": "1.5 mi",
+            "detail": "Flush the deadlifts. Keep it short and easy, tomorrow is the long run.",
+            "fields": [
+              "Distance (mi)",
+              "Time",
+              "Avg HR"
+            ],
+            "hr": {
+              "zone": "Zone 1-2 · easy flush",
+              "warmup": "easy",
+              "main": "conversational effort, ≤150 once settled",
+              "cool": "walk it in",
+              "note": "Post-lift HR runs hot early. Cue effort, then check the number after the first half mile."
+            }
+          }
+        }
+      ],
+      "stretches": [
+        "Hamstring stretch, 45s each side",
+        "Hip flexor / pigeon, 45s each side",
+        "Child's pose + thoracic rotation, 1 min"
+      ]
+    },
+    {
+      "d": "Sat",
+      "date": "10/3",
+      "name": "Long Run 6 + Calisthenics",
+      "block": "Morning, run first then the bar (gym if the weather's bad)",
+      "dur": "~60 min run + 25 min calisthenics",
+      "type": "lift",
+      "warmup": [
+        "The run is the warm-up, go straight to the bar after",
+        "Arm circles + scapular push-ups, 10 each",
+        "2 easy hangs, 20s each, open the lats",
+        "1x5 easy pull-ups, 1x8 easy push-ups, primer sets"
+      ],
+      "items": [
+        {
+          "n": "Pull-ups",
+          "s": 3,
+          "r": "max / 8 / 6",
+          "repsIn": true,
+          "note": "Set 1 is the week's one to-failure set: strict max, full hang every rep. The fresh-day series stands at 19 (Sep 12). It's post-run from now on, so a rep or two under that is the expected reading, and the trend from here is what counts. Then 8 and 6, submax. Bodyweight in the weight field.",
+          "focus": "Dead hang to chin over the bar, no kip, no half reps on the max."
+        },
+        {
+          "n": "Push-ups",
+          "s": 3,
+          "r": "25",
+          "repsIn": true,
+          "noWeight": true,
+          "note": "25, 20, 15, all a few short of failure. Log the reps.",
+          "focus": "Straight line, chest to fist height, full lockout."
+        },
+        {
+          "n": "Dips",
+          "s": 3,
+          "r": "6",
+          "repsIn": true,
+          "noWeight": true,
+          "note": "Three sets of 6, controlled.",
+          "focus": "Slight forward lean, elbows back, stop at parallel."
+        },
+        {
+          "n": "Inverted Row + Pike Push-up superset",
+          "s": 2,
+          "r": "10 / 8",
+          "superset": [
+            "Inverted Row",
+            "Pike Push-up"
+          ],
+          "rest": "60s",
+          "focus": "Body rigid on the row, hips high on the pike."
+        },
+        {
+          "n": "Tuck-up",
+          "s": 2,
+          "r": "12",
+          "noWeight": true,
           "coreStart": true,
           "station": true,
           "rest": "20s → next move",
-          "note": "Core circuit, 6 sets, spine-friendly on deadlift day: bird dog → side plank → dead bug, twice through.",
-          "focus": "Slow and square, hips level, 2s pause each rep."
+          "note": "Core circuit, 6 sets, floor only: tuck-up → side plank → dead bug, twice through.",
+          "focus": "Knees and chest meet in the middle, lower slowly."
         },
         {
           "n": "Side Plank",
@@ -385,7 +502,7 @@
           "noWeight": true,
           "station": true,
           "rest": "20s → next move",
-          "focus": "Stacked hips, straight line."
+          "focus": "Hips high and stacked."
         },
         {
           "n": "Dead Bug",
@@ -400,121 +517,11 @@
       "addons": [
         {
           "type": "run",
-          "name": "Easy Finishing Jog",
+          "name": "Long Run",
           "run": {
-            "title": "Easy Finishing Jog, 1 mi",
-            "dist": "1 mi",
-            "detail": "One mile to flush the deadlifts. Keep it short, Saturday is the longest run of the week.",
-            "fields": [
-              "Distance (mi)",
-              "Time",
-              "Avg HR"
-            ],
-            "hr": {
-              "zone": "Zone 1 to 2, easy flush",
-              "warmup": "easy",
-              "main": "conversational, ≤150",
-              "cool": "walk it in",
-              "note": "Optional if the legs feel heavy from the pulls. Skipping it costs one mile and nothing else."
-            }
-          }
-        }
-      ],
-      "stretches": [
-        "Hamstring stretch, 45s each side",
-        "Hip flexor / pigeon, 45s each side",
-        "Child's pose + thoracic rotation, 1 min"
-      ]
-    },
-    {
-      "d": "Sat",
-      "date": "9/26",
-      "name": "Easy 4 + Calisthenics · submax",
-      "block": "Morning, run first then the bar",
-      "dur": "~40 min run + 25 min calisthenics",
-      "type": "lift",
-      "warmup": [
-        "The run is the warm-up, go straight to the bar after",
-        "Arm circles + scapular push-ups, 10 each",
-        "2 easy hangs, 20s each, open the lats",
-        "1x5 easy pull-ups, 1x8 easy push-ups, primer sets"
-      ],
-      "items": [
-        {
-          "n": "Pull-ups",
-          "s": 3,
-          "r": "8",
-          "repsIn": true,
-          "note": "Three sets of 8, submax, around 5 in reserve. No max set this week. The fresh-day max series restarts Oct 3 from 19, and from Block 4 it runs after the long run, so expect a rep or two lower when it comes back.",
-          "focus": "Full hang, no kip, controlled down."
-        },
-        {
-          "n": "Push-ups",
-          "s": 2,
-          "r": "15",
-          "repsIn": true,
-          "noWeight": true,
-          "note": "Two sets of 15, well shy of the 35 you opened with two weeks ago.",
-          "focus": "Straight line, chest to fist height, full lockout."
-        },
-        {
-          "n": "Dips",
-          "s": 2,
-          "r": "6",
-          "repsIn": true,
-          "noWeight": true,
-          "note": "Two sets of 6, same as the deload.",
-          "focus": "Slight forward lean, elbows back, stop at parallel."
-        },
-        {
-          "n": "Inverted Row + Pike Push-up superset",
-          "s": 2,
-          "r": "8 / 6",
-          "superset": [
-            "Inverted Row",
-            "Pike Push-up"
-          ],
-          "rest": "60s",
-          "focus": "Body rigid on the row, hips high on the pike."
-        },
-        {
-          "n": "Plank Shoulder Taps",
-          "s": 2,
-          "r": "10/side",
-          "noWeight": true,
-          "coreStart": true,
-          "station": true,
-          "rest": "20s → next move",
-          "note": "Core circuit, 6 sets, floor only: shoulder taps → V-up → hollow hold, twice through.",
-          "focus": "Hips dead still, feet wide if you need them."
-        },
-        {
-          "n": "V-Up",
-          "s": 2,
-          "r": "10",
-          "noWeight": true,
-          "station": true,
-          "rest": "20s → next move",
-          "focus": "Reach long, lower under control."
-        },
-        {
-          "n": "Hollow Hold",
-          "s": 2,
-          "r": "30s",
-          "noWeight": true,
-          "station": true,
-          "rest": "20s → next move",
-          "focus": "Low back pressed down, ribs in."
-        }
-      ],
-      "addons": [
-        {
-          "type": "run",
-          "name": "Easy Run",
-          "run": {
-            "title": "Easy Run, 4 mi",
-            "dist": "4 mi",
-            "detail": "Longest run of the week and the dress rehearsal for the Saturday long run, which debuts at 6 miles next week. Run first, calisthenics after, that is the Block 4 order from here on.",
+            "title": "Long Run, 6 mi",
+            "dist": "6 mi",
+            "detail": "The Saturday long run debuts. Six easy miles, 27% of the week, the first run over 5 since the illness. All Zone 2, no progression, no fast finish. Take water if it's warm. Run first, then straight to the calisthenics.",
             "fields": [
               "Distance (mi)",
               "Time",
@@ -522,10 +529,10 @@
             ],
             "hr": {
               "zone": "Zone 2, easy",
-              "warmup": "walk to jog",
-              "main": "conversational, ≤150",
+              "warmup": "first mile slower than you think, ≤145",
+              "main": "conversational, ≤150 the whole way",
               "cool": "walk in, then to the bar",
-              "note": "Fifth session back. If this one is comfortable, Block 4 starts on time Monday."
+              "note": "If HR drifts past 150 in the last two miles at the same effort, slow down rather than push. That drift is the thing the long run is training."
             }
           }
         }
@@ -533,13 +540,14 @@
       "stretches": [
         "Doorway pec stretch, 30s each side",
         "Lat stretch, 30s each side",
-        "Hamstring stretch, 30s each side"
+        "Hamstring stretch, 45s each side",
+        "Hip flexor / pigeon, 45s each side"
       ]
     },
     {
       "d": "Sun",
-      "date": "9/27",
-      "name": "Yoga + Easy Jog, bridge week closes",
+      "date": "10/4",
+      "name": "Yoga + Easy Jog",
       "block": "Anytime, daylight recommended",
       "dur": "~25 min jog + 20 min yoga",
       "type": "run",
@@ -547,20 +555,20 @@
         "A few leg swings and 2 min of walking, that's plenty"
       ],
       "run": {
-        "title": "Easy Jog, 2.5 mi",
+        "title": "Easy Jog + 6x20s Strides, 2.5 mi",
         "dist": "2.5 mi",
-        "detail": "Two and a half easy to land the week at 17. Strides only if every session this week felt normal, 4x20s relaxed, otherwise skip them. Then 20 minutes of yoga, hips and hamstrings first. Waist measurement this morning, fasted, tape at the navel. Tomorrow is Block 4: Variation B, endurance-led, 22 miles, the Saturday long run debuts at 6, and Wednesday the bench ramps to 205x2.",
+        "detail": "Two and a half easy to land the week at 22, with 6 x 20s relaxed strides in the back half. Then 20 minutes of yoga, hips and hamstrings first. Waist measurement this morning, fasted, tape at the navel. Next week: 25 miles, long run 7, bench 215x1.",
         "fields": [
           "Distance (mi)",
           "Time",
           "Avg HR"
         ],
         "hr": {
-          "zone": "Zone 1 to 2, easy",
+          "zone": "Zone 1-2 · easy, strides don't count",
           "warmup": "easy",
           "main": "conversational, ≤150",
           "cool": "easy walk, then yoga",
-          "note": "Tell me how the week actually went before Block 4 starts: whether the easy HR came back down, whether the lifts felt normal, and whether anything lingered. That decides whether week 1 opens at 22 miles or holds lower."
+          "note": "Strides are free: quick and relaxed, not sprints. Full recovery between them."
         }
       },
       "stretches": [
